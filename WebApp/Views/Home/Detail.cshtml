@@ -1,0 +1,66 @@
+﻿@model Product
+<div class="container">
+    <div class="row">
+        <div class="col-2">
+            <div class="row">
+                @foreach (var item in Model.ProductImages)
+                {
+                    <div class="col-12">
+                        <img src="/images/@item.ImageUrl" alt="@Model.ProductName" class="img-fluid img-thumbnail scroll-images" />
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-5">
+            <img src="/images/@Model.ProductImages[0].ImageUrl" alt="@Model.ProductName" class="img-fluid" id="main-image" />
+        </div>
+        <div class="col-5">
+            <b>@Model.ProductName</b>
+            <p>Mã: @Model.Sku</p>
+            @{
+                if (Model.PriceSaleOff == 0)
+                {
+                    <p>Giá: <b>@Model.Price</b></p>
+                }
+                else
+                {
+                    <p>Giá: <del>@Model.Price</del> <b>@Model.PriceSaleOff</b> </p>
+                }
+            }
+            <p>Chất liệu: @Model.Material</p>
+            <p>Mô tả: @Model.Description</p>
+            <div>
+                Màu sắc:
+                @foreach (Color item in Model.ProductColor)
+                {
+                    <img src="/images/icon/@item.IconUrl" alt="@item.ColorCode" class="img-fluid img-thumbnail color-images" />
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('.scroll-images').click(function () {
+        var url = $(this).attr("src");
+        $('#main-image').attr('src', url);
+    });
+
+    $('.color-images').click(function () {
+        var colorCode = $(this).attr('alt');
+        console.log(colorCode);
+        var listImages = document.getElementsByClassName('scroll-images');
+        console.log(listImages.length)
+        for (var i = 0; i < listImages.length; i++) {
+            var url = listImages[i].getAttribute('src');
+            if (url.includes(colorCode.toLowerCase().trim())) {
+                $('#main-image').attr('src', url);
+                break;
+            }            
+        }
+    });
+</script>
+<style>
+    .img-thumbnail {
+        cursor: pointer
+    }
+</style>
