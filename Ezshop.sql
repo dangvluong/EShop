@@ -249,15 +249,32 @@ SELECT * FROM ProductInCategory;
 GO
 
 CREATE PROC GetProducts(
-	@Index INT,
+	@Page  INT,
 	@Size INT,
 	@Total INT OUT
 )
 AS
 BEGIN
 	SELECT * FROM Product ORDER BY ProductId
-		OFFSET (@Index * @Size) ROWS FETCH NEXT @Size ROWS ONLY;
+		OFFSET (@Page -1) * @Size ROWS FETCH NEXT @Size ROWS ONLY;
 	SELECT @Total = COUNT(*) FROM Product;	
+
+END
+--DROP PROC GetProductsByCategory;
+GO
+CREATE PROC GetProductsByCategory(
+	@CategoryId SMALLINT,
+	@Page  INT,
+	@Size INT,
+	@Total INT OUT
+)
+AS
+BEGIN	
+	SELECT * FROM Product JOIN ProductInCategory ON Product.ProductId = ProductInCategory.ProductId
+	WHERE CategoryId = @CategoryId ORDER BY Product.ProductId
+	OFFSET (@Page-1) * @Size ROWS FETCH NEXT @Size ROWS ONLY;
+	SELECT  @Total = COUNT(*) FROM Product JOIN ProductInCategory ON Product.ProductId = ProductInCategory.ProductId
+	WHERE CategoryId = @CategoryId ;
 
 END
 CREATE PROC ClearData

@@ -43,5 +43,18 @@ namespace WebApp.Controllers
             ViewBag.categories = categoryRepository.GetCategories();
             return View(product);
         }
+        [Route("/home/category/{id}/{p?}")]
+        public IActionResult Category(short id, int p = 1)
+        {
+            IEnumerable<Product> productsByCategory = productRepository.GetProductsByCategory(id, p, size, out int total);
+            foreach (var item in productsByCategory)
+            {
+                item.ProductImages = productImageRepository.GetImagesByProduct(item.ProductId);
+            }
+            ViewBag.categoryId = id;
+            ViewBag.categories = categoryRepository.GetCategories();
+            ViewBag.totalPage = (int)Math.Ceiling(total / (float)size);
+            return View(productsByCategory);
+        }
     }
 }

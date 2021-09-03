@@ -1,4 +1,4 @@
-﻿@{ 
+﻿@{
     Layout = "_LayoutIndex";
 }
 
@@ -6,7 +6,7 @@
 <div class="container">
     <div class="row">
         @foreach (var item in Model)
-        {
+        {            
             <div class="col-3">
                 <a href="/home/detail/@item.ProductId">
                     <img src=@(item.ProductImages.Count == 0 ? "#" : $"/images/{item.ProductImages[0].ImageUrl}") alt="@item.ProductName" class="img-fluid" />
@@ -31,12 +31,12 @@
         <ul class="pagination mx-auto">
             @for (int i = 1; i < ViewBag.totalPage; i++)
             {
-                <li class="page-item"><a href="/home/index/@i" class="page-link">@i</a></li>
+                <li class="page-item"><a href="/home/category/@ViewBag.categoryId/@i" class="page-link">@i</a></li>
             }
         </ul>
     </div>
 </div>
 <script>
     //console.log(@(ViewContext.RouteData.Values["id"] == null ? 0 : @Convert.ToInt32(ViewContext.RouteData.Values["id"]) - 1));
-    $($('.page-item')[@(ViewContext.RouteData.Values["id"] == null ? 0 : @Convert.ToInt32(ViewContext.RouteData.Values["id"]) - 1)]).addClass('active');
+    $($('.page-item')[@(ViewContext.RouteData.Values["p"] == null ? 0 : @Convert.ToInt32(ViewContext.RouteData.Values["p"]) - 1)]).addClass('active');
 </script>

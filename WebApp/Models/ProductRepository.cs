@@ -16,12 +16,12 @@ namespace WebApp.Models
         {
             this.configuration = configuration;
         }
-        public IEnumerable<Product> GetProducts(int index, int size, out int total)
+        public IEnumerable<Product> GetProducts(int page, int size, out int total)
         {
             using (IDbConnection connection = new SqlConnection(configuration.GetConnectionString("EzShop")))
             {
                 DynamicParameters parameters = new DynamicParameters();
-                parameters.Add("@Index", index, dbType: DbType.Int32);
+                parameters.Add("@Page", page, dbType: DbType.Int32);
                 parameters.Add("@Size", size, dbType: DbType.Int32);
                 parameters.Add("@Total", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 IEnumerable<Product> products= connection.Query<Product>("GetProducts", parameters, commandType: CommandType.StoredProcedure);
@@ -34,6 +34,21 @@ namespace WebApp.Models
             using(IDbConnection connection = new SqlConnection(configuration.GetConnectionString("EzShop")))
             {
                 return connection.QueryFirstOrDefault<Product>("GetProductById", new { Id = id }, commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        public IEnumerable<Product> GetProductsByCategory(short categoryId, int page, int size, out int total)
+        {
+            using (IDbConnection connection = new SqlConnection(configuration.GetConnectionString("EzShop")))
+            {
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@CategoryId", categoryId, dbType: DbType.Int16);
+                parameters.Add("@Page", page, dbType: DbType.Int32);
+                parameters.Add("@Size", size, dbType: DbType.Int32);
+                parameters.Add("@Total", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                IEnumerable<Product> products = connection.Query<Product>("GetProductsByCategory", parameters, commandType: CommandType.StoredProcedure);
+                total = parameters.Get<int>("@Total");
+                return products;
             }
         }
     }
