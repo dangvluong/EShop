@@ -277,6 +277,25 @@ BEGIN
 	WHERE CategoryId = @CategoryId ;
 
 END
+--DROP PROC SearchProducts
+GO
+CREATE PROC SearchProduct(
+	@Query NVARCHAR(100),
+	@Page  INT,
+	@Size INT,
+	@Total INT OUT
+)
+AS
+BEGIN	
+	SELECT * FROM Product WHERE ProductName LIKE @Query ORDER BY Product.ProductId
+	OFFSET (@Page-1) * @Size ROWS FETCH NEXT @Size ROWS ONLY;
+	SELECT  @Total = COUNT(*) FROM Product WHERE ProductName LIKE @Query ;
+END
+
+
+
+
+
 CREATE PROC ClearData
 AS
 BEGIN	
