@@ -13,11 +13,13 @@ namespace WebApp.Controllers
         ProductRepository productRepository;
         ProductImageRepository productImageRepository;
         ColorRepository colorRepository;
+        CategoryRepository categoryRepository;
         public HomeController(IConfiguration configuration)
         {
             productRepository= new ProductRepository(configuration);
             productImageRepository = new ProductImageRepository(configuration);
             colorRepository = new ColorRepository(configuration);
+            categoryRepository = new CategoryRepository(configuration);
         }
         public IActionResult Index()
         {
@@ -26,6 +28,7 @@ namespace WebApp.Controllers
             {
                 item.ProductImages = productImageRepository.GetImagesByProduct(item.ProductId);
             }
+            ViewBag.categories = categoryRepository.GetCategories();
             return View(products);
         }
 
@@ -34,6 +37,8 @@ namespace WebApp.Controllers
             Product product = productRepository.GetProductById(id);
             product.ProductImages = productImageRepository.GetImagesByProduct(id);
             product.ProductColor = colorRepository.GetColorsByProduct(id);
+            product.Categories = categoryRepository.GetCategoriesByProduct(id);
+            ViewBag.categories = categoryRepository.GetCategories();
             return View(product);
         }
     }

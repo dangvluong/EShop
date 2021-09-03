@@ -1,4 +1,7 @@
-﻿@model Product
+﻿@{ 
+    Layout = "_LayoutIndex";
+}
+@model Product
 <div class="container">
     <div class="row">
         <div class="col-6">
@@ -25,6 +28,14 @@
                 @foreach (Color item in Model.ProductColor)
                 {
                     <img src="/images/icon/@item.IconUrl" alt="@item.ColorCode" class="img-fluid img-thumbnail color-images" />
+                }
+            </div>
+
+            <div>
+                Danh mục:
+                @foreach (var item in Model.Categories)
+                {
+                <a href="/home/cateogory/@item.CategoryId">@item.CategoryName</a>
                 }
             </div>
         </div>

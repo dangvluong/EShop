@@ -231,7 +231,19 @@ AS
 		WHERE ColorOfProduct.ProductId = @ProductId;
 GO
 
+CREATE PROC GetCategories
+AS
+	SELECT * FROM Category;
+GO
 
+--DROP PROC GetCategoriesByProduct;
+GO
+CREATE PROC GetCategoriesByProduct(@ProductId SMALLINT)
+AS
+	SELECT Category.* FROM Category JOIN ProductInCategory ON Category.CategoryId = ProductInCategory.CategoryId  WHERE ProductInCategory.ProductId = @ProductId;
+GO
+
+SELECT * FROM ProductInCategory;
 
 CREATE PROC ClearData
 AS
@@ -248,6 +260,10 @@ BEGIN
 	TRUNCATE TABLE Size;
 	TRUNCATE TABLE Category;
 END
+
+
+
+
 
 SELECT * FROM Category;
 SELECT * FROM Color;
