@@ -14,6 +14,7 @@ namespace WebApp.Controllers
         ProductImageRepository productImageRepository;
         ColorRepository colorRepository;
         CategoryRepository categoryRepository;
+        int size = 20;
         public HomeController(IConfiguration configuration)
         {
             productRepository= new ProductRepository(configuration);
@@ -21,14 +22,15 @@ namespace WebApp.Controllers
             colorRepository = new ColorRepository(configuration);
             categoryRepository = new CategoryRepository(configuration);
         }
-        public IActionResult Index()
+        public IActionResult Index(int id = 1)
         {
-            IEnumerable<Product> products = productRepository.GetProducts();
+            IEnumerable<Product> products = productRepository.GetProducts(id, size, out int total);
             foreach (var item in products)
             {
                 item.ProductImages = productImageRepository.GetImagesByProduct(item.ProductId);
             }
             ViewBag.categories = categoryRepository.GetCategories();
+            ViewBag.totalPage = (int)Math.Ceiling(total / (float)size);
             return View(products);
         }
 

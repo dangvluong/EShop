@@ -245,6 +245,21 @@ GO
 
 SELECT * FROM ProductInCategory;
 
+--DROP PROC GetProducts
+GO
+
+CREATE PROC GetProducts(
+	@Index INT,
+	@Size INT,
+	@Total INT OUT
+)
+AS
+BEGIN
+	SELECT * FROM Product ORDER BY ProductId
+		OFFSET (@Index * @Size) ROWS FETCH NEXT @Size ROWS ONLY;
+	SELECT @Total = COUNT(*) FROM Product;	
+
+END
 CREATE PROC ClearData
 AS
 BEGIN	

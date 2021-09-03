@@ -1,6 +1,7 @@
 ﻿@{ 
     Layout = "_LayoutIndex";
 }
+
 @model IEnumerable<Product>
 <div class="container">
     <div class="row">
@@ -25,4 +26,16 @@
             </div>
         }
     </div>
+    <div class="d-flex">
+        <ul class="pagination mx-auto">
+            @for (int i = 1; i < ViewBag.totalPage; i++)
+            {
+                <li class="page-item"><a href="/home/index/@i" class="page-link">@i</a></li>
+            }
+        </ul>
+    </div>
 </div>
+<script>
+    //console.log(@(ViewContext.RouteData.Values["id"] == null ? 0 : @Convert.ToInt32(ViewContext.RouteData.Values["id"]) - 1));
+    $($('.page-item')[@(ViewContext.RouteData.Values["id"] == null ? 0 : @Convert.ToInt32(ViewContext.RouteData.Values["id"]) - 1)]).addClass('active');
+</script>
