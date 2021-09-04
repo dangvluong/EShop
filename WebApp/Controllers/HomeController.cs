@@ -16,6 +16,7 @@ namespace WebApp.Controllers
         CategoryRepository categoryRepository;
         SizeRepository sizeRepository;
         InventoryStatusRepository inventoryStatusRepository;
+        GuideRepository guideRepository;
         int size = 20;
         public HomeController(IConfiguration configuration)
         {
@@ -25,6 +26,7 @@ namespace WebApp.Controllers
             categoryRepository = new CategoryRepository(configuration);
             sizeRepository = new SizeRepository(configuration);
             inventoryStatusRepository = new InventoryStatusRepository(configuration);
+            guideRepository = new GuideRepository(configuration);
         }
         public IActionResult Index(int id = 1)
         {
@@ -45,7 +47,8 @@ namespace WebApp.Controllers
             product.ProductColor = colorRepository.GetColorsByProduct(id);
             product.Categories = categoryRepository.GetCategoriesByProduct(id);
             product.Sizes = sizeRepository.GetSizesByProduct(id);
-            product.InventoryStatuses = inventoryStatusRepository.GetInventoryStatusesByProduct(id);
+            //product.InventoryStatuses = inventoryStatusRepository.GetInventoryStatusesByProduct(id);
+            product.Guides = guideRepository.GetGuidesByProduct(id);
             ViewBag.categories = categoryRepository.GetCategories();
             return View(product);
         }
