@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 
 namespace WebApp.Models
 {
-    public class InventoryStatusRepository
+    public class InventoryStatusRepository:BaseRepository
     {
-        IConfiguration configuration;
-        public InventoryStatusRepository(IConfiguration configuration)
+        //IConfiguration configuration;
+        public InventoryStatusRepository(IConfiguration configuration):base(configuration)
         {
-            this.configuration = configuration;
+            //this.configuration = configuration;
         }
 
         public IEnumerable<InventoryStatus> GetInventoryStatusesByProduct(short productId)
         {
-            using(IDbConnection connection = new SqlConnection(configuration.GetConnectionString("EzShop")))
+            using(IDbConnection connection = new SqlConnection(connectionString))
             {
                 return connection.Query<InventoryStatus>("GetInventoryStatusesByProduct", new { ProductId = productId }, commandType: CommandType.StoredProcedure);
             }
@@ -27,7 +27,7 @@ namespace WebApp.Models
 
         public int GetInventoryStatusByProductColorAndSize(short productId, short colorId, byte sizeId)
         {
-            using (IDbConnection connection = new SqlConnection(configuration.GetConnectionString("EzShop")))
+            using (IDbConnection connection = new SqlConnection(connectionString))
             {
                 string sql = $"SELECT Quantity FROM InventoryStatus WHERE ProductId = {productId} AND ColorId = {colorId} AND SizeId = {sizeId}";
                 return connection.QuerySingleOrDefault<int>(sql);

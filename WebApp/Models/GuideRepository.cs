@@ -7,17 +7,17 @@ using System.Data.SqlClient;
 
 namespace WebApp.Models
 {
-    public class GuideRepository
+    public class GuideRepository :BaseRepository
     {
-        IConfiguration configuration;
-        public GuideRepository(IConfiguration configuration)
+        //IConfiguration configuration;
+        public GuideRepository(IConfiguration configuration):base(configuration)
         {
-            this.configuration = configuration;
+            //this.configuration = configuration;
         }
 
         public IEnumerable<Guide> GetGuids()
         {
-            using (IDbConnection connection = new SqlConnection(configuration.GetConnectionString("EzShop")))
+            using (IDbConnection connection = new SqlConnection(connectionString))
             {
                 return connection.Query<Guide>("GetGuides", commandType: CommandType.StoredProcedure);
             }
@@ -25,7 +25,7 @@ namespace WebApp.Models
 
         public IEnumerable<Guide> GetGuidesByProduct(short productId)
         {
-            using (IDbConnection connection = new SqlConnection(configuration.GetConnectionString("EzShop")))
+            using (IDbConnection connection = new SqlConnection(connectionString))
             {
                 return connection.Query<Guide>("GetGuidesByProduct", new { ProductId = productId}, commandType: CommandType.StoredProcedure);
             }

@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 
 namespace WebApp.Models
 {
-    public class ProductRepository
+    public class ProductRepository:BaseRepository
     {
-        IConfiguration configuration;
-        public ProductRepository(IConfiguration configuration)
+        //IConfiguration configuration;
+        public ProductRepository(IConfiguration configuration):base(configuration)
         {
-            this.configuration = configuration;
+            //this.configuration = configuration;
         }
         public IEnumerable<Product> GetProducts(int page, int size, out int total)
         {
-            using (IDbConnection connection = new SqlConnection(configuration.GetConnectionString("EzShop")))
+            using (IDbConnection connection = new SqlConnection(connectionString))
             {
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@Page", page, dbType: DbType.Int32);
@@ -31,7 +31,7 @@ namespace WebApp.Models
         }
         public Product GetProductById(short id)
         {
-            using (IDbConnection connection = new SqlConnection(configuration.GetConnectionString("EzShop")))
+            using (IDbConnection connection = new SqlConnection(connectionString))
             {
                 return connection.QueryFirstOrDefault<Product>("GetProductById", new { Id = id }, commandType: CommandType.StoredProcedure);
             }
@@ -39,7 +39,7 @@ namespace WebApp.Models
 
         public IEnumerable<Product> GetProductsByCategory(short categoryId, int page, int size, out int total)
         {
-            using (IDbConnection connection = new SqlConnection(configuration.GetConnectionString("EzShop")))
+            using (IDbConnection connection = new SqlConnection(connectionString))
             {
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@CategoryId", categoryId, dbType: DbType.Int16);
@@ -54,7 +54,7 @@ namespace WebApp.Models
 
         public IEnumerable<Product> SearchProduct(string query, int page, int size, out int total)
         {
-            using (IDbConnection connection = new SqlConnection(configuration.GetConnectionString("EzShop")))
+            using (IDbConnection connection = new SqlConnection(connectionString))
             {
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@Query", "%" + query + "%");
