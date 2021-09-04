@@ -14,6 +14,8 @@ namespace WebApp.Controllers
         ProductImageRepository productImageRepository;
         ColorRepository colorRepository;
         CategoryRepository categoryRepository;
+        SizeRepository sizeRepository;
+        InventoryStatusRepository inventoryStatusRepository;
         int size = 20;
         public HomeController(IConfiguration configuration)
         {
@@ -21,6 +23,8 @@ namespace WebApp.Controllers
             productImageRepository = new ProductImageRepository(configuration);
             colorRepository = new ColorRepository(configuration);
             categoryRepository = new CategoryRepository(configuration);
+            sizeRepository = new SizeRepository(configuration);
+            inventoryStatusRepository = new InventoryStatusRepository(configuration);
         }
         public IActionResult Index(int id = 1)
         {
@@ -40,6 +44,8 @@ namespace WebApp.Controllers
             product.ProductImages = productImageRepository.GetImagesByProduct(id);
             product.ProductColor = colorRepository.GetColorsByProduct(id);
             product.Categories = categoryRepository.GetCategoriesByProduct(id);
+            product.Sizes = sizeRepository.GetSizesByProduct(id);
+            product.InventoryStatuses = inventoryStatusRepository.GetInventoryStatusesByProduct(id);
             ViewBag.categories = categoryRepository.GetCategories();
             return View(product);
         }
@@ -67,6 +73,12 @@ namespace WebApp.Controllers
             ViewBag.categories = categoryRepository.GetCategories();
             ViewBag.totalPage = (int)Math.Ceiling(total / (float)size);
             return View(searchProducts);
+        }
+
+        [HttpPost]
+        public int GetInventoryStatus(short productId, short colorId, byte sizeId)
+        {
+            return inventoryStatusRepository.GetInventoryStatusByProductColorAndSize(productId, colorId, sizeId);
         }
     }
 }

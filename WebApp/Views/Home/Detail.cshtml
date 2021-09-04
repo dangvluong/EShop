@@ -1,4 +1,4 @@
-﻿@{ 
+﻿@{
     Layout = "_LayoutIndex";
 }
 @model Product
@@ -23,19 +23,43 @@
             }
             <p>Chất liệu: @Model.Material</p>
             <p>Mô tả: @Model.Description</p>
+            <form method="post" name="frm">
+                <div>
+                    Chọn màu sắc:
+                    @for (int i = 0; i < Model.ProductColor.Count; i++)
+                    {
+                        <span class="image-radio">
+                            @if (i == 0)
+                            {
+                                <input type="radio" name="colorOption" class="colorOption" value="@Model.ProductColor[i].ColorId" checked="checked" />
+                            }
+                            else
+                            {
+                                <input type="radio" name="colorOption" class="colorOption" value="@Model.ProductColor[i].ColorId" />
+                            }
+                            <img src="/images/icon/@Model.ProductColor[i].IconUrl" alt="@Model.ProductColor[i].ColorCode" class="img-fluid img-thumbnail color-images" />
+                        </span>
+                    }
+                </div>
+                <div>
+                    Chọn kích cỡ:
+                    <select id="sizeOption" name="sizeOption">
+                        @foreach (Size item in Model.Sizes)
+                        {
+                            <option value="@item.SizeId">@item.SizeCode</option>
+                        }
+                    </select>
+                </div>
+            </form>
             <div>
-                Màu sắc:
-                @foreach (Color item in Model.ProductColor)
-                {
-                    <img src="/images/icon/@item.IconUrl" alt="@item.ColorCode" class="img-fluid img-thumbnail color-images" />
-                }
-            </div>
+                Số lượng tồn kho: <b id="InventoryStatusQuantity"></b>
 
+            </div>
             <div>
                 Danh mục:
                 @foreach (var item in Model.Categories)
                 {
-                <a href="/home/cateogory/@item.CategoryId">@item.CategoryName</a>
+                    <a href="/home/cateogory/@item.CategoryId">@item.CategoryName</a>
                 }
             </div>
         </div>
@@ -43,15 +67,21 @@
 </div>
 @section script{
     <script>
-        $('.carousel').carousel();
-        $('.scroll-images').click(function () {
-            var url = $(this).attr("src");
-            $('#main-image').attr('src', url);
+        $('.carousel').carousel({
+            interval: false
         });
-
-        $('.color-images').click(function () {
+        //$('.scroll-images').click(function () {
+        //    var url = $(this).attr("src");
+        //    $('#main-image').attr('src', url);
+        //});
+        $(".image-radio img").click(function () {
+            $('input[name="colorOption"]:checked').removeAttr('checked')
+            $(this).prev().click();
+            $(this).prev().attr('checked', true);
+            //$('.color-selected').removeClass('color-selected');
+            //$(this).addClass('color-selected');
             var colorCode = $(this).attr('alt');
-            console.log(colorCode);
+            //console.log(colorCode);
             var listImages = document.getElementsByClassName('scroll-images');
             $('.carousel-item.active').removeClass('active');
             for (var i = 0; i < listImages.length; i++) {
@@ -61,10 +91,45 @@
                 }
             }
         });
+
+        function updateInventoryStatus(p, s, c) {
+            var target = $(InventoryStatusQuantity);
+            target.empty();
+            $.post('/home/getinventorystatus', { productId: p, sizeId: s, colorId: c }, (result) => {
+                if (result > 0) {
+                    target.append(result + " sản phẩm");
+                } else {
+                    target.append("<span style=\"color:red\">Hết hàng</span>");
+                }
+            });
+        }
+
+        $(frm).change(function () {
+            console.log("abc");
+            var productId = @Model.ProductId;
+            var colorId = $('input[name="colorOption"]:checked').val();
+            var sizeId = $(sizeOption).val();
+            updateInventoryStatus(productId, colorId, sizeId);
+        });
+
+        //Update inventory status at load
+         var productId = @Model.ProductId;
+         var colorId = $('input[name="colorOption"]:checked').val();
+         var sizeId = $(sizeOption).val();
+         updateInventoryStatus(productId, colorId, sizeId);
     </script>
+
 }
 <style>
     .color-images {
         cursor: pointer;
+    }
+
+    input[type="radio"] {
+        display: none;
+    }
+
+    span.image-radio input[type="radio"]:checked + img {
+        border: 1px solid red;
     }
 </style>

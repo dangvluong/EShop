@@ -17,5 +17,7 @@ namespace WebApp.Models
         public List<ProductImage> ProductImages { get; set; }
         public List<Color> ProductColor { get; set; }
         public IEnumerable<Category> Categories { get; set; }
+        public IEnumerable<Size> Sizes { get; set; }
+        public IEnumerable<InventoryStatus> InventoryStatuses { get; set; }
     }
 }

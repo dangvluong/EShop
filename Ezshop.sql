@@ -277,7 +277,7 @@ BEGIN
 	WHERE CategoryId = @CategoryId ;
 
 END
---DROP PROC SearchProducts
+--DROP PROC SearchProduct
 GO
 CREATE PROC SearchProduct(
 	@Query NVARCHAR(100),
@@ -292,9 +292,15 @@ BEGIN
 	SELECT  @Total = COUNT(*) FROM Product WHERE ProductName LIKE @Query ;
 END
 
+CREATE PROC GetSizes
+AS
+	SELECT * FROM Size;
+GO
 
-
-
+CREATE PROC GetSizesByProduct(@ProductId SMALLINT)
+AS
+	SELECT Size.* FROM SizeOfProduct JOIN Size ON SizeOfProduct.SizeId = Size.SizeId WHERE SizeOfProduct.ProductId = @ProductId;
+GO
 
 CREATE PROC ClearData
 AS
