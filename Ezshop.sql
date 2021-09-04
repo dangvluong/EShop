@@ -85,7 +85,7 @@ CREATE TABLE InventoryStatus(
 	ProductId SMALLINT NOT NULL,
 	SizeId TINYINT NOT NULL,
 	ColorId SMALLINT NOT NULL,
-	Amount SMALLINT NOT NULL,
+	Quantity SMALLINT NOT NULL,
 	PRIMARY KEY (ProductId, ColorId, SizeId)
 )
 GO
@@ -181,7 +181,8 @@ CREATE PROC AddProductImage(
 AS
 	INSERT INTO ProductImage(ProductId, ColorId, ImageUrl) VALUES(@ProductId, @ColorId, @ImageUrl);
 GO
-
+--DROP PROC AddInventoryStatus
+GO
 CREATE PROC AddInventoryStatus(
 	@ProductId SMALLINT,
 	@SizeId TINYINT,
@@ -189,7 +190,7 @@ CREATE PROC AddInventoryStatus(
 	@Amount SMALLINT	
 )
 AS
-	INSERT INTO InventoryStatus(ProductId, SizeId, ColorId, Amount) VALUES(@ProductId, @SizeId, @ColorId, @Amount);
+	INSERT INTO InventoryStatus(ProductId, SizeId, ColorId, Quantity) VALUES(@ProductId, @SizeId, @ColorId, @Amount);
 GO
 
 CREATE PROC GetProductColorAndSizeId
@@ -301,6 +302,22 @@ CREATE PROC GetSizesByProduct(@ProductId SMALLINT)
 AS
 	SELECT Size.* FROM SizeOfProduct JOIN Size ON SizeOfProduct.SizeId = Size.SizeId WHERE SizeOfProduct.ProductId = @ProductId;
 GO
+
+CREATE PROC GetInventoryStatusesByProduct(@ProductId SMALLINT)
+AS
+	SELECT * FROM InventoryStatus WHERE InventoryStatus.ProductId = @ProductId;
+GO
+
+CREATE PROC GetGuides
+AS
+	SELECT * FROM Guide;
+GO
+
+CREATE PROC GetGuidesByProduct(@ProductId SMALLINT)
+AS
+	SELECT Guide.* FROM Guide JOIN GuideOfProduct ON Guide.GuideId = GuideOfProduct.GuideId WHERE GuideOfProduct.ProductId = @ProductId;
+GO
+
 
 CREATE PROC ClearData
 AS
