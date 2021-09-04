@@ -12,23 +12,17 @@ namespace WebApp.Models
     public class CategoryRepository : BaseRepository
     {
         //IConfiguration configuration;
-        public CategoryRepository(IConfiguration configuration) : base(configuration)
+        public CategoryRepository(IDbConnection connection) : base(connection)
         {
             //this.configuration = configuration;   
         }
         public IEnumerable<Category> GetCategories()
         {
-            using (IDbConnection connection = new SqlConnection(connectionString))
-            {
-                return connection.Query<Category>("GetCategories", commandType: CommandType.StoredProcedure);
-            }
+            return connection.Query<Category>("GetCategories", commandType: CommandType.StoredProcedure);
         }
         public IEnumerable<Category> GetCategoriesByProduct(short productId)
         {
-            using (IDbConnection connection = new SqlConnection(connectionString))
-            {
-                return connection.Query<Category>("GetCategoriesByProduct",new {ProductId = productId }, commandType: CommandType.StoredProcedure);
-            }
+            return connection.Query<Category>("GetCategoriesByProduct", new { ProductId = productId }, commandType: CommandType.StoredProcedure);
         }
     }
 }

@@ -10,70 +10,58 @@ namespace WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        ProductRepository productRepository;
-        ProductImageRepository productImageRepository;
-        ColorRepository colorRepository;
-        CategoryRepository categoryRepository;
-        SizeRepository sizeRepository;
-        InventoryStatusRepository inventoryStatusRepository;
-        GuideRepository guideRepository;
+        SiteProvider provider;
         int size = 20;
         public HomeController(IConfiguration configuration)
         {
-            productRepository = new ProductRepository(configuration);
-            productImageRepository = new ProductImageRepository(configuration);
-            colorRepository = new ColorRepository(configuration);
-            categoryRepository = new CategoryRepository(configuration);
-            sizeRepository = new SizeRepository(configuration);
-            inventoryStatusRepository = new InventoryStatusRepository(configuration);
-            guideRepository = new GuideRepository(configuration);
+            provider = new SiteProvider(configuration);
         }
         public IActionResult Index(int id = 1)
         {
-            IEnumerable<Product> products = productRepository.GetProducts(id, size, out int total);
+            IEnumerable<Product> products = provider.Product.GetProducts(id, size, out int total);
             foreach (var item in products)
             {
-                item.ProductImages = productImageRepository.GetImagesByProduct(item.ProductId);
+                item.ProductImages = provider.ProductImage.GetImagesByProduct(item.ProductId);
             }
-            ViewBag.categories = categoryRepository.GetCategories();
+            ViewBag.categories = provider.Category.GetCategories();
             ViewBag.totalPage = (int)Math.Ceiling(total / (float)size);
             return View(products);
         }
 
         public IActionResult Detail(short id)
         {
-            Product product = productRepository.GetProductById(id);
-            product.ProductImages = productImageRepository.GetImagesByProduct(id);
-            product.ProductColor = colorRepository.GetColorsByProduct(id);
-            product.Categories = categoryRepository.GetCategoriesByProduct(id);
-            product.Sizes = sizeRepository.GetSizesByProduct(id);
+            Product product = provider.Product.GetProductById(id);
+            product.ProductImages = provider.ProductImage.GetImagesByProduct(id);
+            product.ProductColor = provider.Color.GetColorsByProduct(id);
+            product.Categories = provider.Category.GetCategoriesByProduct(id);
+            product.Sizes = provider.Size.GetSizesByProduct(id);
             //product.InventoryStatuses = inventoryStatusRepository.GetInventoryStatusesByProduct(id);
-            product.Guides = guideRepository.GetGuidesByProduct(id);
-            ViewBag.categories = categoryRepository.GetCategories();
+            product.Guides = provider.Guide.GetGuidesByProduct(id);
+            ViewBag.categories = provider.Category.GetCategories();
             return View(product);
         }
         [Route("/home/category/{id}/{p?}")]
         public IActionResult Category(short id, int p = 1)
         {
-            IEnumerable<Product> productsByCategory = productRepository.GetProductsByCategory(id, p, size, out int total);
+            IEnumerable<Product> productsByCategory = provider.Product.GetProductsByCategory(id, p, size, out int total);
             foreach (var item in productsByCategory)
             {
-                item.ProductImages = productImageRepository.GetImagesByProduct(item.ProductId);
+                item.ProductImages = provider.ProductImage.GetImagesByProduct(item.ProductId);
             }
             ViewBag.categoryId = id;
-            ViewBag.categories = categoryRepository.GetCategories();
+            ViewBag.categories = provider.Category.GetCategories();
             ViewBag.totalPage = (int)Math.Ceiling(total / (float)size);
             return View(productsByCategory);
         }       
     
         public IActionResult Search( string query, int id = 1)
         {
-            IEnumerable<Product> searchProducts = productRepository.SearchProduct(query, id, size, out int total);
+            IEnumerable<Product> searchProducts = provider.Product.SearchProduct(query, id, size, out int total);
             foreach (var item in searchProducts)
             {
-                item.ProductImages = productImageRepository.GetImagesByProduct(item.ProductId);
+                item.ProductImages = provider.ProductImage.GetImagesByProduct(item.ProductId);
             }
-            ViewBag.categories = categoryRepository.GetCategories();
+            ViewBag.categories = provider.Category.GetCategories();
             ViewBag.totalPage = (int)Math.Ceiling(total / (float)size);
             return View(searchProducts);
         }
@@ -81,7 +69,7 @@ namespace WebApp.Controllers
         [HttpPost]
         public int GetInventoryStatus(short productId, short colorId, byte sizeId)
         {
-            return inventoryStatusRepository.GetInventoryStatusByProductColorAndSize(productId, colorId, sizeId);
+            return provider.InventoryStatus.GetInventoryStatusByProductColorAndSize(productId, colorId, sizeId);
         }
     }
 }
