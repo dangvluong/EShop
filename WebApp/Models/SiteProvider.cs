@@ -16,7 +16,31 @@ namespace WebApp.Models
         SizeRepository size;
         InventoryStatusRepository inventoryStatus;
         GuideRepository guide;
+        MemberRepository member;
+        RoleRepository role;
 
+        public RoleRepository Role
+        {
+            get
+            {
+                if(role is null)
+                {
+                    role = new RoleRepository(Connection);
+                }
+                return role;
+            }
+        }
+        public MemberRepository Member
+        {
+            get
+            {
+                if(member is null)
+                {
+                    member = new MemberRepository(Connection);
+                }
+                return member;
+            }
+        }
         public ProductRepository Product
         {
             get

@@ -1,0 +1,18 @@
+﻿@model Member
+<div asp-validation-summary="All"></div>
+<form  method="post">
+    <div>
+        <label asp-for="Username">Tên đăng nhập: </label>
+        <input type="text" asp-for="Username"/>
+    </div>
+    <div>
+        <label asp-for="Password">Mật khẩu: </label>
+        <input type="password" asp-for="Password"/>
+    </div>
+    <div>
+        <label asp-for="Remember">Ghi nhớ đăng nhập</label>
+        <input type="checkbox" asp-for="Remember" value="True" />
+    </div>
+    <div><button>Login</button></div>
+    <a href="/auth/register">Đăng kí thành viên</a>
+</form>

@@ -375,6 +375,3 @@ BEGIN
 END
 GO
 
-
-
-EXEC DeleteDat @Id = 276;

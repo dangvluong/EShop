@@ -1,0 +1,25 @@
+﻿@model Member
+<form method="post">    
+    <div>
+        <label asp-for="Username">Tên đăng nhập: </label>
+        <input type="text"asp-for="Username"/>
+    </div>
+    <div>
+        <label asp-for="Password">Mật khẩu: </label>
+        <input type="password" asp-for="Password"/>
+    </div>
+    <div>
+        <label asp-for="Email">Email: </label>
+        <input type="email" asp-for="Email" />
+    </div>
+    <div>
+        <label asp-for="Gender">Giới tính: </label>
+        <select asp-for="Gender">
+            <option value="0">Nữ</option>
+            <option value="1">Nam</option>
+        </select>
+    </div>
+    <div>
+        <button>Register</button>
+    </div>
+</form>
