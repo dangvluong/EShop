@@ -18,6 +18,45 @@ namespace WebApp.Models
         GuideRepository guide;
         MemberRepository member;
         RoleRepository role;
+        ProvinceRepository province;
+        DistrictRepository district;
+        WardRepository ward;
+
+        public WardRepository Ward
+        {
+            get
+            {
+                if (ward is null)
+                {
+                    ward = new WardRepository(Connection);
+                }
+                return ward;
+            }
+        }
+
+        public DistrictRepository District
+        {
+            get
+            {
+                if (district is null)
+                {
+                    district = new DistrictRepository(Connection);
+                }
+                return district;
+            }
+        }
+        public ProvinceRepository Province
+        {
+            get
+            {
+                if(province is null)
+                {
+                    province = new ProvinceRepository(Connection);
+                }
+                return province;
+            }
+        }
+
 
         public RoleRepository Role
         {

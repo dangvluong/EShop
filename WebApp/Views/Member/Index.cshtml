@@ -1,0 +1,22 @@
+﻿@model Member
+
+<div>
+    <div>
+        Tên tài khoản: @Model.Username
+    </div>
+    <div>
+        Giới tính: @(Model.Gender ==  false ? "Nữ" : "Nam")
+    </div>
+    <div>
+        Địa chỉ email: @Model.Email
+    </div>
+    <div>
+        Ngày gia nhập: @Model.JoinDate.ToLongDateString()
+    </div>
+    <div>
+        Thông tin liên hệ mặc định: @(Model.AddressDefault == null? "Bạn chưa có thông tin liên hệ nào" : "")
+    </div>
+    <div>
+        <a href="/member/addcontact">Thêm thông tin liên hệ</a>
+    </div>
+</div>

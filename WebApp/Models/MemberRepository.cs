@@ -28,5 +28,10 @@ namespace WebApp.Models
                     Password = Helper.HashPassword(obj.Password) },
                 commandType: CommandType.StoredProcedure); 
         }
+
+        public Member GetMemberById(Guid memberId)
+        {
+            return connection.QuerySingleOrDefault<Member>("GetMemberById", new { MemberId = memberId }, commandType: CommandType.StoredProcedure);
+        }
     }
 }

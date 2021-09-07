@@ -1,13 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApp.Models;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     public class MemberController : Controller
     {
         SiteProvider provider;
@@ -17,11 +21,18 @@ namespace WebApp.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            Guid memberId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            Member member = provider.Member.GetMemberById(memberId);            
+            return View(member);
         }
         public IActionResult GetMembers()
         {
             return View();
         }
+        public IActionResult AddContact()
+        {
+            return View();
+        }
+
     }
 }

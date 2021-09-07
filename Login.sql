@@ -67,3 +67,13 @@ CREATE PROC GetRolesNameByMember(@MemberId UNIQUEIDENTIFIER)
 AS
 	SELECT RoleName FROM MemberInRole JOIN Role ON MemberInRole.RoleId = Role.RoleId WHERE MemberId = @MemberId;
 GO
+
+--DROP PROC GetMemberById
+GO
+CREATE PROC GetMemberById(@MemberId UNIQUEIDENTIFIER)
+AS
+	SELECT Username, AddressDefault, Email, Gender, JoinDate  FROM Member WHERE MemberId = @MemberId;
+GO
+
+SELECT * FROM Member;
+SELECT * FROM District;
