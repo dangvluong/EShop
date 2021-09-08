@@ -14,7 +14,7 @@ namespace WebApp.Models
         public bool Gender { get; set; }
         public DateTime JoinDate { get; set; }
         public bool Remember { get; set; }
-        public int? AddressDefault { get; set; }
+        public int? DefaultContact { get; set; }
         public IEnumerable<Contact> Contacts { get; set; }
     }
 }

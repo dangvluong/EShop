@@ -7,7 +7,7 @@ CREATE TABLE Member(
 	Email VARCHAR(32) NOT NULL,
 	Gender BIT NOT NULL,
 	JoinDate DATETIME NOT NULL,
-	AddressDefault INT DEFAULT NULL
+	DefaultContact INT DEFAULT NULL
 )
 GO
 
@@ -72,8 +72,10 @@ GO
 GO
 CREATE PROC GetMemberById(@MemberId UNIQUEIDENTIFIER)
 AS
-	SELECT Username, AddressDefault, Email, Gender, JoinDate  FROM Member WHERE MemberId = @MemberId;
+	SELECT Username, DefaultContact, Email, Gender, JoinDate  FROM Member WHERE MemberId = @MemberId;
 GO
 
 SELECT * FROM Member;
 SELECT * FROM District;
+TRUNCATE TABLE Member;
+

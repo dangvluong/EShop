@@ -9,6 +9,7 @@ using WebApp.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
+
 namespace WebApp.Controllers
 {
     [Authorize]
@@ -30,31 +31,6 @@ namespace WebApp.Controllers
         public IActionResult GetMembers()
         {
             return View();
-        }
-        public IActionResult AddContact()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult AddContact(Contact obj)
-        {
-            Guid memberId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            provider.Contact.Add(obj, memberId);
-            return Redirect("/member");
-        }
-
-        [HttpPost]
-        public IActionResult GetContactsByMember(Guid memberId)
-        {
-            Console.WriteLine(memberId);
-            return Json(provider.Contact.GetContactsByMember(memberId));
-        }
-
-        public IActionResult UpdateContact(Contact obj)
-        {
-            Console.WriteLine("ContactId: " + obj.ContactId);
-            provider.Contact.Update(obj);
-            return Redirect("/member");
         }
     }
 }

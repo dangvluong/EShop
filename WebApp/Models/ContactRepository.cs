@@ -39,5 +39,14 @@ namespace WebApp.Models
             ContactId = obj.ContactId
             }, commandType: CommandType.StoredProcedure);
         }
+        public int Delete(short id)
+        {
+            return connection.Execute("DeleteContact", new { ContactId = id }, commandType: CommandType.StoredProcedure);
+        }
+
+        public int UpdateDefaultContact(Guid memberId, short contactId)
+        {
+            return connection.Execute("UpdateDefaultContact", new { MemberId = memberId, ContactId = contactId}, commandType: CommandType.StoredProcedure);
+        }
     }
 }

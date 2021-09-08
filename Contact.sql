@@ -8,7 +8,8 @@ CREATE TABLE Contact(
 	FullName NVARCHAR(32)
 )
 GO
-
+--DROP TABLE ContactOfMember;
+GO
 CREATE TABLE ContactOfMember(
 	ContactId SMALLINT NOT NULL REFERENCES Contact(ContactId),
 	MemberId UNIQUEIDENTIFIER NOT NULL REFERENCES Member(MemberId),
@@ -34,7 +35,7 @@ BEGIN
 	DECLARE @ContactId SMALLINT = SCOPE_IDENTITY();
 	INSERT INTO ContactOfMember(ContactId, MemberId) VALUES(@ContactId, @MemberId);
 	IF((SELECT COUNT(*) FROM ContactOfMember WHERE MemberId = @MemberId) = 1)
-		UPDATE Member SET AddressDefault = @ContactId WHERE MemberId = @MemberId;
+		UPDATE Member SET DefaultContact = @ContactId WHERE MemberId = @MemberId;
 END
 
 CREATE PROC GetContacts
@@ -69,6 +70,21 @@ AS
 	FullName = @FullName WHERE ContactId = @ContactId;
 GO
 
+CREATE PROC DeleteContact(@ContactId SMALLINT)
+AS
+BEGIN
+	DELETE FROM ContactOfMember WHERE ContactId = @ContactId;
+	DELETE FROM Contact WHERE ContactId = @ContactId;
+END
+
+
+CREATE PROC UpdateDefaultContact(
+	@MemberId UNIQUEIDENTIFIER, 
+	@ContactId SMALLINT
+)
+AS
+	UPDATE Member SET DefaultContact = @ContactId WHERE MemberId = @MemberId;
+GO
 
 SELECT * FROM Contact;
 SELECT * FROM ContactOfMember;

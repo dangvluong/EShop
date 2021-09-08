@@ -7,7 +7,7 @@ namespace WebApp.Models
 {
     public class Contact
     {
-        public int ContactId { get; set; }
+        public short ContactId { get; set; }
         public string AddressHome { get; set; }
         public short ProvinceId { get; set; }
         public string ProvinceName { get; set; }

@@ -1,0 +1,63 @@
+﻿@model Contact
+<form method="post">
+    <div>
+        <label asp-for="FullName">Tên đầy đủ: </label>
+        <input type="text" asp-for="FullName" />
+    </div>
+    <div>
+        <label asp-for="PhoneNumber">Số điện thoại: </label>
+        <input type="text" asp-for="PhoneNumber" />
+    </div>
+    <div>
+        <label asp-for="AddressHome">Số nhà và tên đường: </label>
+        <textarea asp-for="AddressHome"></textarea>
+    </div>
+    <div>
+        <select asp-for="ProvinceId">
+        </select>
+        <select asp-for="DistrictId">
+        </select>
+        <select asp-for="WardId">
+        </select>
+    </div>
+    <div>
+        <button>Save Changes</button>
+    </div>
+</form>
+@section script{
+    <script>
+        //function addWards(districtId) {
+        //    $(WardId).empty();
+        //    $.post('/address/GetWardsByDistrict', { 'districtId': districtId }, wards => {
+        //        console.log(wards);
+        //        for (var i in wards) {
+        //            $(WardId).append(`<option value="${wards[i].wardId}">${wards[i].wardName}</option>`);
+        //        }
+        //    });
+        //}
+        //function addDistricts(provinceId) {
+        //    $(DistrictId).empty();
+        //    $.post(`/address/GetDistrictsByProvince/`, { 'provinceId': provinceId}, data => {
+        //        //console.log(data)
+        //        for (var i in data) {
+        //            console.log(data);
+        //            $(DistrictId).append(`<option value="${data[i].districtId}">${data[i].districtName}</option>`);
+        //        }
+        //        var districtid = $(DistrictId).val();
+        //        addWards(districtid);
+        //    });
+        //}
+
+        $.post('/contact/GetProvinces', provinces => {
+            for (var i in provinces) {
+                $(ProvinceId).append(`<option value="${provinces[i].provinceId}">${provinces[i].provinceName}</option>`);
+            }
+            var provinceId = $(ProvinceId).val();
+            addDistricts(provinceId);
+            //var districtid = $(DistrictId).val();
+            //addWards(districtid);
+        });
+        
+
+    </script>
+}

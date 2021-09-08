@@ -14,10 +14,10 @@
         Ngày gia nhập: @Model.JoinDate.ToLongDateString()
     </div>
     <div>
-        Thông tin liên hệ: @(Model.Contacts == null? "Bạn chưa có thông tin liên hệ nào" : Html.Raw("<div><table class='table table-bordered'><thead><tr><th>Tên đầy đủ</th><th>Số điện thoại</th><th>Địa chỉ</th><th>Là địa chỉ mặc định?</th><th>Chỉnh sửa</th><th>Xóa</th></tr></thead><tbody id='contactList'></tbody></table></div>"))
+        Thông tin liên hệ: @(Model.Contacts.Count<Contact>() == 0 ? "Bạn chưa có thông tin liên hệ nào" : Html.Raw("<div><table class='table table-bordered'><thead><tr><th>Tên đầy đủ</th><th>Số điện thoại</th><th>Địa chỉ</th><th>Là địa chỉ mặc định?</th><th>Chỉnh sửa</th><th>Xóa</th></tr></thead><tbody id='contactList'></tbody></table></div>"))
     </div>
     <div>
-        <a href="/member/addcontact">Thêm thông tin liên hệ</a>
+        <a href="/contact/add">Thêm thông tin liên hệ</a>
     </div>
 </div>
 @section script{
@@ -25,16 +25,16 @@
         if ($(contactList) != null) {
             var contactListElement = $(contactList);
             var memberId = "@Model.MemberId";          
-            $.post("/member/GetContactsByMember", {'memberId':memberId}, data => {               
+            $.post("/contact/GetContactsByMember", {'memberId':memberId}, data => {               
                 for (var i in data) {
                     var innnerHtml = `<tr id='${data[i].contactId}'>
                     <td>${data[i].fullName}</td>
                     <td>${data[i].phoneNumber}</td>
                     <td class='address'>${data[i].addressHome}, ${data[i].wardName}, ${data[i].districtName}, ${data[i].provinceName}</td>`;
-                    if (data[i].default == 'Yes') {
-                        innnerHtml += '<td>Yes</td>';
+                    if (data[i].contactId == @Model.DefaultContact) {
+                        innnerHtml += `<td><input type="checkbox" class="defaultAddress" value="${data[i].contactId}"checked  /></td>`;
                     } else {
-                        innnerHtml += '<td></td>';
+                        innnerHtml += `<td><input type="checkbox" class="defaultAddress" value="${data[i].contactId}" /></td>`;
                     }
                     innnerHtml += `<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal${data[i].contactId}">Edit</button>
                   <div class="modal" id="editModal${data[i].contactId}">
@@ -46,7 +46,7 @@
                     <h4 class="modal-title">Chỉnh sửa thông tin liên hệ</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                   </div>
-     <form  method="post" action="/member/updatecontact">
+                  <form  method="post" action="/contact/updatecontact">
                   <!-- Modal body -->
                   <div class="modal-body">
                    
@@ -83,7 +83,7 @@
               </div>
             </div>
             </td>`;
-                    innnerHtml += `<td><a href='/member/deletecontact/'>Edit</a></td>`;
+                    innnerHtml += `<td><a href='/contact/deletecontact/${data[i].contactId}'>Xóa</a></td>`;
                     innnerHtml += '</tr>';
                     contactListElement.append(innnerHtml);
                 }
@@ -93,7 +93,7 @@
         $(document).on('show.bs.modal', '.modal', function () {           
             var targetRow = ($(this).attr('id')).replace('editModal','');            
             var selectedAddress = $(`#${targetRow}`).find('.address').text().split(','); 
-            $.post('/address/GetProvinces', provinces => {
+            $.post('/contact/GetProvinces', provinces => {
                 for (var i in provinces) {    
                     if (provinces[i].provinceName == selectedAddress[3].trim()) {
                         $(ProvinceId).append(`<option value="${provinces[i].provinceId}" selected>${provinces[i].provinceName}</option>`);
@@ -103,9 +103,20 @@
                 }
                 var provinceId = $(ProvinceId).val();
                 addDistricts(provinceId, selectedAddress);
-                var districtid = $(DistrictId).val();
+                //var districtid = $(DistrictId).val();
                 //addWards(districtid, selectedAddress);
             });
         })
+
+        $(document).on('click', '.defaultAddress', function () {
+            $('.defaultAddress').prop('checked', false);
+            $(this).prop('checked', true);
+            var contactId = $(this).attr('value');
+            console.log(contactId);
+            $.post('/contact/UpdateDefaultContact', { 'contactId': contactId }, (data) => {
+                console.log(data);
+                location.reload();
+            });
+        });
     </script>
 }
