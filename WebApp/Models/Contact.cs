@@ -10,9 +10,12 @@ namespace WebApp.Models
         public int ContactId { get; set; }
         public string AddressHome { get; set; }
         public short ProvinceId { get; set; }
+        public string ProvinceName { get; set; }
         public short DistrictId { get; set; }
+        public string DistrictName { get; set; }
         public short WardId { get; set; }
+        public string WardName { get; set; }
         public string PhoneNumber { get; set; }
-        public int FullName { get; set; }                
+        public string FullName { get; set; }                
     }
 }

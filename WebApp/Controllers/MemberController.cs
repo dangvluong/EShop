@@ -22,7 +22,9 @@ namespace WebApp.Controllers
         public IActionResult Index()
         {
             Guid memberId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            Member member = provider.Member.GetMemberById(memberId);            
+            Member member = provider.Member.GetMemberById(memberId);
+            member.MemberId = memberId;
+            member.Contacts = provider.Contact.GetContactsByMember(memberId);
             return View(member);
         }
         public IActionResult GetMembers()
@@ -32,6 +34,20 @@ namespace WebApp.Controllers
         public IActionResult AddContact()
         {
             return View();
+        }
+        [HttpPost]
+        public IActionResult AddContact(Contact obj)
+        {
+            Guid memberId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            provider.Contact.AddContact(obj, memberId);
+            return Redirect("/member");
+        }
+
+        [HttpPost]
+        public IActionResult GetContactsByMember(Guid memberId)
+        {
+            Console.WriteLine(memberId);
+            return Json(provider.Contact.GetContactsByMember(memberId));
         }
 
     }

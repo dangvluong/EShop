@@ -14,9 +14,36 @@
         Ngày gia nhập: @Model.JoinDate.ToLongDateString()
     </div>
     <div>
-        Thông tin liên hệ mặc định: @(Model.AddressDefault == null? "Bạn chưa có thông tin liên hệ nào" : "")
+        Thông tin liên hệ: @(Model.Contacts == null? "Bạn chưa có thông tin liên hệ nào" : Html.Raw("<div><table class='table table-bordered'><thead><tr><th>Tên đầy đủ</th><th>Số điện thoại</th><th>Số nhà và tên đường</th><th>Xã/Phường</th><th>Quận/Huyện</th><th>Tỉnh/Thành phố</th><th>Là địa chỉ mặc định?</th></tr></thead><tbody id='contactList'></tbody></table></div>"))
     </div>
     <div>
         <a href="/member/addcontact">Thêm thông tin liên hệ</a>
     </div>
 </div>
+@section script{
+    <script>
+        if ($(contactList) != null) {
+            var contactListElement = $(contactList);
+            var memberId = "@Model.MemberId";
+            console.log(memberId)
+            $.post("/member/GetContactsByMember", {'memberId':memberId}, data => {
+                console.log(data);               
+                for (var i in data) {
+                    contactListElement.append("<tr>");
+                    contactListElement.append(`<td>${data[i].fullName}</td>`);
+                    contactListElement.append(`<td>${data[i].phoneNumber}</td>`);
+                    contactListElement.append(`<td>${data[i].addressHome}</td>`);
+                    contactListElement.append(`<td>${data[i].provinceName}</td>`);
+                    contactListElement.append(`<td>${data[i].districtName}</td>`);
+                    contactListElement.append(`<td>${data[i].wardName}</td>`);
+                    if (data[i].contactId == @Model.AddressDefault) {
+                        contactListElement.append(`<td>Yes</td>`);
+                    } else {
+                        contactListElement.append(`<td></td>`);
+                    }
+                    contactListElement.append("</tr>");
+                }                
+            });
+        }
+    </script>
+}

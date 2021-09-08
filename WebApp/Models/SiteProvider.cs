@@ -21,7 +21,18 @@ namespace WebApp.Models
         ProvinceRepository province;
         DistrictRepository district;
         WardRepository ward;
-
+        ContactRepository contact;
+        public ContactRepository Contact
+        {
+            get
+            {
+                if(contact is null)
+                {
+                    contact = new ContactRepository(Connection);
+                }
+                return contact;
+            }
+        }
         public WardRepository Ward
         {
             get

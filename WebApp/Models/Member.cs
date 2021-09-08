@@ -15,5 +15,6 @@ namespace WebApp.Models
         public DateTime JoinDate { get; set; }
         public bool Remember { get; set; }
         public int? AddressDefault { get; set; }
+        public IEnumerable<Contact> Contacts { get; set; }
     }
 }
