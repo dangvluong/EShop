@@ -10,7 +10,7 @@ namespace WebApp.Models
     public class ContactRepository : BaseRepository
     {
         public ContactRepository(IDbConnection connection) : base(connection) { }
-        public int AddContact(Contact obj, Guid memberId)
+        public int Add(Contact obj, Guid memberId)
         {
             return connection.Execute("AddContact", new
             {
@@ -26,6 +26,18 @@ namespace WebApp.Models
         public IEnumerable<Contact> GetContactsByMember(Guid memberId)
         {
             return connection.Query<Contact>("GetContactsByMember", new { MemberId = memberId }, commandType: CommandType.StoredProcedure);
+        }
+        public int Update(Contact obj)
+        {
+            return connection.Execute("UpdateContact", new { 
+            AddressHome = obj.AddressHome,
+            ProvinceId = obj.ProvinceId,
+            DistrictId = obj.DistrictId,
+            WardId = obj.WardId,
+            PhoneNumber= obj.PhoneNumber,
+            FullName = obj.FullName,
+            ContactId = obj.ContactId
+            }, commandType: CommandType.StoredProcedure);
         }
     }
 }

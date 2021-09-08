@@ -14,7 +14,7 @@
         Ngày gia nhập: @Model.JoinDate.ToLongDateString()
     </div>
     <div>
-        Thông tin liên hệ: @(Model.Contacts == null? "Bạn chưa có thông tin liên hệ nào" : Html.Raw("<div><table class='table table-bordered'><thead><tr><th>Tên đầy đủ</th><th>Số điện thoại</th><th>Số nhà và tên đường</th><th>Xã/Phường</th><th>Quận/Huyện</th><th>Tỉnh/Thành phố</th><th>Là địa chỉ mặc định?</th></tr></thead><tbody id='contactList'></tbody></table></div>"))
+        Thông tin liên hệ: @(Model.Contacts == null? "Bạn chưa có thông tin liên hệ nào" : Html.Raw("<div><table class='table table-bordered'><thead><tr><th>Tên đầy đủ</th><th>Số điện thoại</th><th>Địa chỉ</th><th>Là địa chỉ mặc định?</th><th>Chỉnh sửa</th><th>Xóa</th></tr></thead><tbody id='contactList'></tbody></table></div>"))
     </div>
     <div>
         <a href="/member/addcontact">Thêm thông tin liên hệ</a>
@@ -24,26 +24,88 @@
     <script>
         if ($(contactList) != null) {
             var contactListElement = $(contactList);
-            var memberId = "@Model.MemberId";
-            console.log(memberId)
-            $.post("/member/GetContactsByMember", {'memberId':memberId}, data => {
-                console.log(data);               
+            var memberId = "@Model.MemberId";          
+            $.post("/member/GetContactsByMember", {'memberId':memberId}, data => {               
                 for (var i in data) {
-                    contactListElement.append("<tr>");
-                    contactListElement.append(`<td>${data[i].fullName}</td>`);
-                    contactListElement.append(`<td>${data[i].phoneNumber}</td>`);
-                    contactListElement.append(`<td>${data[i].addressHome}</td>`);
-                    contactListElement.append(`<td>${data[i].provinceName}</td>`);
-                    contactListElement.append(`<td>${data[i].districtName}</td>`);
-                    contactListElement.append(`<td>${data[i].wardName}</td>`);
-                    if (data[i].contactId == @Model.AddressDefault) {
-                        contactListElement.append(`<td>Yes</td>`);
+                    var innnerHtml = `<tr id='${data[i].contactId}'>
+                    <td>${data[i].fullName}</td>
+                    <td>${data[i].phoneNumber}</td>
+                    <td class='address'>${data[i].addressHome}, ${data[i].wardName}, ${data[i].districtName}, ${data[i].provinceName}</td>`;
+                    if (data[i].default == 'Yes') {
+                        innnerHtml += '<td>Yes</td>';
                     } else {
-                        contactListElement.append(`<td></td>`);
+                        innnerHtml += '<td></td>';
                     }
-                    contactListElement.append("</tr>");
-                }                
+                    innnerHtml += `<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal${data[i].contactId}">Edit</button>
+                  <div class="modal" id="editModal${data[i].contactId}">
+                <div class="modal-dialog">
+        <div class="modal-content">
+
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Chỉnh sửa thông tin liên hệ</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+     <form  method="post" action="/member/updatecontact">
+                  <!-- Modal body -->
+                  <div class="modal-body">
+                   
+                    <input type="hidden" name="ContactId" value="${data[i].contactId}">
+                <div>
+                    <label for="FullName">Tên đầy đủ: </label>
+                    <input type="text" name="FullName" value="${data[i].fullName}"/>
+                </div>
+                <div>
+                    <label for="PhoneNumber">Số điện thoại: </label>
+                    <input type="text" name="PhoneNumber" value="${data[i].phoneNumber}"/>
+                </div>
+                <div>
+                    <label for="AddressHome">Số nhà và tên đường: </label>
+                    <textarea name="AddressHome">${data[i].addressHome}</textarea>
+                </div>
+                <div>
+                    <select id="ProvinceId" name="ProvinceId">
+                    </select>
+                    <select id="DistrictId" name="DistrictId">
+                    </select>
+                    <select id="WardId" name="WardId">
+                    </select>
+                </div>
+                  </div>
+
+                  <!-- Modal footer -->
+                  <div class="modal-footer">
+                    <button class="btn btn-primary">Lưu thay đổi</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                  </div>
+                </form>
+                </div>
+              </div>
+            </div>
+            </td>`;
+                    innnerHtml += `<td><a href='/member/deletecontact/'>Edit</a></td>`;
+                    innnerHtml += '</tr>';
+                    contactListElement.append(innnerHtml);
+                }
             });
         }
+        
+        $(document).on('show.bs.modal', '.modal', function () {           
+            var targetRow = ($(this).attr('id')).replace('editModal','');            
+            var selectedAddress = $(`#${targetRow}`).find('.address').text().split(','); 
+            $.post('/address/GetProvinces', provinces => {
+                for (var i in provinces) {    
+                    if (provinces[i].provinceName == selectedAddress[3].trim()) {
+                        $(ProvinceId).append(`<option value="${provinces[i].provinceId}" selected>${provinces[i].provinceName}</option>`);
+                    } else {
+                        $(ProvinceId).append(`<option value="${provinces[i].provinceId}">${provinces[i].provinceName}</option>`);
+                    }                    
+                }
+                var provinceId = $(ProvinceId).val();
+                addDistricts(provinceId, selectedAddress);
+                var districtid = $(DistrictId).val();
+                //addWards(districtid, selectedAddress);
+            });
+        })
     </script>
 }

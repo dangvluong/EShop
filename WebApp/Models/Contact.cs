@@ -16,6 +16,6 @@ namespace WebApp.Models
         public short WardId { get; set; }
         public string WardName { get; set; }
         public string PhoneNumber { get; set; }
-        public string FullName { get; set; }                
+        public string FullName { get; set; }      
     }
 }

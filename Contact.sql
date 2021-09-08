@@ -45,12 +45,28 @@ GO
 GO
 CREATE PROC GetContactsByMember(@MemberId UNIQUEIDENTIFIER)
 AS
-	SELECT Contact.ContactId, FullName, PhoneNumber, AddressHome, ProvinceName, DistrictName, WardName FROM Contact 
+	SELECT * FROM Contact 
 	JOIN ContactOfMember ON Contact.ContactId = ContactOfMember.ContactId 
 	JOIN Province ON Contact.ProvinceId = Province.ProvinceId 
 	JOIN District ON Contact.DistrictId = District.DistrictId
 	JOIN Ward ON Contact.WardId = Ward.WardId	
 	WHERE MemberId = @MemberId;
+GO
+
+
+CREATE PROC UpdateContact(
+	@AddressHome NVARCHAR(100),
+	@ProvinceId SMALLINT,
+	@DistrictId SMALLINT,
+	@WardId SMALLINT,
+	@PhoneNumber VARCHAR(15),
+	@FullName NVARCHAR(32),
+	@ContactId SMALLINT
+)
+AS	
+	UPDATE Contact SET AddressHome = @AddressHome, ProvinceId = @ProvinceId, 
+	DistrictId =@DistrictId, WardId = @WardId, PhoneNumber = @PhoneNumber,
+	FullName = @FullName WHERE ContactId = @ContactId;
 GO
 
 

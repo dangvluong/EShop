@@ -39,7 +39,7 @@ namespace WebApp.Controllers
         public IActionResult AddContact(Contact obj)
         {
             Guid memberId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            provider.Contact.AddContact(obj, memberId);
+            provider.Contact.Add(obj, memberId);
             return Redirect("/member");
         }
 
@@ -50,5 +50,11 @@ namespace WebApp.Controllers
             return Json(provider.Contact.GetContactsByMember(memberId));
         }
 
+        public IActionResult UpdateContact(Contact obj)
+        {
+            Console.WriteLine("ContactId: " + obj.ContactId);
+            provider.Contact.Update(obj);
+            return Redirect("/member");
+        }
     }
 }

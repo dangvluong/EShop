@@ -19,34 +19,34 @@
         </select>
         <select asp-for="WardId">
         </select>
-    </div>   
+    </div> 
     <div>
         <button>Save Changes</button>
     </div>
 </form>
 @section script{
     <script>
-        function addWards(districtId) {
-            $(WardId).empty();
-            $.post('/address/GetWardsByDistrict', { 'districtId': districtId }, wards => {
-                console.log(wards);
-                for (var i in wards) {
-                    $(WardId).append(`<option value="${wards[i].wardId}">${wards[i].wardName}</option>`);
-                }
-            });
-        }
-        function addDistricts(provinceId) {    
-            $(DistrictId).empty();
-            $.post(`/address/GetDistrictsByProvince/`, { 'provinceId': provinceId}, data => {
-                //console.log(data)                
-                for (var i in data) {
-                    console.log(data);
-                    $(DistrictId).append(`<option value="${data[i].districtId}">${data[i].districtName}</option>`);
-                }
-                var districtid = $(DistrictId).val();                
-                addWards(districtid);
-            });
-        }
+        //function addWards(districtId) {
+        //    $(WardId).empty();
+        //    $.post('/address/GetWardsByDistrict', { 'districtId': districtId }, wards => {
+        //        console.log(wards);
+        //        for (var i in wards) {
+        //            $(WardId).append(`<option value="${wards[i].wardId}">${wards[i].wardName}</option>`);
+        //        }
+        //    });
+        //}
+        //function addDistricts(provinceId) {    
+        //    $(DistrictId).empty();
+        //    $.post(`/address/GetDistrictsByProvince/`, { 'provinceId': provinceId}, data => {
+        //        //console.log(data)                
+        //        for (var i in data) {
+        //            console.log(data);
+        //            $(DistrictId).append(`<option value="${data[i].districtId}">${data[i].districtName}</option>`);
+        //        }
+        //        var districtid = $(DistrictId).val();                
+        //        addWards(districtid);
+        //    });
+        //}
         
         $.post('/address/GetProvinces', provinces => {            
             for (var i in provinces) {
@@ -54,8 +54,8 @@
             }            
             var provinceId = $(ProvinceId).val();
             addDistricts(provinceId);
-            var districtid = $(DistrictId).val();
-            addWards(districtid);
+            //var districtid = $(DistrictId).val();
+            //addWards(districtid);
         });
         $(ProvinceId).change(() => {
             var p = $(ProvinceId).val();
