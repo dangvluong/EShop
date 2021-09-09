@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Cart>
+@if (Model.ToList().Count > 0)
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ProductId</th>
+                <th>ColorId</th>
+                <th>SizeId</th>
+                <th>Quantity</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="ProductId">@item.ProductId</td>
+                    <td class="ColorId">@item.ColorId</td>
+                    <td class="SizeId">@item.SizeId</td>
+                    <td><input type="number" name="Quantity" value="@item.Quantity" min="1" max="@item.AvailableQuantity" /></td>
+                    <td><button class="DeleteCart">Delete</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Giỏ hàng đang trống</p>
+    <p>Click vào <a href="/">đây</a> để tiếp tục mua sắm.</p>
+}
+
+@section script{
+    <script>
+        $('input[name="Quantity"]').change(function () {
+            var listNode = $(this).parent().prevAll();
+            var pid = listNode[2].innerText;
+            var cid = listNode[1].innerText;
+            var sid = listNode[0].innerText;
+            var qty = $(this).val();
+            $.post('/cart/editcart', { 'ProductId': pid, 'ColorId': cid, 'SizeId': sid, 'Quantity': qty }, result => {
+                location.reload();
+            })
+        });
+        $('.DeleteCart').click(function () {
+            if (confirm('Are you sure delete?')) {
+                var listNode = $(this).parent().prevAll();
+                var pid = listNode[3].innerText;
+                var cid = listNode[2].innerText;
+                var sid = listNode[1].innerText;
+                $.post('/cart/deletecart', { 'ProductId': pid, 'ColorId': cid, 'SizeId': sid }, result => {
+                    location.reload();
+                });
+            }
+
+        });
+    </script>
+}

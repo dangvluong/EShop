@@ -23,7 +23,8 @@
             }
             <p>Chất liệu: @Model.Material</p>
             <p>Mô tả: @Model.Description</p>
-            <form method="post" name="frm">
+            <form method="post" name="frm" action="/cart/addcart">
+                <input type="hidden" name="ProductId" value="@Model.ProductId" />
                 <div>
                     Chọn màu sắc:
                     @for (int i = 0; i < Model.ProductColor.Count; i++)
@@ -31,11 +32,11 @@
                         <span class="image-radio">
                             @if (i == 0)
                             {
-                                <input type="radio" name="colorOption" class="colorOption" value="@Model.ProductColor[i].ColorId" checked="checked" />
+                                <input type="radio" name="ColorId" class="ColorId" value="@Model.ProductColor[i].ColorId" checked="checked" />
                             }
                             else
                             {
-                                <input type="radio" name="colorOption" class="colorOption" value="@Model.ProductColor[i].ColorId" />
+                                <input type="radio" name="ColorId" class="ColorId" value="@Model.ProductColor[i].ColorId" />
                             }
                             <img src="/images/icon/@Model.ProductColor[i].IconUrl" alt="@Model.ProductColor[i].ColorCode" class="img-fluid img-thumbnail color-images" />
                         </span>
@@ -43,18 +44,25 @@
                 </div>
                 <div>
                     Chọn kích cỡ:
-                    <select id="sizeOption" name="sizeOption">
+                    <select id="SizeId" name="SizeId">
                         @foreach (Size item in Model.Sizes)
                         {
                             <option value="@item.SizeId">@item.SizeCode</option>
                         }
                     </select>
                 </div>
-            </form>
-            <div>
-                Số lượng tồn kho: <b id="InventoryStatusQuantity"></b>
+                <div>
+                    <div>Số lượng tồn kho: <b id="InventoryStatusQuantity"></b></div>
+                    <div id="cartQuantity">
+                        <label for="Quantity">Chọn số lượng: </label>
+                        <input type="number" name="Quantity" value="1" id="Quantity" min="1" />
+                    </div>
+                    <div>
+                        <button class="confirmCart">Thêm vào giỏ hàng</button>
+                    </div>
 
-            </div>
+                </div>
+            </form>
             <div>
                 Danh mục:
                 @foreach (var item in Model.Categories)
@@ -82,7 +90,7 @@
         //    $('#main-image').attr('src', url);
         //});
         $(".image-radio img").click(function () {
-            $('input[name="colorOption"]:checked').removeAttr('checked')
+            $('input[name="ColorId"]:checked').removeAttr('checked')
             $(this).prev().click();
             $(this).prev().attr('checked', true);
             //$('.color-selected').removeClass('color-selected');
@@ -99,34 +107,42 @@
             }
         });
 
-        function updateInventoryStatus(p, s, c) {
-            console.log("p:" + p)
-            console.log("s:" + s)
-            console.log("c:" + c)
+        function updateInventoryStatus() {
+            var p = @Model.ProductId;
+            var c = $('input[name="ColorId"]:checked').val();
+            var s = $(SizeId).val();
+            //console.log("p:" + p)
+            //console.log("s:" + s)
+            //console.log("c:" + c)
             var target = $(InventoryStatusQuantity);
             target.empty();
             $.post('/home/getinventorystatus', { productId: p, sizeId: s, colorId: c }, (result) => {
                 if (result > 0) {
                     target.append(result + " sản phẩm");
+                    $('input#Quantity').attr('max', result);
+                    $('input#Quantity').prop("disabled", false);
+                    $('button.confirmCart').prop("disabled", false);
                 } else {
                     target.append("<span style=\"color:red\">Hết hàng</span>");
+                    $('input#Quantity').prop("disabled", true);
+                    $('button.confirmCart').prop("disabled", true);
                 }
+
             });
         }
 
         $(frm).change(function () {
             console.log("abc");
-            var productId = @Model.ProductId;
-            var colorId = $('input[name="colorOption"]:checked').val();
-            var sizeId = $(sizeOption).val();
-            updateInventoryStatus(productId, colorId, sizeId);
+            @*var productId = @Model.ProductId;
+            var colorId = $('input[name="ColorId"]:checked').val();
+            var sizeId = $(SizeId).val();*@
+            updateInventoryStatus();
         });
 
         //Update inventory status at load
-         var productId = @Model.ProductId;
-         var colorId = $('input[name="colorOption"]:checked').val();
-         var sizeId = $(sizeOption).val();
-         updateInventoryStatus(productId, colorId, sizeId);
+
+        //updateInventoryStatus(productId, colorId, sizeId);
+        updateInventoryStatus();
     </script>
 
 }

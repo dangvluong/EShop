@@ -22,6 +22,18 @@ namespace WebApp.Models
         DistrictRepository district;
         WardRepository ward;
         ContactRepository contact;
+        CartRepository cart;
+        public CartRepository Cart
+        {
+            get
+            {
+                if(cart is null)
+                {
+                    cart = new CartRepository(Connection);
+                }
+                return cart;
+            }
+        }
         public ContactRepository Contact
         {
             get
