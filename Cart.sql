@@ -30,7 +30,11 @@ GO
 GO
 CREATE PROC GetCarts(@CartId UNIQUEIDENTIFIER)
 AS
-	SELECT * FROM Cart WHERE CartId = @CartId;
+	SELECT Cart.*,ProductName, ColorCode, SizeCode
+		FROM Cart JOIN Product ON Cart.ProductId = Product.ProductId
+		JOIN Color ON Cart.ColorId = Color.ColorId
+		JOIN Size ON Cart.SizeId = Size.SizeId
+		WHERE CartId = @CartId;
 GO
 --DROP PROC DeleteCart;
 GO

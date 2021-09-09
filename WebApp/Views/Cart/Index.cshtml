@@ -4,20 +4,20 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>ProductId</th>
-                <th>ColorId</th>
-                <th>SizeId</th>
-                <th>Quantity</th>
-                <th>Delete</th>
+                <th>Tên sản phẩm</th>
+                <th>Mã màu</th>
+                <th>Size</th>
+                <th>Số lượng</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
                 <tr>
-                    <td class="ProductId">@item.ProductId</td>
-                    <td class="ColorId">@item.ColorId</td>
-                    <td class="SizeId">@item.SizeId</td>
+                    <td class="ProductId" name="@item.ProductId">@item.ProductName</td>
+                    <td class="ColorId" name="@item.ColorId">@item.ColorCode</td>
+                    <td class="SizeId" name="@item.SizeId">@item.SizeCode</td>
                     <td><input type="number" name="Quantity" value="@item.Quantity" min="1" max="@item.AvailableQuantity" /></td>
                     <td><button class="DeleteCart">Delete</button></td>
                 </tr>
@@ -35,10 +35,11 @@ else
     <script>
         $('input[name="Quantity"]').change(function () {
             var listNode = $(this).parent().prevAll();
-            var pid = listNode[2].innerText;
-            var cid = listNode[1].innerText;
-            var sid = listNode[0].innerText;
-            var qty = $(this).val();
+            var pid = $(listNode[2]).attr('name');
+            
+            var cid = $(listNode[1]).attr('name');
+            var sid = $(listNode[0]).attr('name');
+            var qty = $(this).val();            
             $.post('/cart/editcart', { 'ProductId': pid, 'ColorId': cid, 'SizeId': sid, 'Quantity': qty }, result => {
                 location.reload();
             })
@@ -46,9 +47,12 @@ else
         $('.DeleteCart').click(function () {
             if (confirm('Are you sure delete?')) {
                 var listNode = $(this).parent().prevAll();
-                var pid = listNode[3].innerText;
-                var cid = listNode[2].innerText;
-                var sid = listNode[1].innerText;
+                var pid = $(listNode[3]).attr('name');
+                var cid = $(listNode[2]).attr('name');
+                var sid = $(listNode[1]).attr('name');
+                console.log(pid);
+                console.log(cid);
+                console.log(sid);
                 $.post('/cart/deletecart', { 'ProductId': pid, 'ColorId': cid, 'SizeId': sid }, result => {
                     location.reload();
                 });
