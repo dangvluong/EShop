@@ -1,0 +1,151 @@
+﻿@model Member
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addContactModal">Thêm thông tin liên hệ</button>
+<div class="modal" id="addContactModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Thêm thông tin liên hệ</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form method="post" action="/contact/addContact" name="frm">
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div>
+                        <label for="FullName">Tên đầy đủ: </label>
+                        <input type="text" name="FullName" />
+                    </div>
+                    <div>
+                        <label for="PhoneNumber">Số điện thoại: </label>
+                        <input type="text" name="PhoneNumber" />
+                    </div>
+                    <div>
+                        <label for="AddressHome">Số nhà và tên đường: </label>
+                        <textarea name="AddressHome"></textarea>
+                    </div>
+                    <div>
+                        <select id="ProvinceId" name="ProvinceId">
+                        </select>
+                        <select id="DistrictId" name="DistrictId">
+                        </select>
+                        <select id="WardId" name="WardId">
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button class="btn btn-primary">Lưu</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@if (Model.DefaultContact is null)
+{
+    <script>
+        $(exampleModal).modal('show');
+    </script>
+}
+
+
+@if (ViewBag.cart.Count > 0)
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Tên sản phẩm</th>
+                <th>Mã màu</th>
+                <th>Size</th>
+                <th>Số lượng</th>
+                <th>Đơn giá</th>
+                <td>Thành tiền</td>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.cart)
+            {
+                <tr>
+                    <td class="ProductId" name="@item.ProductId">@item.ProductName</td>
+                    <td class="ColorId" name="@item.ColorId">@item.ColorCode</td>
+                    <td class="SizeId" name="@item.SizeId">@item.SizeCode</td>
+                    <td><input type="number" id="quantityInCart" name="Quantity" value="@item.Quantity" min="1" max="@item.AvailableQuantity" /></td>
+                    <th>@item.Price</th>
+                    <th class="Amount">@(item.Quantity * item.Price)</th>
+                    <td><button class="DeleteCart">Delete</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <script>
+        window.location.href = "/";
+    </script>
+}
+<h5>Chọn thông tin giao hàng: </h5>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Người liên hệ</th>
+            <th>Số điện thoại</th>
+            <th>Địa chỉ</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Contact item in Model.Contacts)
+        {
+            <tr>
+                <td><input type="radio" name="Contact" value="@item.ContactId" @(item.ContactId == Model.DefaultContact ? "checked" : "") /></td>
+                <td>@item.FullName</td>
+                <td>@item.PhoneNumber</td>
+                <td>@(item.AddressHome + ", " + item.WardName + ", " +item.DistrictName + ", " + item.ProvinceName)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<form method="post">
+    <input type="hidden" name="ContactId" value="@Model.DefaultContact" />
+    <button>Xác nhận đơn hàng</button>
+</form>
+@section script{
+    <script>
+        $('input[name="Contact"]').click(function () {
+            var contactId = $(this).val();
+            $('input[name="ContactId"]').val(contactId);
+        });
+        $(document).on('show.bs.modal', '#addContactModal', function () {
+            $.post('/contact/GetProvinces', provinces => {
+                for (var i in provinces) {
+                    $(ProvinceId).append(`<option value="${provinces[i].provinceId}">${provinces[i].provinceName}</option>`);
+                }
+                var provinceId = $(ProvinceId).val();
+                addDistricts(provinceId);
+            });
+        });
+        $(frm).submit(function (e) {
+            e.preventDefault();
+            var fullName = $('input[name="FullName"]').val();
+            var phoneNumber = $('input[name="PhoneNumber"]').val();
+            var addressHome = $('textarea[name="AddressHome"]').val();
+            var provinceId = $('select[name="ProvinceId"]').val();
+            var districtId = $('select[name="DistrictId"]').val();
+            var wardId = $('select[name="WardId"]').val();           
+            $.post('/contact/add', {
+                FullName: fullName,
+                PhoneNumber: phoneNumber,
+                AddressHome: addressHome,
+                ProvinceId: provinceId,
+                DistrictId: districtId,
+                WardId: wardId
+            }, result => {
+                location.reload();
+            });
+        });
+    </script>
+}
+

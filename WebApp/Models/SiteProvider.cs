@@ -23,6 +23,30 @@ namespace WebApp.Models
         WardRepository ward;
         ContactRepository contact;
         CartRepository cart;
+        InvoiceRepository invoice;
+        InvoiceDetailRepository invoiceDetail;
+        public InvoiceDetailRepository InvoiceDetail
+        {
+            get
+            {
+                if(invoiceDetail is null)
+                {
+                    invoiceDetail = new InvoiceDetailRepository(Connection);
+                }
+                return invoiceDetail;
+            }
+        }
+        public InvoiceRepository Invoice
+        {
+            get
+            {
+                if(invoice is null)
+                {
+                    invoice = new InvoiceRepository(Connection);
+                }
+                return invoice;
+            }
+        }
         public CartRepository Cart
         {
             get

@@ -10,6 +10,7 @@ using WebApp.Models;
 
 namespace WebApp.Controllers
 {   
+    [Authorize]
     public class ContactController : Controller
     {
         SiteProvider provider;
@@ -36,8 +37,8 @@ namespace WebApp.Controllers
         [HttpPost]
         public IActionResult Add(Contact obj)
         {
-            Guid memberId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            provider.Contact.Add(obj, memberId);
+            Guid memberId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            provider.Contact.Add(obj, memberId);            
             return Redirect("/member");
         }
 
@@ -64,7 +65,7 @@ namespace WebApp.Controllers
         public IActionResult UpdateDefaultContact(short contactId)
         {
             Console.WriteLine("Update COntact");
-            Guid memberId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            Guid memberId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             Console.WriteLine(memberId);
             return Json(provider.Contact.UpdateDefaultContact(memberId, contactId));
         }

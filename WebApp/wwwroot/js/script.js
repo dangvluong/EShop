@@ -1,4 +1,5 @@
-﻿function addWards(districtId, selectedAddress = null) {
+﻿/*Contact Section*/
+function addWards(districtId, selectedAddress = null) {
     $(WardId).empty();
     $.post('/contact/GetWardsByDistrict', { 'districtId': districtId }, data => {
         for (var i in data) {
@@ -13,8 +14,7 @@
 }
 function addDistricts(provinceId, selectedAddress = null) {
     $(DistrictId).empty();
-    $.post(`/contact/GetDistrictsByProvince/`, { 'provinceId': provinceId }, districts => {
-        //console.log(districts)                
+    $.post(`/contact/GetDistrictsByProvince/`, { 'provinceId': provinceId }, districts => {                  
         for (var i in districts) {
             if (selectedAddress == null || districts[i].districtName != selectedAddress[2].trim()) {
                 $(DistrictId).append(`<option value="${districts[i].districtId}">${districts[i].districtName}</option>`);
@@ -27,16 +27,42 @@ function addDistricts(provinceId, selectedAddress = null) {
     });
 }
 
+/*Cart and Checkout Section*/
 $(document).on('change', '#ProvinceId', function () {
-//$(ProvinceId).change(() => {
     var p = $(ProvinceId).val();
     console.log(p);
     addDistricts(p);
 });
 
 $(document).on('change', '#DistrictId', function () {
-//$(DistrictId).change(() => {
     var districtid = $(DistrictId).val();
     console.log(districtid);
     addWards(districtid);
 });
+
+console.log("abc");
+$(document).on('change', 'input[id="quantityInCart"]', function () {
+    console.log("ab");
+    var listNode = $(this).parent().prevAll();
+    var pid = $(listNode[2]).attr('name');
+    var cid = $(listNode[1]).attr('name');
+    var sid = $(listNode[0]).attr('name');
+    var qty = $(this).val();
+    $.post('/cart/editcart', { 'ProductId': pid, 'ColorId': cid, 'SizeId': sid, 'Quantity': qty }, result => {
+        location.reload();
+    })
+});
+$(document).on('click', '.DeleteCart', function () {
+    console.log("abc");
+    if (confirm('Are you sure delete?')) {
+        var listNode = $(this).parent().prevAll();
+        var pid = $(listNode[5]).attr('name');
+        var cid = $(listNode[4]).attr('name');
+        var sid = $(listNode[3]).attr('name');
+        $.post('/cart/deletecart', { 'ProductId': pid, 'ColorId': cid, 'SizeId': sid }, result => {
+            location.reload();
+        });
+    }
+});
+
+/**/

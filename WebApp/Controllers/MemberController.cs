@@ -22,7 +22,7 @@ namespace WebApp.Controllers
         }
         public IActionResult Index()
         {
-            Guid memberId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            Guid memberId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             Member member = provider.Member.GetMemberById(memberId);
             member.MemberId = memberId;
             member.Contacts = provider.Contact.GetContactsByMember(memberId);

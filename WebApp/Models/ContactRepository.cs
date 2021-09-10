@@ -27,6 +27,10 @@ namespace WebApp.Models
         {
             return connection.Query<Contact>("GetContactsByMember", new { MemberId = memberId }, commandType: CommandType.StoredProcedure);
         }
+        public Contact GetContactsById(short contactId)
+        {
+            return connection.QuerySingleOrDefault<Contact>("GetContactById", new { ContactId = contactId }, commandType: CommandType.StoredProcedure);
+        }
         public int Update(Contact obj)
         {
             return connection.Execute("UpdateContact", new { 

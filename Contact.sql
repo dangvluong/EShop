@@ -54,6 +54,14 @@ AS
 	WHERE MemberId = @MemberId;
 GO
 
+CREATE PROC GetContactById(@ContactId SMALLINT)
+AS
+SELECT * FROM Contact 	
+	JOIN Province ON Contact.ProvinceId = Province.ProvinceId 
+	JOIN District ON Contact.DistrictId = District.DistrictId
+	JOIN Ward ON Contact.WardId = Ward.WardId	
+	WHERE ContactId = @ContactId;
+GO
 
 CREATE PROC UpdateContact(
 	@AddressHome NVARCHAR(100),

@@ -8,6 +8,8 @@
                 <th>Mã màu</th>
                 <th>Size</th>
                 <th>Số lượng</th>
+                <th>Đơn giá</th>
+                <td>Thành tiền</td>
                 <th></th>
             </tr>
         </thead>
@@ -18,12 +20,15 @@
                     <td class="ProductId" name="@item.ProductId">@item.ProductName</td>
                     <td class="ColorId" name="@item.ColorId">@item.ColorCode</td>
                     <td class="SizeId" name="@item.SizeId">@item.SizeCode</td>
-                    <td><input type="number" name="Quantity" value="@item.Quantity" min="1" max="@item.AvailableQuantity" /></td>
+                    <td><input type="number" id="quantityInCart" name="Quantity" value="@item.Quantity" min="1" max="@item.AvailableQuantity" /></td>
+                    <th>@item.Price</th>
+                    <th class="Amount">@(item.Quantity * item.Price)</th>
                     <td><button class="DeleteCart">Delete</button></td>
                 </tr>
             }
         </tbody>
     </table>
+    <div class="text-center"><a href="/cart/checkout">Checkout</a></div>
 }
 else
 {
@@ -31,33 +36,31 @@ else
     <p>Click vào <a href="/">đây</a> để tiếp tục mua sắm.</p>
 }
 
-@section script{
+@*@section script{
     <script>
-        $('input[name="Quantity"]').change(function () {
+        $(document).on('change', 'input[id="Quantity"]', function () {
+            console.log("ab");
             var listNode = $(this).parent().prevAll();
             var pid = $(listNode[2]).attr('name');
-            
             var cid = $(listNode[1]).attr('name');
             var sid = $(listNode[0]).attr('name');
-            var qty = $(this).val();            
+            var qty = $(this).val();
             $.post('/cart/editcart', { 'ProductId': pid, 'ColorId': cid, 'SizeId': sid, 'Quantity': qty }, result => {
                 location.reload();
             })
         });
-        $('.DeleteCart').click(function () {
+        $(document).on('click', '.DeleteCart', function () {
+            console.log("abc");
             if (confirm('Are you sure delete?')) {
                 var listNode = $(this).parent().prevAll();
-                var pid = $(listNode[3]).attr('name');
-                var cid = $(listNode[2]).attr('name');
-                var sid = $(listNode[1]).attr('name');
-                console.log(pid);
-                console.log(cid);
-                console.log(sid);
+                var pid = $(listNode[5]).attr('name');
+                var cid = $(listNode[4]).attr('name');
+                var sid = $(listNode[3]).attr('name');
                 $.post('/cart/deletecart', { 'ProductId': pid, 'ColorId': cid, 'SizeId': sid }, result => {
                     location.reload();
                 });
             }
-
         });
+
     </script>
-}
+}*@

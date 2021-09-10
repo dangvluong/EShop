@@ -1,0 +1,49 @@
+﻿@model Invoice
+<div>Thông tin đơn hàng của hàng</div>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Người nhận hàng: </th>
+            <td>@Model.Contact.FullName</td>
+        </tr>
+        <tr>
+            <th>Số điện thoại: </th>
+            <td>@Model.Contact.PhoneNumber</td>
+        </tr>
+        <tr>
+            <th>Địa chỉ: </th>
+            <td>@(Model.Contact.AddressHome +", " + Model.Contact.WardName+ ", " + Model.Contact.DistrictName+ ", " + Model.Contact.ProvinceName)</td>
+        </tr>
+        <tr>
+            <th>Tình trạng đơn hàng: </th>
+            <td>@((InvoiceStatus)Model.StatusId)</td>
+        </tr>
+    </thead>
+</table>
+
+<div>Chi tiết hóa đơn</div>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Tên sản phẩm</th>
+            <th>Mã màu</th>
+            <th>Size</th>
+            <th>Số lượng</th>
+            <th>Đơn giá</th>
+            <th>Thành tiền</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (InvoiceDetail item in Model.InvoiceDetails)
+        {
+            <tr>
+                <td>@item.ProductName</td>
+                <td>@item.ColorCode</td>
+                <td>@item.SizeCode</td>
+                <td>@item.Quantity</td>
+                <td>@item.Price</td>
+                <td>@(item.Quantity * item.Price)</td>
+            </tr>
+        }
+    </tbody>
+</table>

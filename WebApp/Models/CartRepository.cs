@@ -19,7 +19,8 @@ namespace WebApp.Models
                 ProductId = obj.ProductId,
                 ColorId = obj.ColorId,
                 SizeId = obj.SizeId,
-                Quantity = obj.Quantity
+                Quantity = obj.Quantity,
+                Price = obj.Price
             }, commandType: CommandType.StoredProcedure);
         }
         public IEnumerable<Cart> GetCarts(Guid cartId)
