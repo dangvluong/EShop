@@ -25,6 +25,13 @@ namespace WebApp.Models
         {
             return connection.QuerySingleOrDefault<Invoice>("GetInvoiceById", new { InvoiceId = invoiceId }, commandType: CommandType.StoredProcedure);
         }
-
+        public IEnumerable<Invoice> GetInvoices()
+        {
+            return connection.Query<Invoice>("SELECT * FROM Invoice");
+        }
+        public int UpdateStatus(Invoice obj)
+        {
+            return connection.Execute("UpdateInvoiceStatus", new {InvoiceId = obj.InvoiceId, StatusId = obj.StatusId }, commandType: CommandType.StoredProcedure);
+        }
     }
 }

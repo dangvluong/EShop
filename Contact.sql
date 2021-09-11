@@ -64,7 +64,7 @@ SELECT * FROM Contact
 	JOIN Province ON Contact.ProvinceId = Province.ProvinceId 
 	JOIN District ON Contact.DistrictId = District.DistrictId
 	JOIN Ward ON Contact.WardId = Ward.WardId	
-	WHERE ContactId = @ContactId AND IsDeleted = 1;
+	WHERE ContactId = @ContactId;
 GO
 
 CREATE PROC UpdateContact(

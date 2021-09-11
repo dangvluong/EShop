@@ -55,6 +55,15 @@ AS
 		WHERE InvoiceId = @InvoiceId;
 GO
 
+
+CREATE PROC UpdateInvoiceStatus(
+	@InvoiceId UNIQUEIDENTIFIER,
+	@StatusId TINYINT
+)
+AS
+	UPDATE Invoice SET StatusId = @StatusId WHERE InvoiceId = @InvoiceId;
+GO
+
 SELECT * FROM Invoice;
 SELECT * FROM InvoiceDetail;
 SELECT * FROM Contact;
