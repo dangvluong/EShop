@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 
 namespace WebApp.Models
 {
-    public class Role
+    public class MemberInRole
     {
+        public Guid MemberId { get; set; }
         public byte RoleId { get; set; }
-        public string RoleName { get; set; }
-        public bool Checked { get; set; }
     }
 }

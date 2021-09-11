@@ -64,6 +64,11 @@ AS
 	UPDATE Invoice SET StatusId = @StatusId WHERE InvoiceId = @InvoiceId;
 GO
 
+CREATE PROC GetInvoicesByMember(@MemberId UNIQUEIDENTIFIER)
+AS
+	SELECT * FROM Invoice WHERE MemberId = @MemberId;
+GO
+
 SELECT * FROM Invoice;
 SELECT * FROM InvoiceDetail;
 SELECT * FROM Contact;

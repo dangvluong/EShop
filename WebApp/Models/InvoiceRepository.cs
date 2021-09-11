@@ -21,6 +21,11 @@ namespace WebApp.Models
                 CartId = obj.CartId
             }, commandType: CommandType.StoredProcedure);
         }
+
+        public IEnumerable<Invoice> GetInvoicesByMember(Guid memberId)
+        {
+            return connection.Query<Invoice>("GetInvoicesByMember", new { MemberId = memberId }, commandType: CommandType.StoredProcedure);
+        }
         public Invoice GetInvoiceById(Guid invoiceId)
         {
             return connection.QuerySingleOrDefault<Invoice>("GetInvoiceById", new { InvoiceId = invoiceId }, commandType: CommandType.StoredProcedure);

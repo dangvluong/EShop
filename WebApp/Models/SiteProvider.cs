@@ -25,6 +25,18 @@ namespace WebApp.Models
         CartRepository cart;
         InvoiceRepository invoice;
         InvoiceDetailRepository invoiceDetail;
+        MemberInRoleRepository memberInRole;
+        public MemberInRoleRepository MemberInRole
+        {
+            get
+            {
+                if(memberInRole is null)
+                {
+                    memberInRole = new MemberInRoleRepository(Connection);
+                }
+                return memberInRole;
+            }
+        }
         public InvoiceDetailRepository InvoiceDetail
         {
             get

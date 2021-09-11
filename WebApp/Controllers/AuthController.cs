@@ -31,7 +31,9 @@ namespace WebApp.Controllers
         [HttpPost]
         public IActionResult Register(Member obj)
         {
-            provider.Member.Add(obj);
+            var result = provider.Member.Add(obj);
+            string[] message = { "Tên đăng nhập đã có người sử dụng.","Có lỗi xảy ra, vui lòng thử lại", "Đăng kí thành công" };
+            TempData["msg"] = message[result + 1];
             return Redirect("/auth/login");
         }
 
@@ -52,12 +54,12 @@ namespace WebApp.Controllers
                     new Claim(ClaimTypes.Email, member.Email)                    
                 };
 
-                IEnumerable<string> roles = provider.Role.GetRolesNameByMember(member.MemberId);
+                IEnumerable<Role> roles = provider.Role.GetRolesByMember(member.MemberId);
                 if(roles != null)
                 {
-                    foreach (string role in roles)
+                    foreach (Role role in roles)
                     {
-                        claims.Add(new Claim(ClaimTypes.Role, role));
+                        claims.Add(new Claim(ClaimTypes.Role, role.RoleName));
                     }
                 }
 

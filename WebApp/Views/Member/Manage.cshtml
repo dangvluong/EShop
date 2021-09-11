@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Member>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Loại thành viên</th>
+            <th>Tên tài khoản</th>
+            <th>Ngày gia nhập</th>
+            <th>Email</th>
+            <th>Trạng thái tài khoản</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Member item in Model)
+        {
+            <tr>
+                <td>
+                    @foreach (var role in item.Roles)
+                    {
+                        if (role.Checked)
+                        {
+                            <span>@role.RoleName</span><br />
+                        }                        
+                    }
+                </td>
+                <td>@item.Username</td>
+                <td>@item.JoinDate.ToLongDateString()</td>
+                <td>@item.Email</td>
+                <td>@(item.IsBanned ? "Đã bị khóa" : "Đang hoạt động")</td>
+                <td><a href="/member/detail/@item.MemberId">Chi tiết</a></td>
+            </tr>
+
+        }
+    </tbody>
+</table>

@@ -1,5 +1,6 @@
 ﻿@model Member
 <div asp-validation-summary="All"></div>
+@TempData["msg"]
 <form  method="post">
     <div>
         <label asp-for="Username">Tên đăng nhập: </label>

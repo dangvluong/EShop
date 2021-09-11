@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using WebApp.Models;
 
@@ -19,7 +20,7 @@ namespace WebApp.Controllers
         }
 
         public IActionResult Index()
-        {
+        {           
             IEnumerable<Invoice> invoices = provider.Invoice.GetInvoices();
             foreach (Invoice invoice in invoices)
             {
@@ -28,6 +29,20 @@ namespace WebApp.Controllers
             }
             return View(invoices);
         }
+
+        public IActionResult InvoiceOfMember()
+        {
+            Guid memberId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            IEnumerable<Invoice> invoices = provider.Invoice.GetInvoicesByMember(memberId);
+            foreach (Invoice invoice in invoices)
+            {
+                invoice.Contact = provider.Contact.GetContactsById(invoice.ContactId);
+                invoice.Member = provider.Member.GetMemberById(memberId);
+            }
+            return View(invoices);
+        }
+        
+
         public IActionResult Detail(Guid id)
         {
             Invoice obj = provider.Invoice.GetInvoiceById(id);

@@ -15,6 +15,8 @@ namespace WebApp.Models
         public DateTime JoinDate { get; set; }
         public bool Remember { get; set; }
         public int? DefaultContact { get; set; }
+        public bool IsBanned { get; set; }
+        public IEnumerable<Role> Roles { get; set; }
         public IEnumerable<Contact> Contacts { get; set; }
     }
 }

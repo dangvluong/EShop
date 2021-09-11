@@ -14,9 +14,9 @@ namespace WebApp.Models
         {
             return connection.Query<Role>("SELECT * FROM Role");
         }
-        public IEnumerable<string> GetRolesNameByMember(Guid memberId)
+        public IEnumerable<Role> GetRolesByMember(Guid memberId)
         {
-            return connection.Query<string>("GetRolesNameByMember", new { MemberId = memberId }, commandType: CommandType.StoredProcedure);
+            return connection.Query<Role>("GetRolesByMember", new { MemberId = memberId }, commandType: CommandType.StoredProcedure);
         }
 
     }
