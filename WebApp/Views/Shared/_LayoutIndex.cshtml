@@ -41,7 +41,7 @@
                 </li>
             </ul>
             <div class="collapse navbar-collapse">
-                <form class="form-inline my-2 my-lg-0 ml-auto" action="/home/search">
+                <form class="form-inline my-2 my-lg-0 ml-auto" action="/product/search">
                     <input class="form-control mr-sm-2" type="search" aria-label="Search" name="query">
                     <button class="btn btn-outline-success my-2 my-sm-0">Search</button>
                 </form>
@@ -77,7 +77,7 @@
                 <ul>
                     @foreach (Category item in ViewBag.categories)
                     {
-                        <li><a href="/home/category/@item.CategoryId">@item.CategoryName</a></li>
+                        <li><a href="/product/category/@item.CategoryId">@item.CategoryName</a></li>
                     }
                 </ul>
             </div>

@@ -30,7 +30,8 @@
                     var innnerHtml = `<tr id='${data[i].contactId}'>
                     <td>${data[i].fullName}</td>
                     <td>${data[i].phoneNumber}</td>
-                    <td class='address'>${data[i].addressHome}, ${data[i].wardName}, ${data[i].districtName}, ${data[i].provinceName}</td>`;
+                    <td class='address'>${data[i].addressHome
+        }, ${data[i].wardName}, ${data[i].districtName}, ${data[i].provinceName}</td>`;
                     if (data[i].contactId == @Model.DefaultContact) {
                         innnerHtml += `<td><input type="checkbox" class="defaultAddress" value="${data[i].contactId}"checked  /></td>`;
                     } else {

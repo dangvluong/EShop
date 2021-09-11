@@ -10,7 +10,7 @@
         @foreach (var item in Model)
         {
             <div class="col-3">
-                <a href="/home/detail/@item.ProductId">
+                <a href="/product/detail/@item.ProductId">
                     <img src=@(item.ProductImages.Count == 0 ? "#" : $"/images/{item.ProductImages[0].ImageUrl}") alt="@item.ProductName" class="img-fluid" />
                     <p>@item.ProductName</p>
                     <p>@item.ProductId</p>
@@ -30,7 +30,7 @@
         }
     </div>
     <div class="d-flex">
-        <pagination total-page="@ViewBag.totalPage" current-page="@ViewContext.RouteData.Values["id"]" url="/home/index/{0}"></pagination>
+        <pagination total-page="@ViewBag.totalPage" current-page="@ViewContext.RouteData.Values["id"]" url="/product/index/{0}"></pagination>
         @*<ul class="pagination mx-auto">
             @for (int i = 1; i < ViewBag.totalPage; i++)
             {

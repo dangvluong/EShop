@@ -58,7 +58,7 @@ namespace WebApp.Controllers
 
         public IActionResult DeleteContact(short id)
         {
-            provider.Contact.Delete(id);
+            provider.Contact.Delete(id);            
             return Redirect("/member");
         }
         [HttpPost]

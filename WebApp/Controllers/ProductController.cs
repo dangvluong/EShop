@@ -8,11 +8,11 @@ using WebApp.Models;
 
 namespace WebApp.Controllers
 {
-    public class HomeController : Controller
+    public class ProductController : Controller
     {
         SiteProvider provider;
         int size = 20;
-        public HomeController(IConfiguration configuration)
+        public ProductController(IConfiguration configuration)
         {
             provider = new SiteProvider(configuration);
         }
@@ -40,7 +40,7 @@ namespace WebApp.Controllers
             ViewBag.categories = provider.Category.GetCategories();
             return View(product);
         }
-        [Route("/home/category/{id}/{p?}")]
+        [Route("/product/category/{id}/{p?}")]
         public IActionResult Category(short id, int p = 1)
         {
             IEnumerable<Product> productsByCategory = provider.Product.GetProductsByCategory(id, p, size, out int total);

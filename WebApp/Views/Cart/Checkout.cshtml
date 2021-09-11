@@ -100,7 +100,7 @@ else
         @foreach (Contact item in Model.Contacts)
         {
             <tr>
-                <td><input type="radio" name="Contact" value="@item.ContactId" @(item.ContactId == Model.DefaultContact ? "checked" : "") /></td>
+                <td><input type="radio" name="Contact" value="@item.ContactId" @(item.ContactId == Model.DefaultContact || Model.Contacts.ToList().Count == 1 ? "checked" : "") /></td>
                 <td>@item.FullName</td>
                 <td>@item.PhoneNumber</td>
                 <td>@(item.AddressHome + ", " + item.WardName + ", " +item.DistrictName + ", " + item.ProvinceName)</td>
@@ -109,7 +109,7 @@ else
     </tbody>
 </table>
 <form method="post">
-    <input type="hidden" name="ContactId" value="@Model.DefaultContact" />
+    <input type="hidden" name="ContactId" value="@Model.DefaultContact"/>
     <button>Xác nhận đơn hàng</button>
 </form>
 @section script{
@@ -146,6 +146,7 @@ else
                 location.reload();
             });
         });
+        
     </script>
 }
 

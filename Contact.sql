@@ -1,3 +1,5 @@
+--DROP TABLE Contact;
+GO
 CREATE TABLE Contact(
 	ContactId SMALLINT PRIMARY KEY NOT NULL IDENTITY(1,1),
 	AddressHome NVARCHAR(100) NOT NULL,
@@ -5,7 +7,8 @@ CREATE TABLE Contact(
 	DistrictId SMALLINT NOT NULL REFERENCES District(DistrictId),
 	WardId SMALLINT NOT NULL REFERENCES Ward(WardId),
 	PhoneNumber VARCHAR(15) NOT NULL,
-	FullName NVARCHAR(32)
+	FullName NVARCHAR(32),
+	IsDeleted BIT NOT NULL DEFAULT 0,
 )
 GO
 --DROP TABLE ContactOfMember;
@@ -37,7 +40,7 @@ BEGIN
 	IF((SELECT COUNT(*) FROM ContactOfMember WHERE MemberId = @MemberId) = 1)
 		UPDATE Member SET DefaultContact = @ContactId WHERE MemberId = @MemberId;
 END
-
+GO
 CREATE PROC GetContacts
 AS
 	SELECT * FROM Contact;
@@ -51,16 +54,17 @@ AS
 	JOIN Province ON Contact.ProvinceId = Province.ProvinceId 
 	JOIN District ON Contact.DistrictId = District.DistrictId
 	JOIN Ward ON Contact.WardId = Ward.WardId	
-	WHERE MemberId = @MemberId;
+	WHERE MemberId = @MemberId AND Contact.IsDeleted = 0;
 GO
-
+--DROP PROC GetContactById;
+GO
 CREATE PROC GetContactById(@ContactId SMALLINT)
 AS
 SELECT * FROM Contact 	
 	JOIN Province ON Contact.ProvinceId = Province.ProvinceId 
 	JOIN District ON Contact.DistrictId = District.DistrictId
 	JOIN Ward ON Contact.WardId = Ward.WardId	
-	WHERE ContactId = @ContactId;
+	WHERE ContactId = @ContactId AND IsDeleted = 1;
 GO
 
 CREATE PROC UpdateContact(
@@ -77,15 +81,26 @@ AS
 	DistrictId =@DistrictId, WardId = @WardId, PhoneNumber = @PhoneNumber,
 	FullName = @FullName WHERE ContactId = @ContactId;
 GO
-
+--DROP PROC DeleteContact;
+GO
 CREATE PROC DeleteContact(@ContactId SMALLINT)
 AS
 BEGIN
-	DELETE FROM ContactOfMember WHERE ContactId = @ContactId;
-	DELETE FROM Contact WHERE ContactId = @ContactId;
+	DECLARE @MemberId UNIQUEIDENTIFIER, @DefaultContact SMALLINT;
+	SELECT @MemberId = MemberId FROM ContactOfMember WHERE ContactId = @ContactId;		
+	SELECT @DefaultContact = DefaultContact FROM Member WHERE MemberId = @MemberId;
+	IF @DefaultContact = @ContactId AND (SELECT COUNT(*) FROM ContactOfMember WHERE MemberId = @MemberId) >= 2
+		UPDATE Member SET DefaultContact = 
+			(SELECT TOP 1(ContactId) FROM ContactOfMember WHERE MemberId = @MemberId AND ContactId <> @ContactId);
+	DELETE ContactOfMember WHERE ContactId = @ContactId;
+	UPDATE Contact SET IsDeleted = 1 WHERE ContactId = @ContactId;
+	
 END
 
 
+
+EXEC DeleteContact @ContactId = 13;
+GO
 CREATE PROC UpdateDefaultContact(
 	@MemberId UNIQUEIDENTIFIER, 
 	@ContactId SMALLINT
@@ -93,7 +108,7 @@ CREATE PROC UpdateDefaultContact(
 AS
 	UPDATE Member SET DefaultContact = @ContactId WHERE MemberId = @MemberId;
 GO
-
+SELECT * FROM Member;
 SELECT * FROM Contact;
 SELECT * FROM ContactOfMember;
 
