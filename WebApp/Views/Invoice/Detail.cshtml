@@ -16,7 +16,11 @@
         </tr>
         <tr>
             <th>Tình trạng đơn hàng: </th>
-            <td>@((InvoiceStatus)Model.StatusId)</td>
+            <td>
+                @((InvoiceStatus)Model.StatusId)
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateInvoiceStatus">Cập nhật tình trạng đơn hàng</button>
+
+            </td>
         </tr>
     </thead>
 </table>
@@ -47,3 +51,50 @@
         }
     </tbody>
 </table>
+<div class="modal" id="updateInvoiceStatus">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Cập nhật tình trạng đơn hàng</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form name="updateInvoiceStatus">
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <select id="statusOptions">
+                        @foreach (var item in Enum.GetValues(typeof(InvoiceStatus)))
+                        {
+                            if ((int)item == Model.StatusId)
+                            {
+                                <option value="@((int)item)" selected>@item</option>
+                            }
+                            else
+                            {
+                                <option value="@((int)item)">@item</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button class="btn btn-primary">Lưu</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section script{
+    <script>
+        $(updateInvoiceStatus).submit(function (e) {
+            e.preventDefault();
+            var statusId = $(statusOptions).val();
+            var invoiceId = "@Model.InvoiceId";
+            $.post('/invoice/updatestatus', { 'InvoiceId': invoiceId, 'StatusId': statusId }, result => {
+                location.reload();
+            });
+        });
+    </script>
+}

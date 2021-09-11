@@ -9,6 +9,7 @@ namespace WebApp.Models
     {
         public Guid InvoiceId { get; set; }
         public Guid MemberId { get; set; }
+        public Member Member { get; set; }
         public short ContactId { get; set; }
         public Contact Contact { get; set; }
         public byte StatusId { get; set; }
