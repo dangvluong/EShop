@@ -108,6 +108,12 @@ AS
 	UPDATE Member SET IsBanned = ~IsBanned WHERE MemberId =@MemberId;
 GO
 
+CREATE PROC SearchMember(@Query NVARCHAR(100))
+AS
+	SELECT MemberId,Username, DefaultContact, Email, Gender, JoinDate,IsBanned FROM Member WHERE Username LIKE @Query;
+GO
+
+
 SELECT * FROM Member;
 SELECT * FROM District;
 

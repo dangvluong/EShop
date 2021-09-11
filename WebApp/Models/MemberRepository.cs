@@ -31,6 +31,10 @@ namespace WebApp.Models
             }
             return result;
         }
+        public IEnumerable<Member> Search(string query)
+        {
+            return connection.Query<Member>("SearchMember", new { Query = "%" + query +"%"}, commandType: CommandType.StoredProcedure); 
+        }
         public  Member Login(Member obj)
         {
             return connection.QuerySingleOrDefault<Member>("Login",

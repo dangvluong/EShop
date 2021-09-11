@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Member>
+<input type="text" name="searchMember" />
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -10,7 +11,7 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="memberList">
         @foreach (Member item in Model)
         {
             <tr>
@@ -20,11 +21,11 @@
                         if (role.Checked)
                         {
                             <span>@role.RoleName</span><br />
-                        }                        
+                        }
                     }
                 </td>
                 <td>@item.Username</td>
-                <td>@item.JoinDate.ToLongDateString()</td>
+                <td>@item.JoinDate.ToString("dd/MM/yyyy")</td>
                 <td>@item.Email</td>
                 <td>@(item.IsBanned ? "Đã bị khóa" : "Đang hoạt động")</td>
                 <td><a href="/member/detail/@item.MemberId">Chi tiết</a></td>
@@ -33,3 +34,44 @@
         }
     </tbody>
 </table>
+@section script{
+    <script>
+        var bodyTableElement = $('#memberList');
+        $('input[name="searchMember"]').keyup(function () {
+            var searchQuery = $(this).val();
+            $.post('/member/search', { 'query': searchQuery }, result => {
+                console.log(result);
+                bodyTableElement.html(null);
+                var content = "";
+                for (var i in result) {
+                    content += "<tr><td>";
+                    for (var j in result[i].roles) {
+                        if (result[i].roles[j].checked) {
+                            content += `<span>${result[i].roles[j].roleName}</span><br />`;
+                        }
+                  }
+                        content += "</td>";
+                        content += `<td>${result[i].username}</td>`;
+                        content += `<td>${convertDate(result[i].joinDate)}</td>`;
+                        content += `<td>${result[i].email}</td>`;
+                        content += `<td>${result[i].isBanned ? 'Đã bị khóa' : 'Đang hoạt động'}</td>`;
+                        content += `<td><a href="/member/detail/${result[i].memberId}">Chi tiết</a></td>`;
+                        content += '</tr>';
+                 
+                }
+                bodyTableElement.append(content);
+            });
+            
+        });
+        function convertDate(originDate) {
+            originDate = new Date(originDate);
+            var date = originDate.getDate();
+            var month = originDate.getMonth();
+            if (month < 10) {
+                month = "0" + month;
+            }
+            var year = originDate.getFullYear();
+            return `${date}/${month}/${year}`;
+        }
+    </script>
+}

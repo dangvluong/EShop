@@ -56,5 +56,16 @@ namespace WebApp.Controllers
         {
             return Json(provider.Member.UpdateAccountStatus(memberId));
         }
+        
+        public IActionResult Search(string query)
+        {
+            IEnumerable<Member> members = provider.Member.Search(query);
+            foreach (Member item in members)
+            {
+                item.Roles = provider.Role.GetRolesByMember(item.MemberId);
+            }
+            return Json(members);
+
+        }
     }
 }
