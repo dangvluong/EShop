@@ -1,66 +1,57 @@
 ﻿@model IEnumerable<Cart>
-@if (Model.ToList().Count > 0)
-{
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Tên sản phẩm</th>
-                <th>Mã màu</th>
-                <th>Size</th>
-                <th>Số lượng</th>
-                <th>Đơn giá</th>
-                <td>Thành tiền</td>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+@{
+    Layout = "_LayoutProduct";
+
+}
+<div class="d-flex">
+    <hr class="w-25 my-4 mx-auto" />
+</div>
+<div class="mb-4">
+    <h4 class="text-center">Giỏ hàng</h4>
+</div>
+<div class="container">
+    @if (Model.ToList().Count > 0)
+    {
+        <table class="table table-bordered">
+            <thead>
                 <tr>
-                    <td class="ProductId" name="@item.ProductId">@item.ProductName</td>
-                    <td class="ColorId" name="@item.ColorId">@item.ColorCode</td>
-                    <td class="SizeId" name="@item.SizeId">@item.SizeCode</td>
-                    <td><input type="number" id="quantityInCart" name="Quantity" value="@item.Quantity" min="1" max="@item.AvailableQuantity" /></td>
-                    <th>@item.Price</th>
-                    <th class="Amount">@(item.Quantity * item.Price)</th>
-                    <td><button class="DeleteCart">Delete</button></td>
+                    <th>Tên sản phẩm</th>
+                    <th>Mã màu</th>
+                    <th>Size</th>
+                    <th>Đơn giá</th>
+                    <th>Số lượng</th>
+                    <td>Thành tiền</td>
+                    <th></th>
                 </tr>
-            }
-        </tbody>
-    </table>
-    <div class="text-center"><a href="/cart/checkout">Checkout</a></div>
-}
-else
-{
-    <p>Giỏ hàng đang trống</p>
-    <p>Click vào <a href="/">đây</a> để tiếp tục mua sắm.</p>
-}
-
-@*@section script{
-    <script>
-        $(document).on('change', 'input[id="Quantity"]', function () {
-            console.log("ab");
-            var listNode = $(this).parent().prevAll();
-            var pid = $(listNode[2]).attr('name');
-            var cid = $(listNode[1]).attr('name');
-            var sid = $(listNode[0]).attr('name');
-            var qty = $(this).val();
-            $.post('/cart/editcart', { 'ProductId': pid, 'ColorId': cid, 'SizeId': sid, 'Quantity': qty }, result => {
-                location.reload();
-            })
-        });
-        $(document).on('click', '.DeleteCart', function () {
-            console.log("abc");
-            if (confirm('Are you sure delete?')) {
-                var listNode = $(this).parent().prevAll();
-                var pid = $(listNode[5]).attr('name');
-                var cid = $(listNode[4]).attr('name');
-                var sid = $(listNode[3]).attr('name');
-                $.post('/cart/deletecart', { 'ProductId': pid, 'ColorId': cid, 'SizeId': sid }, result => {
-                    location.reload();
-                });
-            }
-        });
-
-    </script>
-}*@
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="ProductId" name="@item.ProductId">@item.ProductName</td>
+                        <td class="ColorId" name="@item.ColorId">@item.ColorCode</td>
+                        <td class="SizeId" name="@item.SizeId">@item.SizeCode</td>
+                        <th>@item.Price</th>
+                        <td><input type="number" id="quantityInCart" name="Quantity" value="@item.Quantity" min="1" max="@item.AvailableQuantity" /></td>
+                        <th class="Amount">@(item.Quantity * item.Price)</th>
+                        <td><a class="DeleteCart"><i class="fas fa-trash-alt"></i></a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="text-center">
+            <a href="/cart/checkout" class="btn btn-primary">Thanh toán</a>
+            <a href="/product" class="btn btn-secondary">Tiếp tục mua sắm</a>
+        </div>
+    }
+    else
+    {
+        <div class="text-center">
+            <p>Giỏ hàng đang trống</p>
+            <p>Click vào <a href="/product">ĐÂY</a> để tiếp tục mua sắm.</p>
+        </div>
+    }
+</div>
+<div class="d-flex">
+    <hr class="w-25 my-4 mx-auto" />
+</div>

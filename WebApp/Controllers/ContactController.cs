@@ -38,8 +38,7 @@ namespace WebApp.Controllers
         public IActionResult Add(Contact obj)
         {
             Guid memberId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            provider.Contact.Add(obj, memberId);            
-            return Redirect("/member");
+            return Json(provider.Contact.Add(obj, memberId));
         }
 
         [HttpPost]
@@ -51,14 +50,12 @@ namespace WebApp.Controllers
         [HttpPost]
         public IActionResult UpdateContact(Contact obj)
         {
-            Console.WriteLine("ContactId: " + obj.ContactId);
-            provider.Contact.Update(obj);
-            return Redirect("/member");
+            return Json(provider.Contact.Update(obj));
         }
 
         public IActionResult DeleteContact(short id)
         {
-            provider.Contact.Delete(id);            
+            provider.Contact.Delete(id);
             return Redirect("/member");
         }
         [HttpPost]
@@ -68,10 +65,6 @@ namespace WebApp.Controllers
             Guid memberId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             Console.WriteLine(memberId);
             return Json(provider.Contact.UpdateDefaultContact(memberId, contactId));
-        }
-        public IActionResult Add()
-        {            
-            return View();
-        }
+        }       
     }
 }

@@ -71,7 +71,7 @@ namespace WebApp.Controllers
                     ExpiresUtc = DateTime.UtcNow.AddDays(30)
                 };
                 await HttpContext.SignInAsync(principal, properties);
-                return Redirect(string.IsNullOrEmpty(returnUrl) ? "/auth" : returnUrl);
+                return Redirect(string.IsNullOrEmpty(returnUrl) ? "/member" : returnUrl);
             }
             ModelState.AddModelError(string.Empty, "Tên đăng nhập hoặc mật khẩu không đúng");
             return View(obj);

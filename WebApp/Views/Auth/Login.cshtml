@@ -1,19 +1,29 @@
 ﻿@model Member
 <div asp-validation-summary="All"></div>
 @TempData["msg"]
-<form  method="post">
-    <div>
-        <label asp-for="Username">Tên đăng nhập: </label>
-        <input type="text" asp-for="Username"/>
+<div class="row">
+    <div class="col-4"></div>
+    <div class="col-4">
+        <form method="post" class="form-group">
+            <div class="form-group">
+                <label asp-for="Username">Tên đăng nhập: </label>
+                <input type="text" asp-for="Username" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Password">Mật khẩu: </label>
+                <input type="password" asp-for="Password" class="form-control" />
+            </div>
+            <div class="form-group form-check">
+                <label asp-for="Remember" class="form-check-label">
+                    <input type="checkbox" asp-for="Remember" value="True" class="form-check-input" /> Ghi nhớ đăng nhập
+                </label>
+            </div>
+            <div class="d-flex mb-3">
+                <button class="btn btn-primary mx-auto">Login</button>
+            </div>
+            <div class="text-center">
+                <p>Chưa có tài khoản? <a href="/auth/register" class="">Đăng kí thành viên</a> ngay</p>
+            </div>
+        </form>
     </div>
-    <div>
-        <label asp-for="Password">Mật khẩu: </label>
-        <input type="password" asp-for="Password"/>
-    </div>
-    <div>
-        <label asp-for="Remember">Ghi nhớ đăng nhập</label>
-        <input type="checkbox" asp-for="Remember" value="True" />
-    </div>
-    <div><button>Login</button></div>
-    <a href="/auth/register">Đăng kí thành viên</a>
-</form>
+</div>
