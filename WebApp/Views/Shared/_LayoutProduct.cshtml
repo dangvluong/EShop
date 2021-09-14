@@ -1,0 +1,210 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="/js/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/responsiveslides.min.js"></script>    
+</head>
+
+<body>
+    <!--header start-->
+    <div class="container-fluid" id="header-top">
+        <div class="container">
+            <div id="header-top-left" class="float-left">
+                <ul>
+                    <li>
+                        <a href="#">
+                            <span class="fas fa-user"></span>
+                            Login
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="fas fa-lock"></span>
+                            Create an Account
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div id="header-top-right" class="float-right">
+                <ul>
+                    <li>
+                        <a href="#">
+                            <span class="fas fa-shopping-cart"></span>
+                            <span class="simpleCart_total"></span>(<span id="simpleCart_quantity"
+                                                                         class="simpleCart_quantity"></span>)
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <!--header end-->
+    <!--logo & navbar start-->
+    <div class="container">
+        <nav class="navbar navbar-expand-md navbar-light">
+            <!-- Brand -->
+            <a class="navbar-brand" href="/">
+                <h1>
+                    <span id="navbar-logo">E</span>
+                    - Shop
+                </h1>
+            </a>
+            <!-- Toggler/collapsibe Button -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar links -->
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">TRANG CHỦ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/category/nam">NAM</a>
+
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="/category/nu">NỮ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/category/boy">BÉ TRAI</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/category/girl">BÉ GÁI</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="search-box">
+                <div id="sb-search" class="sb-search">
+                    <form>
+                        <input class="sb-search-input" placeholder="Enter your search term..." type="search"
+                               name="search" id="search">
+                        <input class="sb-search-submit" type="submit" value="">
+                        <span class="sb-icon-search"> </span>
+                    </form>
+                </div>
+            </div>
+
+            <!-- search-scripts -->
+            <script src="js/classie.js"></script>
+            <script src="js/uisearch.js"></script>
+            <script>
+                new UISearch(document.getElementById('sb-search'));
+            </script>
+        </nav>
+    </div>
+   
+    <div class="container-fluid">
+        @RenderBody()
+    </div>
+    <script src="/js/jquery.flexisel.js"></script>
+    <script type="text/javascript">
+
+        $(window).load(function () {
+
+            $("#flexiseslider").flexisel({
+                visibleItems: 4,
+                itemsToScroll: 1,
+                autoPlay: {
+                    enable: true,
+                    interval: 5000,
+                    pauseOnHover: true
+                }
+            });
+
+        });
+    </script>
+    <!--features collection end-->
+    <!--join mail list start-->
+    <!--join mail list start end-->
+    <!--List linke components start-->
+    <div class="container" id="list-link-component">
+        <div class="row">
+            <div class="col-md-3">
+                <h3>Shop</h3>
+                <ul>
+                    <li><a href="#">Men</a></li>
+                    <li><a href="#">Women</a></li>
+                    <li><a href="#">Boy</a></li>
+                    <li><a href="#">Girl</a></li>
+                    <li><a href="#">Sale</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h3>Help</h3>
+                <ul>
+                    <li><a href="#">New Arrivals</a></li>
+                    <li><a href="#">Men</a></li>
+                    <li><a href="#">Women</a></li>
+                    <li><a href="#">Accessories</a></li>
+                    <li><a href="#">Kids</a></li>
+                    <li><a href="#">Brands</a></li>
+                    <li><a href="#">Trends</a></li>
+                    <li><a href="#">Sale</a></li>
+                    <li><a href="#">Style Videos</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h3>Account</h3>
+                <ul>
+                    <li><a href="#">Login</a></li>
+                    <li><a href="#">Register</a></li>
+                    <li><a href="#">Forgot Password</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h3>Popular</h3>
+                <ul>
+                    <li><a href="#">New Arrivals</a></li>
+                    <li><a href="#">Men</a></li>
+                    <li><a href="#">Women</a></li>
+                    <li><a href="#">Accessories</a></li>
+                    <li><a href="#">Kids</a></li>
+                    <li><a href="#">Brands</a></li>
+                    <li><a href="#">Trends</a></li>
+                    <li><a href="#">Sale</a></li>
+                    <li><a href="#">Style Videos</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <!--List link components end-->
+    <!--payment methods start-->
+    <div class="container" id="payment-methods">
+        <div>
+            <img src="/images/icon/cards.jpg" alt="payment methods">
+        </div>
+    </div>
+    <!--payment methods end-->
+    <!--footer start-->
+    <footer id="footer" class="container">
+        <p>© 2015 Eshop. All Rights Reserved | Design by <a href="https://w3layouts.com">W3layouts</a></p>
+
+    </footer>
+    <!--footer end-->
+    @RenderSection("script", required: false);
+</body>
+</html>

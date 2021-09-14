@@ -15,7 +15,7 @@ namespace WebApp
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "ul";
-            output.Attributes.Add("class", "pagination");
+            output.Attributes.Add("class", "pagination mx-auto");
             StringBuilder sb = new StringBuilder();
 
             if (CurrentPage == null)
@@ -28,7 +28,7 @@ namespace WebApp
                     sb.AppendFormat("<li class=\"page-item\"><a href=\"{1}\" class=\"page-link\">{0}</a></li>", i, uri);
                 }
 
-                sb.AppendFormat("...");
+                sb.AppendFormat("<button class=\"page-link\">...</button>");
                 uri = String.Format(Url, TotalPage);
                 sb.AppendFormat("<li class=\"page-item\"><a href=\"{1}\" class=\"page-link\">{0}</a></li>", TotalPage, uri);
             }
@@ -39,7 +39,7 @@ namespace WebApp
                 sb.AppendFormat("<li class=\"page-item\"><a href=\"{1}\" class=\"page-link\">{0}</a></li>", 1, uri);
                 if (currentPage >= 5)
                 {
-                    sb.AppendFormat("...");
+                    sb.AppendFormat("<button class=\"page-link\">...</button>");
                 }
                 for (int i = currentPage - 2; i <= currentPage + 4 && i <= TotalPage; i++)
                 {
@@ -59,7 +59,7 @@ namespace WebApp
                 }
                 if (currentPage <= TotalPage - 6)
                 {
-                    sb.AppendFormat("...");
+                    sb.AppendFormat("<button class=\"page-link\">...</button>");
                 }
                 if (currentPage + 4 < TotalPage)
                 {

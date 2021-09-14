@@ -350,10 +350,13 @@ SELECT * FROM ProductImage;
 SELECT * FROM ProductInCategory;
 SELECT * FROM Size;
 SELECT * FROM SizeOfProduct;
-
-
-
-
+GO
+--DROP PROC GetRandom10Productcs;
+GO
+CREATE PROC GetRandom12Productcs
+AS
+	SELECT TOP(12) * FROM Product ORDER BY NEWID();
+GO
 
 
 

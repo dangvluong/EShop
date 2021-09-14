@@ -16,6 +16,12 @@ namespace WebApp.Models
         {
             //this.configuration = configuration;
         }
+
+        public IEnumerable<Product> GetRandom10Product()
+        {
+            return connection.Query<Product>("GetRandom12Productcs", commandType: CommandType.StoredProcedure);
+        }
+
         public IEnumerable<Product> GetProducts(int page, int size, out int total)
         {
             DynamicParameters parameters = new DynamicParameters();

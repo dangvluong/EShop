@@ -1,0 +1,117 @@
+﻿@{
+    Layout = "_LayoutProduct";
+}
+@model IEnumerable<Product>
+<div class="banner">
+    <div class="container">
+        <div class="banner-left">
+            <h1>
+                B <br> U <br> Y
+            </h1>
+        </div>
+        <div class="banner-right">
+            <div class="callbacks_container">
+                <ul class="rslides" id="slider3">
+                    <li>
+                        <div class="banner-info">
+                            <h3>Smart But Casual</h3>
+                            <p>Start your shopping here...</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="banner-info">
+                            <h3>Shop Online</h3>
+                            <p>Start your shopping here...</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="banner-info">
+                            <h3>Pack your Bag</h3>
+                            <p>Start your shopping here...</p>
+                        </div>
+                    </li>
+                </ul>
+
+                <!-- Slideshow 3 Pager -->
+                <ul id="slider3-pager">
+                    <li><a href="#"></a></li>
+                    <li><a href="#"></a></li>
+                    <li><a href="#"></a></li>
+                </ul>
+            </div>
+            <script>
+                // You can also use "$(window).load(function() {"
+                $(function () {
+
+                    // Slideshow 3
+                    $("#slider3").responsiveSlides({
+                        manualControls: '#slider3-pager'
+                    });
+                });
+            </script>
+        </div>
+        <div class="clearfix"></div>
+
+    </div>
+</div>
+<!--banner end-->
+<!--follow us - shipping - order online start-->
+<div class="container">
+    <div id="main-content">
+        <div class="row text-center">
+            <div class="col-md-4" id="follow-us">
+                Follow Us:
+                <a href="#" id="twitter"></a>
+                <a href="#" id="facebook"></a>
+            </div>
+            <div class="col-md-4 free-shipping" id="free-shipping">
+                <div id="truct-shipping">
+                    <span class="fas fa-truck-moving" id="truct-shipping"></span>
+                </div>
+                <div id="content-shipping">
+                    <p id="free-shipping-slogan">Free Shipping</p>
+                    <p>on orders over 500,000đ</p>
+                </div>
+            </div>
+            <div class="col-md-4" id="order-online">
+                Order online
+                <p id="order-telephone">Tel: 19001009</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--follow us - shipping - order online end-->
+<!--lastest products start-->
+
+<div class="container" id="lastest-product-section">
+    <h1 class="text-center">Các sản phẩm nổi bật</h1>
+    <div class="row">
+
+        @foreach (Product item in Model)
+        {
+            <div class="col-md-3 lastest-products simpleCart_shelfItem">
+                <a href="/product/detail/@item.ProductId">
+                    <img src="@(item.ProductImages.Count == 0 ? "#" : $"/images/{item.ProductImages[0].ImageUrl}")" alt="lastest product image" class="lastest-product-images">
+                    <p>@item.ProductName</p>
+                </a>
+                @{
+                    if (item.PriceSaleOff == 0)
+                    {
+                        <span class="">
+                            @item.Price
+                        </span>
+                    }
+                    else
+                    {
+                        <del>@item.Price</del> <span class="">@item.PriceSaleOff</span>
+                    }
+                }
+            </div>
+        }
+
+    </div>
+</div>
+
+
+
