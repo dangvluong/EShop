@@ -1,7 +1,4 @@
-﻿@{
-    Layout = "_LayoutProduct";
-}
-@model Product
+﻿@model Product
 <div class="row products-page mt-5">
     <div class="col-3">
         <partial name="_Category" model="@ViewBag.categories"/>
@@ -93,19 +90,12 @@
     <script>
         $('.carousel').carousel({
             interval: false
-        });
-        //$('.scroll-images').click(function () {
-        //    var url = $(this).attr("src");
-        //    $('#main-image').attr('src', url);
-        //});
+        });       
         $(".image-radio img").click(function () {
             $('input[name="ColorId"]:checked').removeAttr('checked')
             $(this).prev().click();
-            $(this).prev().attr('checked', true);
-            //$('.color-selected').removeClass('color-selected');
-            //$(this).addClass('color-selected');
-            var colorCode = $(this).attr('alt');
-            //console.log(colorCode);
+            $(this).prev().attr('checked', true);           
+            var colorCode = $(this).attr('alt');           
             var listImages = document.getElementsByClassName('scroll-images');
             $('.carousel-item.active').removeClass('active');
             for (var i = 0; i < listImages.length; i++) {
@@ -119,10 +109,7 @@
         function updateInventoryStatus() {
             var p = @Model.ProductId;
             var c = $('input[name="ColorId"]:checked').val();
-            var s = $(SizeId).val();
-            //console.log("p:" + p)
-            //console.log("s:" + s)
-            //console.log("c:" + c)
+            var s = $(SizeId).val();          
             var target = $(InventoryStatusQuantity);
             target.empty();
             $.post('/product/getinventorystatus', { productId: p, sizeId: s, colorId: c }, (result) => {
@@ -139,18 +126,9 @@
 
             });
         }
-
-        $(frm).change(function () {
-            console.log("abc");
-            @*var productId = @Model.ProductId;
-            var colorId = $('input[name="ColorId"]:checked').val();
-            var sizeId = $(SizeId).val();*@
+        $(frm).change(function () {            
             updateInventoryStatus();
-        });
-
-        //Update inventory status at load
-
-        //updateInventoryStatus(productId, colorId, sizeId);
+        });        
         updateInventoryStatus();
     </script>
 

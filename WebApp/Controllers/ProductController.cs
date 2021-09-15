@@ -34,8 +34,7 @@ namespace WebApp.Controllers
             product.ProductImages = provider.ProductImage.GetImagesByProduct(id);
             product.ProductColor = provider.Color.GetColorsByProduct(id);
             product.Categories = provider.Category.GetCategoriesByProduct(id);
-            product.Sizes = provider.Size.GetSizesByProduct(id);
-            //product.InventoryStatuses = inventoryStatusRepository.GetInventoryStatusesByProduct(id);
+            product.Sizes = provider.Size.GetSizesByProduct(id);            
             product.Guides = provider.Guide.GetGuidesByProduct(id);
             ViewBag.categories = provider.Category.GetCategories();
             return View(product);
