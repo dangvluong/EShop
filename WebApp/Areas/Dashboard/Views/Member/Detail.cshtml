@@ -27,7 +27,7 @@
             {
                 <button class="btn btn-danger" id="banAccount">Mở khóa tài khoản</button>
             }
-        }        
+        }
     </div>
     <div>
         Thông tin liên hệ: @(Model.Contacts.Count<Contact>() == 0 ? "Chưa có thông tin liên hệ nào" : Html.Raw("<div><table class='table table-bordered'><thead><tr><th>Tên đầy đủ</th><th>Số điện thoại</th><th>Địa chỉ</th></tr></thead><tbody id='contactList'></tbody></table></div>"))
@@ -41,7 +41,7 @@
                 <h4 class="modal-title">Cấp quyền cho tài khoản</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <form method="post" action="/contact/addContact" name="frm">
+            <form method="post" name="frm">
                 <!-- Modal body -->
                 <div class="modal-body">
                     @foreach (Role item in Model.Roles)
@@ -84,7 +84,7 @@
         $('input[name="checked"]').click(function () {
             var roleId = $(this).val();
             var memberId = '@Model.MemberId';
-            $.post('/member/addrole', { 'MemberId': memberId, 'RoleId': roleId }, result => {
+            $.post('/dashboard/member/addrole', { 'MemberId': memberId, 'RoleId': roleId }, result => {
                 console.log(result);
             });
         });
@@ -98,7 +98,7 @@
             }
             if (confirm(message)) {
                 var memberId = '@Model.MemberId';
-                $.post('/member/banaccount', { 'memberId': memberId }, result => {
+                $.post('/dashboard/member/banaccount', { 'memberId': memberId }, result => {
                     location.reload();
                 });
             }

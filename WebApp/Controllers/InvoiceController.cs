@@ -18,19 +18,14 @@ namespace WebApp.Controllers
         {
             provider = new SiteProvider(configuration);
         }
-
-        public IActionResult Index()
-        {           
-            IEnumerable<Invoice> invoices = provider.Invoice.GetInvoices();
-            foreach (Invoice invoice in invoices)
-            {
-                invoice.Contact = provider.Contact.GetContactsById(invoice.ContactId);
-                invoice.Member = provider.Member.GetMemberById(invoice.MemberId);
-            }
-            return View(invoices);
+        public IActionResult Detail(Guid id)
+        {
+            Invoice obj = provider.Invoice.GetInvoiceById(id);
+            obj.Contact = provider.Contact.GetContactsById(obj.ContactId);
+            obj.InvoiceDetails = provider.InvoiceDetail.GetInvoiceDetails(id);
+            return View(obj);
         }
-
-        public IActionResult InvoiceOfMember()
+        public IActionResult Index()
         {
             Guid memberId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             IEnumerable<Invoice> invoices = provider.Invoice.GetInvoicesByMember(memberId);
@@ -41,19 +36,16 @@ namespace WebApp.Controllers
             }
             return View(invoices);
         }
-        
-
-        public IActionResult Detail(Guid id)
+        public IActionResult InvoiceOfMember()
         {
-            Invoice obj = provider.Invoice.GetInvoiceById(id);
-            obj.Contact = provider.Contact.GetContactsById(obj.ContactId);
-            obj.InvoiceDetails = provider.InvoiceDetail.GetInvoiceDetails(id);
-            return View(obj);
-        }
-        [HttpPost]
-        public IActionResult UpdateStatus(Invoice obj)
-        {
-            return Json(provider.Invoice.UpdateStatus(obj));            
+            Guid memberId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            IEnumerable<Invoice> invoices = provider.Invoice.GetInvoicesByMember(memberId);
+            foreach (Invoice invoice in invoices)
+            {
+                invoice.Contact = provider.Contact.GetContactsById(invoice.ContactId);
+                invoice.Member = provider.Member.GetMemberById(memberId);
+            }
+            return View(invoices);
         }
     }
 }

@@ -40,6 +40,7 @@ namespace WebApp
             {
                 //endpoints.MapControllerRoute("Default", pattern: "/{controller}/{action}/{id?}",defaults: new {controller="product",action="index"});
                 endpoints.MapDefaultControllerRoute();
+                endpoints.MapControllerRoute(name: "dashboard", pattern: "{area:exists}/{controller=home}/{action=index}/{id?}");
             });
         }
     }

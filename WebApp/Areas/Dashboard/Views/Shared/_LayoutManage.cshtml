@@ -40,15 +40,6 @@
                                     @User.Identity.Name
                                 </a>
                             </li>
-                            @if (User.IsInRole("Staff") ||  User.IsInRole("Manager"))
-                            {
-                                <li>
-                                    <a href="/dashboard">
-                                        Trang quản lý
-                                    </a>
-                                </li>
-                            }
-
                             <li>
                                 <a href="/auth/logout">
                                     Đăng xuất
@@ -74,17 +65,6 @@
                     }
                 </ul>
             </div>
-            <div id="header-top-right" class="float-right">
-                <ul>
-                    <li>
-                        <a href="/cart">
-                            <span class="fas fa-shopping-cart"></span>
-                        </a>
-                    </li>
-
-                </ul>
-            </div>
-
         </div>
     </div>
     <div class="clearfix"></div>
@@ -108,63 +88,26 @@
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/">TRANG CHỦ</a>
+                        <a class="nav-link" href="/dashboard/statistic">THỐNG KÊ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/category/nam">NAM</a>
+                        <a class="nav-link" href="/dashboard/product">QUẢN LÝ SẢN PHẨM</a>
 
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " href="/category/nu">NỮ</a>
+                        <a class="nav-link " href="/dashboard/member">QUẢN LÝ THÀNH VIÊN</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/category/boy">BÉ TRAI</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/category/girl">BÉ GÁI</a>
-                    </li>
+                        <a class="nav-link" href="/dashboard/invoice">QUẢN LÝ ĐƠN ĐẶT HÀNG</a>
+                    </li>                    
                 </ul>
-            </div>
-            <div class="search-box">
-                <div id="sb-search" class="sb-search">
-                    <form action="/product/search">
-                        <input class="sb-search-input" placeholder="Enter your search term..." type="search"
-                               name="query" id="search">
-                        <input class="sb-search-submit" type="submit">
-                        <span class="sb-icon-search"> </span>
-                    </form>
-                </div>
-            </div>
-
-            <!-- search-scripts -->
-            <script src="/js/classie.js"></script>
-            <script src="/js/uisearch.js"></script>
-            <script>
-                new UISearch(document.getElementById('sb-search'));
-            </script>
+            </div>           
         </nav>
     </div>
 
     <div class="container-fluid">
         @RenderBody()
-    </div>
-    <script src="/js/jquery.flexisel.js"></script>
-    <script type="text/javascript">
-
-        $(window).load(function () {
-
-            $("#flexiseslider").flexisel({
-                visibleItems: 4,
-                itemsToScroll: 1,
-                autoPlay: {
-                    enable: true,
-                    interval: 5000,
-                    pauseOnHover: true
-                }
-            });
-
-        });
-    </script>
+    </div>   
     <!--features collection end-->
     <!--join mail list start-->
     <!--join mail list start end-->

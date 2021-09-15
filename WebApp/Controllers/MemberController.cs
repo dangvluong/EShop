@@ -28,44 +28,5 @@ namespace WebApp.Controllers
             member.Contacts = provider.Contact.GetContactsByMember(memberId);
             return View(member);
         }
-
-        public IActionResult Manage()
-        {
-            IEnumerable<Member> members = provider.Member.GetMembers();
-            foreach (var item in members)
-            {
-                item.Roles = provider.Role.GetRolesByMember(item.MemberId);
-            }           
-            return View(members);
-            
-        }
-        public IActionResult Detail(string id)
-        {
-            Member member = provider.Member.GetMemberById(Guid.Parse(id));
-            member.Roles = provider.Role.GetRolesByMember(member.MemberId);
-            member.Contacts = provider.Contact.GetContactsByMember(member.MemberId);
-            return View(member);
-        }        
-        [HttpPost]
-        public IActionResult AddRole(MemberInRole obj)
-        {
-            return Json(provider.MemberInRole.Add(obj));
-        }
-        [HttpPost]
-        public IActionResult BanAccount(Guid memberId)
-        {
-            return Json(provider.Member.UpdateAccountStatus(memberId));
-        }
-        
-        public IActionResult Search(string query)
-        {
-            IEnumerable<Member> members = provider.Member.Search(query);
-            foreach (Member item in members)
-            {
-                item.Roles = provider.Role.GetRolesByMember(item.MemberId);
-            }
-            return Json(members);
-
-        }
     }
 }
