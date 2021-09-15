@@ -48,10 +48,8 @@ $(document).on('show.bs.modal', '.editModal >.modal', function () {
 $(document).on('click', '.defaultAddress', function () {
     $('.defaultAddress').prop('checked', false);
     $(this).prop('checked', true);
-    var contactId = $(this).attr('value');
-    console.log(contactId);
-    $.post('/contact/UpdateDefaultContact', { 'contactId': contactId }, (data) => {
-        console.log(data);
+    var contactId = $(this).attr('value');    
+    $.post('/contact/UpdateDefaultContact', { 'contactId': contactId }, (data) => {        
         location.reload();
     });
 });
@@ -64,14 +62,11 @@ $(document).on('change', '#ProvinceId', function () {
 });
 
 $(document).on('change', '#DistrictId', function () {
-    var districtid = $('div.modal.show #DistrictId').val();      
-    console.log(districtid);
+    var districtid = $('div.modal.show #DistrictId').val();          
     addWards(districtid);
 });
 
-console.log("abc");
 $(document).on('change', 'input[id="quantityInCart"]', function () {
-    console.log("ab");
     var listNode = $(this).parent().prevAll();
     var pid = $(listNode[2]).attr('name');
     var cid = $(listNode[1]).attr('name');
@@ -81,8 +76,7 @@ $(document).on('change', 'input[id="quantityInCart"]', function () {
         location.reload();
     })
 });
-$(document).on('click', '.DeleteCart', function () {
-    console.log("abc");
+$(document).on('click', '.DeleteCart', function () {    
     if (confirm('Are you sure delete?')) {
         var listNode = $(this).parent().prevAll();
         var pid = $(listNode[5]).attr('name');

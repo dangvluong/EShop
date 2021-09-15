@@ -1,0 +1,95 @@
+﻿@model Product
+    <div class="container">
+        <div>
+            <H4 class="text-center">THÔNG TIN SẢN PHẨM</H4>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Mã sản phẩm</th>
+                    <td>@Model.ProductId</td>
+                </tr>
+                <tr>
+                    <th>Tên sản phẩm</th>
+                    <td>@Model.ProductName</td>
+                </tr>
+                <tr>
+                    <th>Sku</th>
+                    <td>@Model.Sku</td>
+                </tr>
+                <tr>
+                    <th>Các size đang có</th>
+                    <td>@string.Join(", ",Model.Sizes.Select(p=>p.SizeCode))</td>
+                </tr>
+                <tr>
+                    <th>Các màu hiện có</th>
+                    <td>@string.Join(", ", Model.Colors.Select(p=>p.ColorCode))</td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <h4 class="text-center">SỐ LƯỢNG TỒN KHO</h4>
+            <table class="table table-bordered col-form-label-sm text-center ">
+                <thead>
+                    <tr>
+                        <th>Màu sắc</th>
+                        <th>Size</th>
+                        <th>Tồn kho</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Colors.Count; i++)
+                    {
+                        @for (int j = 0; j < Model.Sizes.Count; j++)
+                        {
+                            <tr>
+                                @{
+                                    if (j == 0)
+                                    {
+                                        <td class="align-middle" rowspan="@Model.Colors.Count" data="@Model.Colors[i].ColorId">@Model.Colors[i].ColorCode</td>
+                                    }
+                                }
+                                <td data="@Model.Sizes[j].SizeId">@Model.Sizes[j].SizeCode</td>
+                                <td class="quantity"></td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <h4 class="text-center">HÌNH ẢNH SẢN PHẨM</h4>
+            <div class="row">
+                @foreach (var item in Model.ProductImages)
+                {
+                    <div class="col-md-3"><img src="/images/@item.ImageUrl" alt="@Model.ProductName" class="img-fluid" /></div>
+                }
+            </div>
+        </div>
+    </div>
+
+    @section script{
+        <script>
+        var quantityNodes = document.getElementsByClassName('quantity');
+        var currentColor = "";
+        var id = @Model.ProductId;
+        var currentQuantityNode;
+        for (var node of quantityNodes) {
+            var siblingNodes = $(node).prevAll();
+            var size = $(siblingNodes[0]).attr('data');
+            var color = "";
+            if (siblingNodes[1] != null) {
+                color = $(siblingNodes[1]).attr('data');
+                currentColor = $(siblingNodes[1]).attr('data');
+            } else {
+                color = currentColor;
+            }
+            updateQuantity(id, size, color, node);
+
+        }
+        function updateQuantity(id, s, c, currentNode) {
+            $.post('/product/getinventorystatus', { 'productId': id, 'sizeId': s, 'colorId': c }, (result) => {
+                $(currentNode).append(result);
+            });
+        }
+        </script>
+    }

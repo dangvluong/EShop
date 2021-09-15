@@ -3,6 +3,7 @@
     <table class="table table-bordered">
         <thead>
             <tr>
+                <th>Mã sản phẩm</th>
                 <th>Tên sản phẩm</th>
                 <th>Sku</th>
                 <th>Giá gốc</th>
@@ -16,14 +17,15 @@
             @foreach (Product item in Model)
             {
                 <tr>
+                    <td>@item.ProductId</td>
                     <td>@item.ProductName</td>
                     <td>@item.Sku</td>
                     <td>@item.Price</td>
                     <td>@item.PriceSaleOff</td>
                     <td>
-                        @string.Join(",", ViewBag.sizes)                        
+                        @string.Join(", ", item.Sizes.Select(p => p.SizeCode))                        
                     </td>
-                    <td>@string.Join(",", ViewBag.colors)</td>
+                    <td>@string.Join(", ", item.Colors.Select(p=>p.ColorCode))</td>
                     <td><a href="/dashboard/product/detail/@item.ProductId">Chi tiết</a></td>
                 </tr>
             }

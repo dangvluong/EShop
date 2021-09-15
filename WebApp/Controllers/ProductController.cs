@@ -32,7 +32,7 @@ namespace WebApp.Controllers
         {
             Product product = provider.Product.GetProductById(id);
             product.ProductImages = provider.ProductImage.GetImagesByProduct(id);
-            product.ProductColor = provider.Color.GetColorsByProduct(id);
+            product.Colors = provider.Color.GetColorsByProduct(id);
             product.Categories = provider.Category.GetCategoriesByProduct(id);
             product.Sizes = provider.Size.GetSizesByProduct(id);            
             product.Guides = provider.Guide.GetGuidesByProduct(id);

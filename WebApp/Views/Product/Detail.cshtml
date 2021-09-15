@@ -28,18 +28,18 @@
                     <input type="hidden" name="ProductId" value="@Model.ProductId" />
                     <div class="my-2">
                         Chọn màu sắc:
-                        @for (int i = 0; i < Model.ProductColor.Count; i++)
+                        @for (int i = 0; i < Model.Colors.Count; i++)
                         {
                             <span class="image-radio">
                                 @if (i == 0)
                                 {
-                                    <input type="radio" name="ColorId" class="ColorId" value="@Model.ProductColor[i].ColorId" checked="checked" />
+                                    <input type="radio" name="ColorId" class="ColorId" value="@Model.Colors[i].ColorId" checked="checked" />
                                 }
                                 else
                                 {
-                                    <input type="radio" name="ColorId" class="ColorId" value="@Model.ProductColor[i].ColorId" />
+                                    <input type="radio" name="ColorId" class="ColorId" value="@Model.Colors[i].ColorId" />
                                 }
-                                <img src="/images/icon/@Model.ProductColor[i].IconUrl" alt="@Model.ProductColor[i].ColorCode" class="img-fluid img-thumbnail color-images" />
+                                <img src="/images/icon/@Model.Colors[i].IconUrl" alt="@Model.Colors[i].ColorCode" class="img-fluid img-thumbnail color-images" />
                             </span>
                         }
                     </div>

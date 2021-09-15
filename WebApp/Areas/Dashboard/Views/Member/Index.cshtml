@@ -50,8 +50,7 @@
             var bodyTableElement = $('#memberList');
             $('input[name="searchMember"]').keyup(function () {
                 var searchQuery = $(this).val();
-                $.post('/manage/member/search', { 'query': searchQuery }, result => {
-                    console.log(result);
+                $.post('/manage/member/search', { 'query': searchQuery }, result => {                   
                     bodyTableElement.html(null);
                     var content = "";
                     for (var i in result) {

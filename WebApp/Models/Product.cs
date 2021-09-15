@@ -15,11 +15,9 @@ namespace WebApp.Models
         public string Material { get; set; }
         public string Description { get; set; }
         public List<ProductImage> ProductImages { get; set; }
-        public List<Color> ProductColor { get; set; }
+        public List<Color> Colors { get; set; }
         public IEnumerable<Category> Categories { get; set; }
-        public IEnumerable<Size> Sizes { get; set; }
-        public IEnumerable<Color> Colors { get; set; }
-        //public IEnumerable<InventoryStatus> InventoryStatuses { get; set; }
+        public List<Size> Sizes { get; set; }               
         public IEnumerable<Guide> Guides { get; set; }
     }
 }

@@ -22,8 +22,8 @@ namespace WebApp.Areas.Dashboard.Controllers
             IEnumerable<Product> products = provider.Product.GetProducts(id, size, out int total);
             foreach (var item in products)
             {
-                ViewBag.sizes = provider.Size.GetSizesByProduct(item.ProductId).Select(p => p.SizeCode);
-                ViewBag.colors = provider.Color.GetColorsByProduct(item.ProductId).Select(p => p.ColorCode);
+                item.Sizes = provider.Size.GetSizesByProduct(item.ProductId);
+                item.Colors = provider.Color.GetColorsByProduct(item.ProductId);
             }
             ViewBag.totalPage = (int)Math.Ceiling(total / (float)size);
             return View(products);
@@ -32,7 +32,7 @@ namespace WebApp.Areas.Dashboard.Controllers
         {
             Product product = provider.Product.GetProductById(id);
             product.ProductImages = provider.ProductImage.GetImagesByProduct(id);
-            product.ProductColor = provider.Color.GetColorsByProduct(id);
+            product.Colors = provider.Color.GetColorsByProduct(id);
             product.Categories = provider.Category.GetCategoriesByProduct(id);
             product.Sizes = provider.Size.GetSizesByProduct(id);            
             product.Guides = provider.Guide.GetGuidesByProduct(id);

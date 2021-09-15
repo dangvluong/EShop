@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace WebApp.Models
 {
@@ -20,9 +21,9 @@ namespace WebApp.Models
 
         }
 
-        public IEnumerable<Size> GetSizesByProduct(short productId)
+        public List<Size> GetSizesByProduct(short productId)
         {
-            return connection.Query<Size>("GetSizesByProduct", new { ProductId = productId }, commandType: CommandType.StoredProcedure);
+            return connection.Query<Size>("GetSizesByProduct", new { ProductId = productId }, commandType: CommandType.StoredProcedure).ToList();
         }
     }
 }
