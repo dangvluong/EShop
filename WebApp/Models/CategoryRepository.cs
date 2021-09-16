@@ -32,5 +32,9 @@ namespace WebApp.Models
         {
             return connection.Execute("DeleteCategory", new { CategoryId = id }, commandType: CommandType.StoredProcedure);
         }
+        public int Add(string categoryName)
+        {
+            return connection.Execute($"INSERT INTO Category(CategoryName) VALUES(N'{categoryName}')");
+        }
     }
 }

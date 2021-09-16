@@ -30,5 +30,11 @@ namespace WebApp.Areas.Dashboard.Controllers
         {
             return Json(provider.Category.Delete(id));
         }
+        [HttpPost]
+        public IActionResult Add(string categoryName)
+        {
+            provider.Category.Add(categoryName);
+            return Redirect("/dashboard/category");
+        }
     }
 }

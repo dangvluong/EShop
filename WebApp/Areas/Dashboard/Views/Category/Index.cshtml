@@ -3,7 +3,38 @@
     <hr class="w-25 my-4 mx-auto" />
 </div>
 <div class="container">
-    <h3 class="text-center">QUẢN LÝ DANH MỤC7</h3>
+    <h3 class="text-center my-5">QUẢN LÝ DANH MỤC7</h3>
+    <div class="d-flex">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addCategory">
+            Tạo danh mục mới
+        </button>
+        <div class="modal fade" id="addCategory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Tạo danh mục mới</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="post" class="form-group" action="/dashboard/category/add">
+                        <div class="modal-body">
+                            <div>                              
+                                <label>Tên danh mục</label>
+                                <input type="text" name="categoryName" class="form-control w-50" />
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary">Thêm</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <table class="table table-bordered">
         <thead>
             <tr>
