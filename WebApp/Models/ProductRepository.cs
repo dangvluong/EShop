@@ -61,5 +61,18 @@ namespace WebApp.Models
             total = parameters.Get<int>("@Total");
             return products;
         }
+        public int Edit(Product obj)
+        {
+            return connection.Execute("EditProduct", new
+            {
+                ProductId = obj.ProductId,
+                ProductName = obj.ProductName,
+                Sku = obj.Sku,
+                Price = obj.Price,
+                PriceSaleOff = obj.PriceSaleOff,
+                Material = obj.Material,
+                Description = obj.Description
+            }, commandType: CommandType.StoredProcedure);
+        }
     }
 }

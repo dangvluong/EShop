@@ -20,5 +20,9 @@ namespace WebApp.Models
         {
             return connection.Query<Color>("GetColorByProduct", new { ProductId = productId }, commandType: CommandType.StoredProcedure).ToList();
         }
+        public IEnumerable<Color> GetColors()
+        {
+            return connection.Query<Color>("SELECT * FROM Color");
+        }
     }
 }

@@ -146,4 +146,3 @@ $(document).on('submit', 'form[name="editContact"]', function (e) {
         location.reload();
     });
 });
-

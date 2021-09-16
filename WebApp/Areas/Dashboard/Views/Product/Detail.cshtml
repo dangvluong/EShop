@@ -1,8 +1,8 @@
 ﻿@model Product
-    <div class="d-flex">
-        <hr class="w-25 my-4 mx-auto" />
-    </div>
-    <h3 class="text-center mb-4">CHI TIẾT SẢN PHẨM</h3>
+<div class="d-flex">
+    <hr class="w-25 my-4 mx-auto" />
+</div>
+<h3 class="text-center mb-4">CHI TIẾT SẢN PHẨM</h3>
 <div class="container">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
@@ -26,6 +26,7 @@
                 <tr>
                     <th>Tên sản phẩm</th>
                     <td>@Model.ProductName</td>
+
                 </tr>
                 <tr>
                     <th>Sku</th>
@@ -40,6 +41,9 @@
                     <td>@string.Join(", ", Model.Colors.Select(p => p.ColorCode))</td>
                 </tr>
             </table>
+            <div class="d-flex">
+                <a href="/dashboard/product/edit/@Model.ProductId" class="btn btn-primary mx-auto">Cập nhật thông tin</a>
+            </div>
         </div>
         <div class="tab-pane fade" id="quantityInInventory" role="tabpanel" aria-labelledby="quantityInInventory-tab">
             <h4 class="text-center">SỐ LƯỢNG TỒN KHO</h4>
@@ -71,6 +75,9 @@
 
                 </tbody>
             </table>
+            <div class="d-flex">
+                <a href="/dashboard/product/updateQuantity/@Model.ProductId" class="btn btn-primary mx-auto">Cập nhật số lượng tồn kho</a>
+            </div>
         </div>
         <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
             <h4 class="text-center my-3">HÌNH ẢNH SẢN PHẨM</h4>
@@ -79,7 +86,7 @@
                 {
                     <div class="col-md-3"><img src="/images/@item.ImageUrl" alt="@Model.ProductName" class="img-fluid" /></div>
                 }
-            
+
             </div>
             <div class="d-flex mt-5">
                 <!-- Button to Open the Modal -->
@@ -109,7 +116,7 @@
                                     </div>
                                     <div class="row mt-3">
                                         <label class="col-4 text-right"> Chọn file upload: </label>
-                                        <input type="file" name="imageUpload" class="form-control-file col-6" accept="image/png, image/jpeg" required/>
+                                        <input type="file" name="imageUpload" class="form-control-file col-6" accept="image/png, image/jpeg" required />
                                     </div>
 
                                 </div>
@@ -180,6 +187,23 @@
                     $('#uploadImageModal').modal('hide');
                 }
             });
+        });
+        /*Dashboard Product Detail*/
+
+        $(document).on('submit', '#formUpdateProductName', function (e) {
+            e.preventDefault();
+            console.log('abc');
+            var newProductName = $('input[name="ProductName"]').val();
+            var productId = 1;
+            $.post('/dashboard/product/UpdateProductName', { 'ProductId': productId, 'ProductName': newProductName }, result => {
+                //location.reload(); 
+                $('#notificationUpdateName').append('Đã cập nhật thành công!');
+            });
+        });
+
+        $(document).ready(function () {           
+                $('.toast').toast({ delay: 99999});
+                $('.toast').toast('show');           
         });
     </script>
 }

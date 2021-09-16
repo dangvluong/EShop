@@ -26,6 +26,54 @@ namespace WebApp.Models
         InvoiceRepository invoice;
         InvoiceDetailRepository invoiceDetail;
         MemberInRoleRepository memberInRole;
+        ProductCategoryRepository productCategory;
+        ProductColorRepository productColor;
+        ProductGuideRepository productGuide;
+        ProductSizeRepository productSize;
+        public ProductSizeRepository ProductSize
+        {
+            get
+            {
+                if(productSize is null)
+                {
+                    productSize = new ProductSizeRepository(Connection);
+                }
+                return productSize;
+            }
+        }
+        public ProductGuideRepository ProductGuide
+        {
+            get
+            {
+                if(productGuide is null)
+                {
+                    productGuide = new ProductGuideRepository(Connection);
+                }
+                return productGuide;
+            }
+        }
+        public ProductColorRepository ProductColor
+        {
+            get
+            {
+                if(productColor is null)
+                {
+                    productColor = new ProductColorRepository(Connection);
+                }
+                return productColor;
+            }
+        }
+        public ProductCategoryRepository ProductCategory
+        {
+            get
+            {
+                if (productCategory is null)
+                {
+                    productCategory = new ProductCategoryRepository(Connection);
+                }
+                return productCategory;
+            }
+        }
         public MemberInRoleRepository MemberInRole
         {
             get

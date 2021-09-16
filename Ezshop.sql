@@ -108,6 +108,22 @@ BEGIN
 	SET @ProductId = SCOPE_IDENTITY();
 END
 GO
+
+CREATE PROC EditProduct(
+	@ProductId SMALLINT,
+	@ProductName NVARCHAR(64),
+	@Sku VARCHAR(20),
+	@Price INT,
+	@PriceSaleOff INT = NULL,
+	@Material NVARCHAR(64),
+	@Description NVARCHAR(MAX)
+)
+AS
+	UPDATE Product SET ProductName = @ProductName, Sku = @Sku, Price = @Price, PriceSaleOff = @PriceSaleOff, Material =@Material, Description = @Description
+		WHERE ProductId = @ProductId;
+GO
+
+
 --DROP PROC AddColor;
 GO
 CREATE PROC AddColor(
@@ -117,6 +133,8 @@ CREATE PROC AddColor(
 AS
 	INSERT INTO Color(ColorCode, IconUrl) VALUES(@ColorCode, @IconUrl);
 GO
+
+
 
 --DROP PROC AddSize
 GO
@@ -317,6 +335,10 @@ CREATE PROC GetGuidesByProduct(@ProductId SMALLINT)
 AS
 	SELECT Guide.* FROM Guide JOIN GuideOfProduct ON Guide.GuideId = GuideOfProduct.GuideId WHERE GuideOfProduct.ProductId = @ProductId;
 GO
+
+
+
+
 
 
 CREATE PROC ClearData
