@@ -20,5 +20,13 @@ namespace WebApp.Models
         {
             return connection.Query<ProductImage>("GetImagesByProduct", new { ProductId = productId }, commandType: CommandType.StoredProcedure).ToList();
         }
+        public int GetNumberImageExists(ProductImageUpload obj)
+        {
+            return connection.QuerySingleOrDefault<int>($"SELECT COUNT(*) FROM ProductImage WHERE ProductId = {obj.ProductId} AND ColorId = {obj.ColorId}");
+        }
+        public int AddProductImage(ProductImageUpload obj, string imageUrl)
+        {
+            return connection.Execute("AddProductImage", new { ProductId = obj.ProductId, ColorId = obj.ColorId, ImageUrl = imageUrl }, commandType: CommandType.StoredProcedure);
+        }
     }
 }

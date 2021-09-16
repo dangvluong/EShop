@@ -365,7 +365,6 @@ GO
 
 
 
-
 CREATE PROC DeleteDat(@Id SMALLINT)
 AS
 BEGIN

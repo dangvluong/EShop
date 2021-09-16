@@ -73,12 +73,56 @@
             </table>
         </div>
         <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
-            <h4 class="text-center">HÌNH ẢNH SẢN PHẨM</h4>
-            <div class="row">
+            <h4 class="text-center my-3">HÌNH ẢNH SẢN PHẨM</h4>
+            <div class="row" id="productImages">
                 @foreach (var item in Model.ProductImages)
                 {
                     <div class="col-md-3"><img src="/images/@item.ImageUrl" alt="@Model.ProductName" class="img-fluid" /></div>
                 }
+            
+            </div>
+            <div class="d-flex mt-5">
+                <!-- Button to Open the Modal -->
+                <button class="btn btn-outline-info mx-auto" data-toggle="modal" data-target="#uploadImageModal">Thêm hình ảnh</button>
+                <!-- The Modal -->
+                <div class="modal" id="uploadImageModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Thêm hình ảnh</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <!-- Modal body -->
+                            <form class="form-group" name="formUploadImage" enctype="multipart/form-data">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <label for="colorId" class="col-4 text-right mt-1">Chọn mã màu: </label>
+                                        <select name="colorId" class="form-control w-25 col-6">
+                                            @foreach (var item in Model.Colors)
+                                            {
+                                                <option value="@item.ColorId">@item.ColorCode</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <label class="col-4 text-right"> Chọn file upload: </label>
+                                        <input type="file" name="imageUpload" class="form-control-file col-6" accept="image/png, image/jpeg" required/>
+                                    </div>
+
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button class="btn btn-primary">Thêm hình ảnh</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -112,5 +156,30 @@
                 $(currentNode).append(result);
             });
         }
+
+        $(document).on('submit', 'form[name="formUploadImage"]', function (e) {
+            e.preventDefault();
+            var data = {
+                'ProductId': @Model.ProductId,
+                'ColorId': $('select[name="colorId"]').val(),
+                'Sku': '@Model.Sku'
+            }
+            var formData = new FormData();
+            formData.append('data', JSON.stringify(data));
+            formData.append('image', formUploadImage['imageUpload'].files[0]);
+
+            $.ajax({
+                url: '/dashboard/product/imageupload',
+                method: 'post',
+                data: formData,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: result => {
+                    $(productImages).append(`<div class="col-md-3"><img src="/images/${result}" alt="@Model.ProductName" class="img-fluid" /></div>`);
+                    $('#uploadImageModal').modal('hide');
+                }
+            });
+        });
     </script>
 }
