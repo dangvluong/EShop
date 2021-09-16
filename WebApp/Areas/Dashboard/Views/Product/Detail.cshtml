@@ -1,6 +1,22 @@
 ﻿@model Product
-    <div class="container">
-        <div>
+    <div class="d-flex">
+        <hr class="w-25 my-4 mx-auto" />
+    </div>
+    <h3 class="text-center mb-4">CHI TIẾT SẢN PHẨM</h3>
+<div class="container">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#productdetail" role="tab" aria-controls="productdetail" aria-selected="true">THÔNG TIN SẢN PHẨM</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#quantityInInventory" role="tab" aria-controls="quantityInInventory" aria-selected="false">SỐ LƯỢNG TỒN KHO</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#images" role="tab" aria-controls="images" aria-selected="false">HÌNH ẢNH SẢN PHẨM</a>
+        </li>
+    </ul>
+    <div class="tab-content mt-4" id="myTabContent">
+        <div class="tab-pane fade show active" id="productdetail" role="tabpanel" aria-labelledby="productdetail-tab">
             <H4 class="text-center">THÔNG TIN SẢN PHẨM</H4>
             <table class="table table-bordered">
                 <tr>
@@ -17,15 +33,15 @@
                 </tr>
                 <tr>
                     <th>Các size đang có</th>
-                    <td>@string.Join(", ",Model.Sizes.Select(p=>p.SizeCode))</td>
+                    <td>@string.Join(", ", Model.Sizes.Select(p => p.SizeCode))</td>
                 </tr>
                 <tr>
                     <th>Các màu hiện có</th>
-                    <td>@string.Join(", ", Model.Colors.Select(p=>p.ColorCode))</td>
+                    <td>@string.Join(", ", Model.Colors.Select(p => p.ColorCode))</td>
                 </tr>
             </table>
         </div>
-        <div>
+        <div class="tab-pane fade" id="quantityInInventory" role="tabpanel" aria-labelledby="quantityInInventory-tab">
             <h4 class="text-center">SỐ LƯỢNG TỒN KHO</h4>
             <table class="table table-bordered col-form-label-sm text-center ">
                 <thead>
@@ -56,7 +72,7 @@
                 </tbody>
             </table>
         </div>
-        <div>
+        <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
             <h4 class="text-center">HÌNH ẢNH SẢN PHẨM</h4>
             <div class="row">
                 @foreach (var item in Model.ProductImages)
@@ -67,8 +83,13 @@
         </div>
     </div>
 
-    @section script{
-        <script>
+
+</div>
+<div class="d-flex">
+    <hr class="w-25 my-4 mx-auto" />
+</div>
+@section script{
+    <script>
         var quantityNodes = document.getElementsByClassName('quantity');
         var currentColor = "";
         var id = @Model.ProductId;
@@ -91,5 +112,5 @@
                 $(currentNode).append(result);
             });
         }
-        </script>
-    }
+    </script>
+}
