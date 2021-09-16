@@ -158,6 +158,15 @@ CREATE PROC AddCategory(
 AS 
 	INSERT INTO Category(CategoryName) VALUES(@CategoryName);
 GO
+--DROP PROC DeleteCategory;
+GO
+CREATE PROC DeleteCategory(@CategoryId SMALLINT)
+AS
+BEGIN
+	DELETE FROM ProductInCategory WHERE CategoryId = @CategoryId;
+	DELETE FROM Category WHERE CategoryId = @CategoryId;
+END
+GO
 
 CREATE PROC AddProductInCategory(
 	@ProductId SMALLINT,

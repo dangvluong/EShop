@@ -1,0 +1,90 @@
+﻿@model IEnumerable<Category>
+<div class="d-flex">
+    <hr class="w-25 my-4 mx-auto" />
+</div>
+<div class="container">
+    <h3 class="text-center">QUẢN LÝ DANH MỤC7</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.CategoryId</td>
+                    <td>@item.CategoryName</td>
+                    <td><button class="btn-sm btn-primary EditCategory">Edit</button></td>
+                    <td><button class="btn-sm btn-danger DeleteCategory" data="@item.CategoryId">Delete</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="d-flex">
+    <hr class="w-25 my-4 mx-auto" />
+</div>
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" class="form-group" name="formEditCategory">
+                <div class="modal-body">
+                    <div>
+                        <input type="hidden" name="CategoryId"/>
+                        <label>Tên danh mục</label>
+                        <input type="text" name="CategoryName" class="form-control w-50" />
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section script{
+    <script>
+        $(document).on('click', '.DeleteCategory', function () {
+            if (confirm("Bạn có chắc muốn xóa danh mục này?")) {
+                var categoryId = $(this).attr('data');
+                $.post('/dashboard/category/delete', { 'Id': categoryId }, result => {
+                    location.reload();
+                });
+            }
+        });
+        $(document).on('click', '.EditCategory', function () {
+            var listSibling = $(this).parent().prevAll();
+            var categoryId = $(listSibling[1]).text();
+            var categoryName = $(listSibling[0]).text();
+            $('#editModal').modal('show');
+            $('input[name="CategoryId"]').val(categoryId);
+            $('input[name="CategoryName"]').val(categoryName);
+        });
+        $(document).on('submit', 'form[name="formEditCategory"]', function (e) {
+            e.preventDefault();
+            var categoryId = $('input[name="CategoryId"]').val();
+            var categoryName = $('input[name="CategoryName"]').val();
+            console.log(categoryName);
+            console.log(categoryId);
+            $.post('/dashboard/category/edit', { 'categoryId': categoryId, 'categoryName': categoryName }, result => {
+                location.reload();
+            });
+        });
+    </script>
+}

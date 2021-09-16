@@ -24,5 +24,13 @@ namespace WebApp.Models
         {
             return connection.Query<Category>("GetCategoriesByProduct", new { ProductId = productId }, commandType: CommandType.StoredProcedure);
         }
+        public int Edit(Category obj)
+        {
+            return connection.Execute($"UPDATE Category SET CategoryName = N'{obj.CategoryName}' WHERE CategoryId = {obj.CategoryId}");
+        }
+        public int Delete(short id)
+        {
+            return connection.Execute("DeleteCategory", new { CategoryId = id }, commandType: CommandType.StoredProcedure);
+        }
     }
 }
