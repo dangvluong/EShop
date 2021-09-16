@@ -41,6 +41,15 @@
                                     @User.Identity.Name
                                 </a>
                             </li>
+                            @if (User.IsInRole("Staff") || User.IsInRole("Manager"))
+                            {
+                                <li>
+                                    <a href="/dashboard">
+                                        Trang quản lý
+                                    </a>
+                                </li>
+                            }
+
                             <li>
                                 <a href="/auth/logout">
                                     Đăng xuất

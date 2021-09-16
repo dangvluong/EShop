@@ -1,0 +1,99 @@
+﻿@model IEnumerable<Guide>
+    <div class="d-flex">
+        <hr class="w-25 my-4 mx-auto" />
+    </div>
+    <div class="container">
+        <h3 class="text-center">QUẢN LÝ HƯỚNG DẪN SỬ DỤNG SẢN PHẨM</h3>
+        <div class="my-3">
+            <button class="btn btn-info" data-toggle="modal" data-target="#AddGuideModal">Tạo hướng dẫn sử dụng mới</button>
+            <div class="modal fade" id="AddGuideModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Tạo hướng dẫn sử dụng mới</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form method="post" class="form-group" action="/dashboard/guide/add">
+                            <div class="modal-body">
+                                <div>
+                                    <label>Nội dung hướng dẫn sử dụng mới:</label>
+                                    <textarea class="form-control" name="guideDescription"></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-primary">Thêm mới</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            @TempData["msg"]
+        </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Guide Id</th>
+                    <th>Guide Description</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.GuideId</td>
+                        <td>@item.GuideDescription</td>
+                        <td><button class="EditGuide" data-toggle="modal" data-target="#EditGuideModal">Edit</button></td>
+                        <td><a href="/dashboard/guide/delete/@item.GuideId" class="DeleteGuide">Delete</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="modal fade" id="EditGuideModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Cập nhật hướng dẫn sử dụng</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="post" class="form-group" action="/dashboard/guide/edit">
+                        <div class="modal-body">
+                            <input type="hidden" name="guideId" />
+                            <div>
+                                <label>Mô tả hướng dẫn sử dụng:</label>
+                                <input type="text" name="guideDescription" class="form-control w-50" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary">Lưu thay đổi</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex">
+        <hr class="w-25 my-4 mx-auto" />
+    </div>
+    @section script{
+        <script>
+            $(document).on('click', '.EditGuide', function () {
+                var listSibling = $(this).parent().prevAll();
+                var guideId = $(listSibling[1]).text();
+                var guideDescription = $(listSibling[0]).text();
+                $('input[name="guideId"]').val(guideId);
+                $('input[name="guideDescription"]').val(guideDescription);
+                $('EditGuideModal').modal('show');
+            });
+            $(document).on('click', '.DeleteGuide', function () {
+                return confirm("Bạn có chắc muốn xóa hướng dẫn sử dụng này?");
+            });
+        </script>
+    }

@@ -16,5 +16,10 @@ namespace WebApp.Models
             connection.Execute($"DELETE FROM ColorOfProduct WHERE ProductId = {productId}");
             return connection.Execute("AddColorOfProduct", list, commandType: CommandType.StoredProcedure);
         }
+
+        public int Add(List<ProductColor> list)
+        {            
+            return connection.Execute("AddColorOfProduct", list, commandType: CommandType.StoredProcedure);
+        }
     }
 }

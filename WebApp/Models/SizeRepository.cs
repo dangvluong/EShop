@@ -25,5 +25,17 @@ namespace WebApp.Models
         {
             return connection.Query<Size>("GetSizesByProduct", new { ProductId = productId }, commandType: CommandType.StoredProcedure).ToList();
         }
+        public int Edit(Size obj)
+        {
+            return connection.Execute($"UPDATE Size SET SizeCode = '{obj.SizeCode}' WHERE SizeId = {obj.SizeId}");
+        }
+        public int Delete(short id)
+        {
+            return connection.Execute($"UPDATE Size SET IsDeleted = 1 WHERE SizeId = {id}");
+        }
+        public int Add(Size obj)
+        {
+            return connection.Execute($"INSERT INTO Size(SizeCode) VALUES('{obj.SizeCode}')");
+        }
     }
 }

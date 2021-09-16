@@ -1,0 +1,98 @@
+﻿@model IEnumerable<Size>
+    <div class="d-flex">
+        <hr class="w-25 my-4 mx-auto" />
+    </div>
+    <div class="container">
+        <div class="my-3">
+            <button class="btn btn-info" data-toggle="modal" data-target="#AddSizeModal">Tạo size mới</button>
+            <div class="modal fade" id="AddSizeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Tạo size mới</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form method="post" class="form-group" action="/dashboard/size/add">
+                            <div class="modal-body">
+                                <div>
+                                    <label>Tên size mới:</label>
+                                    <input type="text" name="sizeCode" class="form-control w-50" />
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-primary">Thêm mới</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            @TempData["msg"]
+        </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>SizeId</th>
+                    <th>SizeCode</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.SizeId</td>
+                        <td>@item.SizeCode</td>
+                        <td><button class="EditSize" data-toggle="modal" data-target="#EditSizeModal">Edit</button></td>
+                        <td><a href="/dashboard/size/delete/@item.SizeId" class="DeleteSize">Delete</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="modal fade" id="EditSizeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Thay đổi mã size</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="post" class="form-group" action="/dashboard/size/edit">
+                        <div class="modal-body">
+                            <input type="hidden" name="sizeId" />
+                            <div>
+                                <label>Tên size mới:</label>
+                                <input type="text" name="sizeCode" class="form-control w-50" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary">Lưu thay đổi</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex">
+        <hr class="w-25 my-4 mx-auto" />
+    </div>
+    @section script{
+        <script>
+            $(document).on('click', '.EditSize', function () {
+                var listSibling = $(this).parent().prevAll();
+                var sizeId = $(listSibling[1]).text();
+                var sizeCode = $(listSibling[0]).text();
+                $('input[name="sizeId"]').val(sizeId);
+                $('input[name="sizeCode"]').val(sizeCode);
+                $('EditSizeModal').modal('show');
+            });
+            $(document).on('click', '.DeleteSize', function () {
+                return confirm("Bạn có chắc muốn xóa kích cỡ này?");
+            });
+        </script>
+    }

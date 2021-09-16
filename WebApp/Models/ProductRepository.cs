@@ -74,5 +74,22 @@ namespace WebApp.Models
                 Description = obj.Description
             }, commandType: CommandType.StoredProcedure);
         }
+        public short Add(Product obj)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@ProductId", dbType: DbType.Int16, direction: ParameterDirection.Output);
+            parameters.Add("@ProductName", obj.ProductName);
+            parameters.Add("@Sku", obj.Sku);
+            parameters.Add("@Price", obj.Price,dbType: DbType.Int32);
+            parameters.Add("@PriceSaleOff", obj.PriceSaleOff, dbType: DbType.Int32);
+            parameters.Add("@Material", obj.Material);
+            parameters.Add("@Description", obj.Description);
+            connection.Execute("AddProduct",parameters, commandType: CommandType.StoredProcedure);
+            return parameters.Get<short>("@ProductId");
+        }
+        public int Delete(short id)
+        {
+            return connection.Execute($"UPDATE Product SET IsDeleted = 1 WHERE ProductId = {id}");
+        }
     }
 }

@@ -27,6 +27,6 @@ namespace WebApp.Models
         public int AddProductImage(ProductImageUpload obj, string imageUrl)
         {
             return connection.Execute("AddProductImage", new { ProductId = obj.ProductId, ColorId = obj.ColorId, ImageUrl = imageUrl }, commandType: CommandType.StoredProcedure);
-        }
+        }        
     }
 }

@@ -24,5 +24,17 @@ namespace WebApp.Models
         {
             return connection.Query<Guide>("GetGuidesByProduct", new { ProductId = productId }, commandType: CommandType.StoredProcedure);
         }
+        public int Edit(Guide obj)
+        {
+            return connection.Execute($"UPDATE Guide SET GuideDescription = '{obj.GuideDescription}' WHERE GuideId = {obj.GuideId}");
+        }
+        public int Delete(short id)
+        {
+            return connection.Execute($"UPDATE Guide SET IsDeleted = 1 WHERE GuideId = {id}");
+        }
+        public int Add(Guide obj)
+        {
+            return connection.Execute($"INSERT INTO Guide(GuideDescription) VALUES('{obj.GuideDescription}')");
+        }
     }
 }

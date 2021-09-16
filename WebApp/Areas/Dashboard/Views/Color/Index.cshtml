@@ -1,0 +1,114 @@
+﻿@model IEnumerable<Color>
+<div class="d-flex">
+    <hr class="w-25 my-4 mx-auto" />
+</div>
+
+<div class="container">
+    <h3 class="text-center">QUẢN LÝ MÀU SẮC SẢN PHẨM</h3>
+    <div class="my-3">
+        <button class="btn btn-info" data-toggle="modal" data-target="#AddColorModal">Tạo màu sắc mới</button>
+        <div class="modal fade" id="AddColorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Tạo màu sắc mới</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="post" class="form-group" action="/dashboard/color/add" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            <div class="row">
+                                <label class="col-4">Tên màu sắc mới:</label>
+                                <input type="text" name="colorCode" class="form-control col-6"/>                                
+                            </div>
+                            <div class="row mt-3">
+                                <label class="col-4"> Icon hiển thị: </label>
+                                <input type="file" name="iconUpload" class="form-control-file col-6" accept="image/png, image/jpeg" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary">Thêm mới</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        @TempData["msg"]
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ColorId</th>
+                <th>ColorCode</th>
+                <th>Icon</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ColorId</td>
+                    <td>@item.ColorCode</td>
+                    <td><img src="/images/icon/@item.IconUrl" alt="@item.ColorCode" class="img-fluid" /></td>
+                    <td><button class="EditColor" data-toggle="modal" data-target="#EditColorModal">Edit</button></td>
+                    <td><a href="/dashboard/color/delete/@item.ColorId" class="DeleteColor">Delete</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="d-flex">
+        <pagination total-page="@ViewBag.totalPage" current-page="@ViewContext.RouteData.Values["id"]" url="/dashboard/color/index/{0}"></pagination>
+    </div>
+
+    <div class="modal fade" id="EditColorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Thay đổi mã màu</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" class="form-group" action="/dashboard/color/edit" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <input type="hidden" name="colorId" />
+                        <input type="hidden" name="iconUrl" />
+                        <div class="row">
+                            <label class="col-4">Tên màu sắc mới:</label>
+                            <input type="text" name="colorCode" class="form-control col-6" />
+                        </div>
+                        <div class="row mt-3">
+                            <label class="col-4"> Icon hiển thị mới: </label>
+                            <input type="file" name="iconUpload" class="form-control-file col-6" accept="image/png, image/jpeg" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary">Lưu thay đổi</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section script{
+    <script>
+        $(document).on('click', '.EditColor', function () {
+            var listSibling = $(this).parent().prevAll();
+            var colorId = $(listSibling[2]).text();
+            var colorCode = $(listSibling[1]).text();
+            var iconUrl = $(listSibling[0]).children().attr('src').replace('/images/icon/','');            
+            $('input[name="colorId"]').val(colorId);
+            $('input[name="iconUrl"]').val(iconUrl);
+            $('input[name="colorCode"]').val(colorCode);
+            $('EditColorModal').modal('show');
+        });
+        $(document).on('click', '.DeleteColor', function () {
+            return confirm("Bạn có chắc muốn xóa màu sắc này?");
+        });
+    </script>
+}

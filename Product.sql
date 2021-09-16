@@ -133,8 +133,36 @@ CREATE PROC AddColor(
 AS
 	INSERT INTO Color(ColorCode, IconUrl) VALUES(@ColorCode, @IconUrl);
 GO
+--DROP PROC GetColors;
+GO
+CREATE PROC GetColors(
+	@Id INT,
+	@Size INT,
+	@Total INT OUT
+)
+AS	
+BEGIN
+	SELECT * FROM Color WHERE IsDeleted = 0 ORDER BY ColorId
+		OFFSET (@Id - 1) * @Size ROWS FETCH NEXT @Size ROWS ONLY;
+	SELECT @Total = COUNT(*) FROM Color WHERE IsDeleted = 0;
+END
+--DROP PROC DeleteColor;
+GO
 
 
+CREATE PROC DeleteColor(@Id SMALLINT)
+AS
+	UPDATE Color SET IsDeleted = 1 WHERE ColorId = @Id;
+GO
+--DROP PROC AddColor;
+GO
+CREATE PROC AddColor(
+	@ColorCode VARCHAR(16),
+	@IconUrl VARCHAR(32)
+)
+AS
+	INSERT INTO Color(ColorCode,IconUrl) VALUES (@ColorCode, @IconUrl);
+GO
 
 --DROP PROC AddSize
 GO
@@ -252,11 +280,12 @@ CREATE PROC GetProductById(@Id SMALLINT)
 AS
 	SELECT * FROM Product WHERE ProductId = @Id;
 GO
-
+--DROP PROC GetColorByProduct;
+GO
 CREATE PROC GetColorByProduct(@ProductId SMALLINT)
 AS 
 	SELECT * FROM ColorOfProduct JOIN Color ON ColorOfProduct.ColorId = Color.ColorId 
-		WHERE ColorOfProduct.ProductId = @ProductId;
+		WHERE ColorOfProduct.ProductId = @ProductId AND Color.IsDeleted = 0;
 GO
 
 CREATE PROC GetCategories
@@ -283,7 +312,7 @@ CREATE PROC GetProducts(
 )
 AS
 BEGIN
-	SELECT * FROM Product ORDER BY ProductId
+	SELECT * FROM Product WHERE IsDeleted = 0 ORDER BY ProductId
 		OFFSET (@Page -1) * @Size ROWS FETCH NEXT @Size ROWS ONLY;
 	SELECT @Total = COUNT(*) FROM Product;	
 
@@ -299,10 +328,10 @@ CREATE PROC GetProductsByCategory(
 AS
 BEGIN	
 	SELECT * FROM Product JOIN ProductInCategory ON Product.ProductId = ProductInCategory.ProductId
-	WHERE CategoryId = @CategoryId ORDER BY Product.ProductId
+	WHERE CategoryId = @CategoryId AND Product.IsDeleted = 0 ORDER BY Product.ProductId
 	OFFSET (@Page-1) * @Size ROWS FETCH NEXT @Size ROWS ONLY;
 	SELECT  @Total = COUNT(*) FROM Product JOIN ProductInCategory ON Product.ProductId = ProductInCategory.ProductId
-	WHERE CategoryId = @CategoryId ;
+	WHERE CategoryId = @CategoryId AND Product.IsDeleted = 0;
 
 END
 --DROP PROC SearchProduct
@@ -315,37 +344,39 @@ CREATE PROC SearchProduct(
 )
 AS
 BEGIN	
-	SELECT * FROM Product WHERE ProductName LIKE @Query ORDER BY Product.ProductId
+	SELECT * FROM Product WHERE ProductName LIKE @Query AND Product.IsDeleted = 0 ORDER BY Product.ProductId
 	OFFSET (@Page-1) * @Size ROWS FETCH NEXT @Size ROWS ONLY;
-	SELECT  @Total = COUNT(*) FROM Product WHERE ProductName LIKE @Query ;
+	SELECT  @Total = COUNT(*) FROM Product WHERE ProductName LIKE @Query AND Product.IsDeleted = 0;
 END
-
+--DROP PROC GetSizes;
+GO
 CREATE PROC GetSizes
 AS
-	SELECT * FROM Size;
+	SELECT * FROM Size WHERE IsDeleted = 0;
 GO
-
+--DROP PROC GetSizesByProduct;
+GO
 CREATE PROC GetSizesByProduct(@ProductId SMALLINT)
 AS
-	SELECT Size.* FROM SizeOfProduct JOIN Size ON SizeOfProduct.SizeId = Size.SizeId WHERE SizeOfProduct.ProductId = @ProductId;
+	SELECT Size.* FROM SizeOfProduct JOIN Size ON SizeOfProduct.SizeId = Size.SizeId WHERE SizeOfProduct.ProductId = @ProductId AND Size.IsDeleted = 0;
 GO
 
 CREATE PROC GetInventoryStatusesByProduct(@ProductId SMALLINT)
 AS
 	SELECT * FROM InventoryStatus WHERE InventoryStatus.ProductId = @ProductId;
 GO
-
+--DROP PROC GetGuides;
+GO
 CREATE PROC GetGuides
 AS
-	SELECT * FROM Guide;
+	SELECT * FROM Guide WHERE IsDeleted = 0;
 GO
-
+--DROP PROC GetGuidesByProduct;
+GO
 CREATE PROC GetGuidesByProduct(@ProductId SMALLINT)
 AS
-	SELECT Guide.* FROM Guide JOIN GuideOfProduct ON Guide.GuideId = GuideOfProduct.GuideId WHERE GuideOfProduct.ProductId = @ProductId;
+	SELECT Guide.* FROM Guide JOIN GuideOfProduct ON Guide.GuideId = GuideOfProduct.GuideId WHERE GuideOfProduct.ProductId = @ProductId AND Guide.IsDeleted = 0;
 GO
-
-
 
 
 

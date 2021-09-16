@@ -68,7 +68,7 @@ namespace WebApp.Areas.Dashboard.Controllers
             product.Guides = provider.Guide.GetGuidesByProduct(id);
             product.Categories = provider.Category.GetCategoriesByProduct(id);
             ViewBag.sizes = provider.Size.GetSizes();
-            ViewBag.colors = provider.Color.GetColors();
+            ViewBag.colors = provider.Color.GetFullColors();
             ViewBag.guides = provider.Guide.GetGuids();
             ViewBag.categories = provider.Category.GetCategories();
             return View(product);
@@ -120,6 +120,73 @@ namespace WebApp.Areas.Dashboard.Controllers
             provider.ProductSize.Edit(productSizes);
             return Redirect($"/dashboard/product/detail/{obj.ProductId}");
         }
+        public IActionResult Add()
+        {
+            ViewBag.sizes = provider.Size.GetSizes();
+            ViewBag.colors = provider.Color.GetFullColors();
+            ViewBag.guides = provider.Guide.GetGuids();
+            ViewBag.categories = provider.Category.GetCategories();
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Add(Product obj, short[] listColor, short[] listSize, short[] listGuide, short[] listCategory)
+        {
+            obj.ProductId =  provider.Product.Add(obj);
+            List<ProductColor> productColors = new List<ProductColor>();
+            foreach (var item in listColor)
+            {
+                productColors.Add(new ProductColor
+                {
+                    ProductId = obj.ProductId,
+                    ColorId = item
+                });
+            }
+            List<ProductSize> productSizes = new List<ProductSize>();
+            foreach (var item in listSize)
+            {
+                productSizes.Add(new ProductSize
+                {
+                    ProductId = obj.ProductId,
+                    SizeId = (byte)item
+                });
+            }
+
+            List<ProductGuide> productGuides = new List<ProductGuide>();
+            foreach (var item in listGuide)
+            {
+                productGuides.Add(new ProductGuide
+                {
+                    ProductId = obj.ProductId,
+                    GuideId = item
+                });
+            }
+            List<ProductCategory> productCategories = new List<ProductCategory>();
+            foreach (var item in listCategory)
+            {
+                productCategories.Add(new ProductCategory
+                {
+                    ProductId = obj.ProductId,
+                    CategoryId = item
+                });
+            }
+            provider.ProductCategory.Add(productCategories);
+            provider.ProductColor.Add(productColors);
+            provider.ProductGuide.Add(productGuides);
+            provider.ProductSize.Add(productSizes);
+            return Redirect($"/dashboard/product/detail/{obj.ProductId}");
+        }
+        public IActionResult Delete(short id)
+        {
+            int result = provider.Product.Delete(id);
+            string[] msg = {"Lỗi", "Xóa thành công" };
+            result = result > 1 ? 1 : result;
+            TempData["msg"] = msg[result];
+            return Redirect("/dashboard/product");
+
+        }
+        /*
+         AddColor
+         */
     }
 }
 

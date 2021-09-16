@@ -2,10 +2,7 @@
 
 <div class="container">
     <form method="post" class="form-group">
-        <div class="form-group">
-            <label asp-for="ProductId">ProductId</label>
-            <input type="hidden" asp-for="ProductId" class="form-control" />
-        </div>
+        <input type="hidden" asp-for="ProductId" class="form-control" />
         <div class="form-group">
             <label asp-for="ProductName"></label>
             <input type="text" asp-for="ProductName" class="form-control" />
@@ -36,11 +33,11 @@
                 @foreach (var item in ViewBag.colors)
                 {
                     <div class="col-2">
-                        @if (Model.Colors.Any(p => p.ColorId== item.ColorId))
+                        @if (Model.Colors.Any(p => p.ColorId == item.ColorId))
                         {
 
                             <label>
-                                <input type="checkbox" name="listColor" value="@item.ColorId"  checked />
+                                <input type="checkbox" name="listColor" value="@item.ColorId" checked />
                                 @item.ColorCode
                             </label>
 
@@ -74,7 +71,7 @@
                         else
                         {
                             <label>
-                                <input type="checkbox" name="listSize" value="@item.SizeId"/>
+                                <input type="checkbox" name="listSize" value="@item.SizeId" />
                                 @item.SizeCode
                             </label>
                         }
@@ -88,7 +85,7 @@
                 @foreach (var item in ViewBag.guides)
                 {
                     <div class="col-6">
-                        @if (Model.Guides.Any(p => p.GuideId== item.GuideId))
+                        @if (Model.Guides.Any(p => p.GuideId == item.GuideId))
                         {
 
                             <label>
@@ -100,7 +97,7 @@
                         else
                         {
                             <label>
-                                <input type="checkbox" name="listGuide" value="@item.GuideId"/>
+                                <input type="checkbox" name="listGuide" value="@item.GuideId" />
                                 @item.GuideDescription
                             </label>
                         }
@@ -117,18 +114,18 @@
                         @if (Model.Categories.Any(p => p.CategoryId == item.CategoryId))
                         {
 
-                        <label>
-                            <input type="checkbox" name="listCategory" value="@item.CategoryId" checked />
-                            @item.CategoryName
-                        </label>
+                            <label>
+                                <input type="checkbox" name="listCategory" value="@item.CategoryId" checked />
+                                @item.CategoryName
+                            </label>
 
                         }
                         else
                         {
-                        <label>
-                            <input type="checkbox" name="listCategory" value="@item.CategoryId"/>
-                            @item.CategoryName
-                        </label>
+                            <label>
+                                <input type="checkbox" name="listCategory" value="@item.CategoryId" />
+                                @item.CategoryName
+                            </label>
                         }
                     </div>
                 }
