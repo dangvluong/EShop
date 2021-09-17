@@ -1,0 +1,39 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">Tổng doanh thu theo tháng (ĐVT: VNĐ)</div>
+                <div class="card-body">
+                    <canvas id="revenueByMoths"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 mt-4">
+            <div class="card">
+                <div class="card-header">Top 5 sản phẩm bán chạy nhất (ĐVT: VNĐ)</div>
+                <div class="card-body">
+                    <canvas id="topBestSellingProduct"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 mt-4">
+            <div class="card">
+                <div class="card-header">Top 5 sản phẩm tồn kho nhiều nhất (ĐVT: VNĐ)</div>
+                <div class="card-body">
+                    <canvas id="topHighestInventoryProducts"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 mt-4">
+            <div class="card">
+                <div class="card-header">Tỷ trọng doanh thu theo size (ĐVT: %)</div>
+                <div class="card-body">
+                    <canvas id="revenueRatioBySize"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section script{ 
+    <script src="~/js/chart.js"></script>
+}

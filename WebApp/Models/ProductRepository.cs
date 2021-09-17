@@ -16,12 +16,10 @@ namespace WebApp.Models
         {
             //this.configuration = configuration;
         }
-
         public IEnumerable<Product> GetRandom10Product()
         {
             return connection.Query<Product>("GetRandom12Productcs", commandType: CommandType.StoredProcedure);
         }
-
         public IEnumerable<Product> GetProducts(int page, int size, out int total)
         {
             DynamicParameters parameters = new DynamicParameters();
@@ -31,13 +29,11 @@ namespace WebApp.Models
             IEnumerable<Product> products = connection.Query<Product>("GetProducts", parameters, commandType: CommandType.StoredProcedure);
             total = parameters.Get<int>("@Total");
             return products;
-
         }
         public Product GetProductById(short id)
         {
             return connection.QueryFirstOrDefault<Product>("GetProductById", new { Id = id }, commandType: CommandType.StoredProcedure);
         }
-
         public IEnumerable<Product> GetProductsByCategory(short categoryId, int page, int size, out int total)
         {
             DynamicParameters parameters = new DynamicParameters();
@@ -49,7 +45,6 @@ namespace WebApp.Models
             total = parameters.Get<int>("@Total");
             return products;
         }
-
         public IEnumerable<Product> SearchProduct(string query, int page, int size, out int total)
         {
             DynamicParameters parameters = new DynamicParameters();
@@ -90,6 +85,14 @@ namespace WebApp.Models
         public int Delete(short id)
         {
             return connection.Execute($"UPDATE Product SET IsDeleted = 1 WHERE ProductId = {id}");
+        }
+        public IEnumerable<Statistic> GetBestSellingProduct()
+        {
+            return connection.Query<Statistic>("GetBestSellingProducts", commandType: CommandType.StoredProcedure);
+        }
+        public IEnumerable<Statistic> GetTop5HighestInventoryProducts()
+        {
+            return connection.Query<Statistic>("GetHighestInventoryProducts", commandType: CommandType.StoredProcedure);
         }
     }
 }

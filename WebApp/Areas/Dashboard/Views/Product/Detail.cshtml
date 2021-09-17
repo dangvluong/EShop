@@ -190,7 +190,6 @@
             });
         });
         /*Dashboard Product Detail*/
-
         $(document).on('submit', '#formUpdateProductName', function (e) {
             e.preventDefault();
             console.log('abc');
@@ -204,5 +203,11 @@
         $(document).on('click', '#DeleteProduct', function () {
             return confirm("Bạn có chắc muốn xóa sản phẩm này");
         });
+
+        //code for open specific tab base on url       
+        var hash = location.hash;
+        if (hash) {
+            $(`.nav-tabs a[href="${hash}"]`).tab('show');
+        }       
     </script>
 }
