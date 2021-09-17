@@ -365,6 +365,12 @@ CREATE PROC GetInventoryStatusesByProduct(@ProductId SMALLINT)
 AS
 	SELECT * FROM InventoryStatus WHERE InventoryStatus.ProductId = @ProductId;
 GO
+--DROP PROC UpdateInventoryQuantity;
+GO
+CREATE PROC UpdateInventoryQuantity(@ProductId SMALLINT, @ColorId SMALLINT, @SizeId TINYINT, @Quantity SMALLINT)
+AS
+	UPDATE InventoryStatus SET Quantity -= @Quantity WHERE ProductId = @ProductId AND ColorId = @ColorId AND SizeId = @SizeId;
+GO
 --DROP PROC GetGuides;
 GO
 CREATE PROC GetGuides

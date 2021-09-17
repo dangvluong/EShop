@@ -86,12 +86,15 @@ SELECT * FROM Member;
 SELECT * FROM MemberInRole;
 --DROP PROC GetRolesByMember;
 GO
+
+
 CREATE PROC GetRolesByMember(@MemberId UNIQUEIDENTIFIER)
 AS
 	SELECT Role.*, IIF(MemberInRole.MemberId IS NULL,0,1) AS Checked 
 		FROM MemberInRole RIGHT JOIN Role ON MemberInRole.RoleId = Role.RoleId AND MemberId = @MemberId AND IsDeleted = 0;
 GO
 
+EXEC GetRolesByMember @MemberId = '51322F65-FC2B-4408-9CE1-5107792EE703'
 --DROP PROC GetMemberById
 GO
 CREATE PROC GetMemberById(@MemberId UNIQUEIDENTIFIER)

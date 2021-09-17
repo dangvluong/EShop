@@ -62,7 +62,7 @@ $.post('/dashboard/statistic/GetRevenueRatioBySize', (d) => {
             labels: lab,
             datasets: [{
                 data: dat,
-                backgroundColor: ['#007bff', '#dc3545', '#ffc107', '#28a745', 'red', 'orange'],
+                backgroundColor: ['#007bff', '#dc3545', '#ffc107', '#28a745', 'red', 'pink'],
             }],
         },
     });
@@ -165,4 +165,23 @@ $.post('/dashboard/statistic/GetTop5HighestInventoryProducts', d => {
             }
         }
     });   
+});
+//Chart for revenue ratio by color
+$.post('/dashboard/statistic/GetRevenueRatioByColor', (d) => {
+    var lab = new Array(d.length);
+    var dat = new Array(d.length);
+    for (var i in d) {
+        lab[i] = d[i]['name'];
+        dat[i] = d[i]['ratio'];
+    }
+    new Chart(revenueRatioByColor, {
+        type: 'pie',
+        data: {
+            labels: lab,
+            datasets: [{
+                data: dat,
+                backgroundColor: ['#007bff', '#dc3545', '#ffc107', '#28a745', 'red', 'pink'],
+            }],
+        },
+    });
 });

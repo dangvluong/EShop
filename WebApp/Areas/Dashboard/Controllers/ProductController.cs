@@ -184,9 +184,10 @@ namespace WebApp.Areas.Dashboard.Controllers
             return Redirect("/dashboard/product");
 
         }
-        /*
-         AddColor
-         */
+        public IActionResult DeleteImage(ProductImage obj)
+        {
+            return Json(provider.ProductImage.Delete(obj));
+        }
     }
 }
 

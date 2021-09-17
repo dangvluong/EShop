@@ -32,7 +32,7 @@ namespace WebApp.Controllers
         public IActionResult Register(Member obj)
         {
             var result = provider.Member.Add(obj);
-            string[] message = { "Tên đăng nhập đã có người sử dụng.","Có lỗi xảy ra, vui lòng thử lại", "Đăng kí thành công" };
+            string[] message = { "Tên đăng nhập đã có người sử dụng.", "Có lỗi xảy ra, vui lòng thử lại", "Đăng kí thành công" };
             TempData["msg"] = message[result + 1];
             return Redirect("/auth/login");
         }
@@ -42,36 +42,45 @@ namespace WebApp.Controllers
             return View();
         }
         [HttpPost]
-        public async  Task<IActionResult> Login(Member obj, string returnUrl)
+        public async Task<IActionResult> Login(Member obj, string returnUrl)
         {
-            Member member = provider.Member.Login(new Member {Username = obj.Username, Password = obj.Password });
-            if(member != null)
+            Member member = provider.Member.Login(new Member { Username = obj.Username, Password = obj.Password });
+            if (member != null)
             {
-                List<Claim> claims = new List<Claim>()
+                if (member.IsBanned)
                 {
-                    new Claim(ClaimTypes.Name, member.Username),                    
+                    ModelState.AddModelError(string.Empty, "Tài khoản của bạn đã bị khóa");
+                    return View(obj);
+
+                }
+                else
+                {
+                    List<Claim> claims = new List<Claim>()
+                {
+                    new Claim(ClaimTypes.Name, member.Username),
                     new Claim(ClaimTypes.NameIdentifier, member.MemberId.ToString()),
-                    new Claim(ClaimTypes.Email, member.Email)                    
+                    new Claim(ClaimTypes.Email, member.Email)
                 };
 
-                IEnumerable<Role> roles = provider.Role.GetRolesByMember(member.MemberId);
-                if(roles != null)
-                {
+                    IEnumerable<Role> roles = provider.Role.GetRolesByMember(member.MemberId);
                     foreach (Role role in roles)
                     {
-                        claims.Add(new Claim(ClaimTypes.Role, role.RoleName));
+                        if (role.Checked)
+                        {
+                            claims.Add(new Claim(ClaimTypes.Role, role.RoleName));
+                        }
                     }
-                }
 
-                ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                ClaimsPrincipal principal = new ClaimsPrincipal(claimsIdentity);
-                AuthenticationProperties properties = new AuthenticationProperties
-                {
-                    IsPersistent = obj.Remember,
-                    ExpiresUtc = DateTime.UtcNow.AddDays(30)
-                };
-                await HttpContext.SignInAsync(principal, properties);
-                return Redirect(string.IsNullOrEmpty(returnUrl) ? "/member" : returnUrl);
+                    ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    ClaimsPrincipal principal = new ClaimsPrincipal(claimsIdentity);
+                    AuthenticationProperties properties = new AuthenticationProperties
+                    {
+                        IsPersistent = obj.Remember,
+                        ExpiresUtc = DateTime.UtcNow.AddDays(30)
+                    };
+                    await HttpContext.SignInAsync(principal, properties);
+                    return Redirect(string.IsNullOrEmpty(returnUrl) ? "/member" : returnUrl);
+                }
             }
             ModelState.AddModelError(string.Empty, "Tên đăng nhập hoặc mật khẩu không đúng");
             return View(obj);

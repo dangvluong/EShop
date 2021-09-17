@@ -83,6 +83,29 @@ namespace WebApp.Areas.Dashboard.Controllers
         public IActionResult GetTop5HighestInventoryProducts()
         {
             return Json(provider.Product.GetTop5HighestInventoryProducts());
-        }        
+        }
+        [HttpPost]
+        public IActionResult GetRevenueRatioByColor()
+        {
+            IEnumerable<Statistic> top5Color = provider.Color.GetBestSellingColor();
+            int totalRevenue = provider.InvoiceDetail.GetTotalRevenue();
+            List<object> colorRatio = new List<object>();
+            int totalRevenueOfTop5Color = 0;
+            foreach (var item in top5Color)
+            {
+                colorRatio.Add(new
+                {
+                    Name = item.Name,
+                    Ratio = Math.Round(item.Total / (float)totalRevenue, 2)
+                });
+                totalRevenueOfTop5Color += item.Total;
+            }
+            colorRatio.Add(new
+            {
+                Name = "Other",
+                Ratio = Math.Round((totalRevenue - totalRevenueOfTop5Color) / (float)totalRevenue, 2)
+            });
+            return Json(colorRatio);
+        }
     }
 }

@@ -103,6 +103,8 @@
     <script>
         $(updateInvoiceStatus).submit(function (e) {
             e.preventDefault();
+            e.stopImmediatePropagation();
+            console.log("abc");
             var statusId = $(statusOptions).val();
             var invoiceId = "@Model.InvoiceId";
             $.post('/dashboard/invoice/updatestatus', { 'InvoiceId': invoiceId, 'StatusId': statusId }, result => {

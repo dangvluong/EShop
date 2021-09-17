@@ -1,37 +1,48 @@
+--DROP PROC GetBestSellingProducts;
+GO
 CREATE PROC GetBestSellingProducts
 AS
 BEGIN
 	SELECT TOP (5) Product.ProductId AS Id, Product.ProductName AS Name, SUM(InvoiceDetail.Quantity * InvoiceDetail.Price) AS Total 
-		FROM Product JOIN InvoiceDetail ON Product.ProductId = InvoiceDetail.ProductId GROUP BY Product.ProductId, Product.ProductName;
+		FROM Product JOIN InvoiceDetail ON Product.ProductId = InvoiceDetail.ProductId 
+		JOIN Invoice ON InvoiceDetail.InvoiceId = Invoice.InvoiceId 
+		WHERE Invoice.StatusId = 4
+		GROUP BY Product.ProductId, Product.ProductName ORDER BY Total DESC;
 END
 GO
-
+--DROP PROC GetBestSellingSize;
+GO
 CREATE PROC GetBestSellingSize
 AS
 BEGIN
 	SELECT TOP (5) Size.SizeId AS Id, Size.SizeCode AS Name, SUM(InvoiceDetail.Quantity * InvoiceDetail.Price) AS Total
-		FROM Size JOIN InvoiceDetail ON Size.SizeId = InvoiceDetail.SizeId GROUP BY Size.SizeId, Size.SizeCode;
+		FROM Size JOIN InvoiceDetail ON Size.SizeId = InvoiceDetail.SizeId 
+		JOIN Invoice ON InvoiceDetail.InvoiceId = Invoice.InvoiceId 
+		WHERE Invoice.StatusId = 4
+		GROUP BY Size.SizeId, Size.SizeCode ORDER BY Total DESC;
 END
 GO
-
+--DROP PROC GetBestSellingColor;
+GO
 CREATE PROC GetBestSellingColor
 AS
 BEGIN
 	SELECT TOP (5) Color.ColorId AS Id, Color.ColorCode AS Name, SUM(InvoiceDetail.Quantity * InvoiceDetail.Price) AS Total
-		FROM Color JOIN InvoiceDetail ON Color.ColorId = InvoiceDetail.ColorId GROUP BY Color.ColorId, Color.ColorCode;
+		FROM Color JOIN InvoiceDetail ON Color.ColorId = InvoiceDetail.ColorId 
+		JOIN Invoice ON InvoiceDetail.InvoiceId = Invoice.InvoiceId 
+		WHERE Invoice.StatusId = 4
+		GROUP BY Color.ColorId, Color.ColorCode ORDER BY Total DESC;
 END
 GO
+
 --DROP PROC GetRevenueByMonths;
 GO
-<<<<<<< HEAD
 CREATE PROC GetRevenueByMonths
-=======
-CREATE PROC GetRevenueByMonths(@Month SMALLINT)
->>>>>>> b23fa749aa581192ae18f610418322c7cfe846bd
 AS
 BEGIN
 	SELECT  SUM(InvoiceDetail.Quantity * InvoiceDetail.Price) AS Total, MONTH(DateCreated) AS Id 
-		FROM InvoiceDetail JOIN Invoice ON InvoiceDetail.InvoiceId = Invoice.InvoiceId 
+		FROM InvoiceDetail JOIN Invoice ON InvoiceDetail.InvoiceId = Invoice.InvoiceId 		
+		WHERE Invoice.StatusId = 4
 		GROUP BY MONTH(DateCreated) ORDER BY MONTH(DateCreated);
 END
 GO
@@ -42,8 +53,4 @@ BEGIN
 		SELECT TOP 5 Product.ProductId AS Id, ProductName AS Name, SUM(Quantity) AS Total FROM Product JOIN InventoryStatus ON Product.ProductId  = InventoryStatus.ProductId GROUP BY Product.ProductId, ProductName;
 END
 GO
-CREATE PROC GetDetailInventoryProduct (@ProductId SMALLINT)
-AS
-SELECT Product.ProductId AS Id, ProductName AS Name, SizeId AS Size, ColorId AS Color, SUM(Quantity) AS Total FROM Product JOIN InventoryStatus ON Product.ProductId  = InventoryStatus.ProductId AND Product.ProductId = 1 GROUP BY Product.ProductId, ProductName, SizeId, ColorId;
-GO
-SELECT SUM(Price *  Quantity) FROM InvoiceDetail;
+

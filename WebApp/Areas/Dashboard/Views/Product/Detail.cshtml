@@ -85,7 +85,16 @@
             <div class="row" id="productImages">
                 @foreach (var item in Model.ProductImages)
                 {
-                    <div class="col-md-3"><img src="/images/@item.ImageUrl" alt="@Model.ProductName" class="img-fluid" /></div>
+                    <div class="col-md-3 my-3 ">
+                        <img src="/images/@item.ImageUrl" alt="@Model.ProductName" class="img-fluid" />
+                        <form action="/dashboard/product/deleteImage" method="post" class="formDeleteImage">                          
+                            <input type="hidden" name="colorId" value="@item.ColorId" />
+                            <input type="hidden" name="imageUrl" value="@item.ImageUrl" />
+                            <div class="d-flex">
+                                <button class="btn btn-sm btn-danger mx-auto mt-2 DeleteImage">Xóa hình ảnh</button>
+                            </div>
+                        </form>
+                    </div>
                 }
 
             </div>
@@ -184,8 +193,8 @@
                 processData: false,
                 contentType: false,
                 success: result => {
-                    $(productImages).append(`<div class="col-md-3"><img src="/images/${result}" alt="@Model.ProductName" class="img-fluid" /></div>`);
-                    $('#uploadImageModal').modal('hide');
+                    location.reload();
+                    location.href = `/dashboard/product/detail/${@Model.ProductId}#images`;
                 }
             });
         });
@@ -196,7 +205,7 @@
             var newProductName = $('input[name="ProductName"]').val();
             var productId = 1;
             $.post('/dashboard/product/UpdateProductName', { 'ProductId': productId, 'ProductName': newProductName }, result => {
-                //location.reload(); 
+                //location.reload();
                 $('#notificationUpdateName').append('Đã cập nhật thành công!');
             });
         });
@@ -204,10 +213,30 @@
             return confirm("Bạn có chắc muốn xóa sản phẩm này");
         });
 
-        //code for open specific tab base on url       
+        //code for open specific tab base on url
         var hash = location.hash;
         if (hash) {
             $(`.nav-tabs a[href="${hash}"]`).tab('show');
-        }       
+        }
+        $(document).on('click', 'button.DeleteImage', function () {
+            return confirm("Bạn có chắc muốn xóa hình ảnh này?");
+        });
+
+        $(document).on('submit', '.formDeleteImage', function (e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            var productId = @Model.ProductId;
+            var colorId = $(this).find('input[name="colorId"]').val();
+            var imageUrl = $(this).find('input[name="imageUrl"]').val();
+            $.post("/dashboard/product/deleteImage", {
+                'productId':@Model.ProductId,
+                'colorId': colorId,
+                'imageUrl' : imageUrl
+            }, result => {
+                location.reload();
+                location.href = `/dashboard/product/detail/${@Model.ProductId}#images`;
+            });
+        });
+
     </script>
 }

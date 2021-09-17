@@ -17,7 +17,7 @@ CREATE TABLE InvoiceDetail(
 	SizeId TINYINT NOT NULL REFERENCES Size(SizeId),
 	Quantity SMALLINT NOT NULL,
 	Price INT NOT NULL,
-	PRIMARY KEY(InvoiceId, ProductId)
+	PRIMARY KEY(InvoiceId, ProductId, ColorId, SizeId)
 )
 GO
 
@@ -55,13 +55,14 @@ AS
 		WHERE InvoiceId = @InvoiceId;
 GO
 
-
+--DROP PROC UpdateInvoiceStatus;
+GO
 CREATE PROC UpdateInvoiceStatus(
 	@InvoiceId UNIQUEIDENTIFIER,
 	@StatusId TINYINT
 )
 AS
-	UPDATE Invoice SET StatusId = @StatusId WHERE InvoiceId = @InvoiceId;
+	UPDATE Invoice SET StatusId = @StatusId WHERE InvoiceId = @InvoiceId;		
 GO
 
 CREATE PROC GetInvoicesByMember(@MemberId UNIQUEIDENTIFIER)
@@ -72,3 +73,4 @@ GO
 SELECT * FROM Invoice;
 SELECT * FROM InvoiceDetail;
 SELECT * FROM Contact;
+

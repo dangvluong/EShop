@@ -51,6 +51,14 @@ namespace WebApp.Areas.Manage.Controllers
         [HttpPost]
         public IActionResult UpdateStatus(Invoice obj)
         {
+            if(obj.StatusId == 2)
+            {
+                obj.InvoiceDetails = provider.InvoiceDetail.GetInvoiceDetails(obj.InvoiceId);
+                foreach (InvoiceDetail item in obj.InvoiceDetails)
+                {
+                    provider.InventoryStatus.UpdateInventoryQuantity(item);
+                }
+            }
             return Json(provider.Invoice.UpdateStatus(obj));
         }
     }

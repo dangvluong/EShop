@@ -18,6 +18,5 @@ namespace WebApp.Models
         {
             return connection.Query<Role>("GetRolesByMember", new { MemberId = memberId }, commandType: CommandType.StoredProcedure);
         }
-
     }
 }
