@@ -23,7 +23,11 @@ END
 GO
 --DROP PROC GetRevenueByMonths;
 GO
+<<<<<<< HEAD
 CREATE PROC GetRevenueByMonths
+=======
+CREATE PROC GetRevenueByMonths(@Month SMALLINT)
+>>>>>>> b23fa749aa581192ae18f610418322c7cfe846bd
 AS
 BEGIN
 	SELECT  SUM(InvoiceDetail.Quantity * InvoiceDetail.Price) AS Total, MONTH(DateCreated) AS Id 
