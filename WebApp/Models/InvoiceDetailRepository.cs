@@ -14,6 +14,13 @@ namespace WebApp.Models
         {
             return connection.Query<InvoiceDetail>("GetInvoiceDetailByInvoiceId", new { InvoiceId = invoiceId }, commandType: CommandType.StoredProcedure);
         }
-        
+        public int GetTotalRevenue()
+        {
+            return connection.QuerySingleOrDefault<int>("SELECT SUM(Price *  Quantity) FROM InvoiceDetail");
+        }
+        public IEnumerable<Statistic> GetRevenueByMonths()
+        {
+            return connection.Query<Statistic>("GetRevenueByMonths", commandType: CommandType.StoredProcedure);
+        }
     }
 }
