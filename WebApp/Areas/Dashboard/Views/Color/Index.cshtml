@@ -50,8 +50,10 @@
                     <td>@item.ColorId</td>
                     <td>@item.ColorCode</td>
                     <td><img src="/images/icon/@item.IconUrl" alt="@item.ColorCode" class="img-fluid" /></td>
-                    <td><button class="EditColor" data-toggle="modal" data-target="#EditColorModal">Edit</button></td>
-                    <td><a href="/dashboard/color/delete/@item.ColorId" class="DeleteColor">Delete</a></td>
+                    <td>  
+                        <span class="EditColor" data-toggle="modal" data-target="#EditColorModal"><i class="far fa-edit"></i></span>                    
+                    </td>
+                    <td><a href="/dashboard/color/delete/@item.ColorId" class="DeleteColor"><i class="far fa-trash-alt"></i></a></td>
                 </tr>
             }
         </tbody>

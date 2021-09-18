@@ -26,7 +26,7 @@ namespace WebApp.Models
         }
         public int Edit(Guide obj)
         {
-            return connection.Execute($"UPDATE Guide SET GuideDescription = '{obj.GuideDescription}' WHERE GuideId = {obj.GuideId}");
+            return connection.Execute($"UPDATE Guide SET GuideDescription = N'{obj.GuideDescription}' WHERE GuideId = {obj.GuideId}");
         }
         public int Delete(short id)
         {
@@ -34,7 +34,7 @@ namespace WebApp.Models
         }
         public int Add(Guide obj)
         {
-            return connection.Execute($"INSERT INTO Guide(GuideDescription) VALUES('{obj.GuideDescription}')");
+            return connection.Execute($"INSERT INTO Guide(GuideDescription) VALUES(N'{obj.GuideDescription}')");
         }
     }
 }

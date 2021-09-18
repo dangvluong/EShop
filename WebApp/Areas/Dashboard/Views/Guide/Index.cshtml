@@ -45,8 +45,10 @@
                     <tr>
                         <td>@item.GuideId</td>
                         <td>@item.GuideDescription</td>
-                        <td><button class="EditGuide" data-toggle="modal" data-target="#EditGuideModal">Edit</button></td>
-                        <td><a href="/dashboard/guide/delete/@item.GuideId" class="DeleteGuide">Delete</a></td>
+                        <td>
+                            <span class="EditGuide" data-toggle="modal" data-target="#EditGuideModal"><i class="far fa-edit"></i></span>                            
+                        </td>
+                        <td><a href="/dashboard/guide/delete/@item.GuideId" class="DeleteGuide"><i class="far fa-trash-alt"></i></a></td>
                     </tr>
                 }
             </tbody>

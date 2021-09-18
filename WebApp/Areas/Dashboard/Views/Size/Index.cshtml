@@ -44,8 +44,10 @@
                 <tr>
                     <td>@item.SizeId</td>
                     <td>@item.SizeCode</td>
-                    <td><button class="EditSize" data-toggle="modal" data-target="#EditSizeModal">Edit</button></td>
-                    <td><a href="/dashboard/size/delete/@item.SizeId" class="DeleteSize">Delete</a></td>
+                    <td>
+                        <span class="EditSize" data-toggle="modal" data-target="#EditSizeModal"><i class="far fa-edit"></i></span>                   
+                    </td>
+                    <td><a href="/dashboard/size/delete/@item.SizeId" class="DeleteSize"><i class="far fa-trash-alt"></i></a></td>
                 </tr>
             }
         </tbody>

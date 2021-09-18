@@ -26,6 +26,10 @@ namespace WebApp.Controllers
         }
         public IActionResult Register()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return Redirect("/");
+            }
             return View();
         }
         [HttpPost]
@@ -39,6 +43,10 @@ namespace WebApp.Controllers
 
         public IActionResult Login()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return Redirect("/");
+            }
             return View();
         }
         [HttpPost]

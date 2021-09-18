@@ -16,7 +16,7 @@
                     </div>
                     <form method="post" class="form-group" action="/dashboard/category/add">
                         <div class="modal-body">
-                            <div>                              
+                            <div>
                                 <label>Tên danh mục</label>
                                 <input type="text" name="categoryName" class="form-control w-50" />
                             </div>
@@ -45,8 +45,12 @@
                 <tr>
                     <td>@item.CategoryId</td>
                     <td>@item.CategoryName</td>
-                    <td><button class="btn-sm btn-primary EditCategory">Edit</button></td>
-                    <td><button class="btn-sm btn-danger DeleteCategory" data="@item.CategoryId">Delete</button></td>
+                    <td>                      
+                        <span class="EditCategory"><i class="far fa-edit"></i></span>                       
+                    </td>
+                    <td>
+                        <span class="DeleteCategory" data="@item.CategoryId"><i class="far fa-trash-alt"></i></span>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -67,7 +71,7 @@
             <form method="post" class="form-group" name="formEditCategory">
                 <div class="modal-body">
                     <div>
-                        <input type="hidden" name="CategoryId"/>
+                        <input type="hidden" name="CategoryId" />
                         <label>Tên danh mục</label>
                         <input type="text" name="CategoryName" class="form-control w-50" />
                     </div>
@@ -88,7 +92,7 @@
     <script>
         $(document).on('click', '.DeleteCategory', function () {
             if (confirm("Bạn có chắc muốn xóa danh mục này?")) {
-                var categoryId = $(this).attr('data');
+                var categoryId = $(this).attr('data');               
                 $.post('/dashboard/category/delete', { 'Id': categoryId }, result => {
                     location.reload();
                 });
@@ -97,7 +101,7 @@
         $(document).on('click', '.EditCategory', function () {
             var listSibling = $(this).parent().prevAll();
             var categoryId = $(listSibling[1]).text();
-            var categoryName = $(listSibling[0]).text();
+            var categoryName = $(listSibling[0]).text();            
             $('#editModal').modal('show');
             $('input[name="CategoryId"]').val(categoryId);
             $('input[name="CategoryName"]').val(categoryName);
