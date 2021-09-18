@@ -1,7 +1,4 @@
 ﻿@model Member
-@{
-    Layout = "_LayoutProduct";
-}
 <div class="d-flex">
     <hr class="w-25 my-4 mx-auto" />
 </div>
@@ -103,7 +100,7 @@
     @if (Model.DefaultContact is null)
     {
         <script>
-            $(exampleModal).modal('show');
+            $(addContactModal).modal('show');
         </script>
     }
 
@@ -129,9 +126,9 @@
         </tbody>
     </table>
     <div class="d-flex">
-        <form method="post" class="mx-auto">
-            <input type="hidden" name="ContactId" value="@Model.DefaultContact" />
-            <button class="btn btn-primary">Xác nhận đơn hàng</button>
+        <form method="post" class="mx-auto" name="formCheckout">
+            <input type="hidden" name="ContactId" value="@Model.DefaultContact" required />
+            <button class="btn btn-primary" id="btnConfirmCheckout">Xác nhận đơn hàng</button>
         </form>
     </div>
 </div>
@@ -139,41 +136,17 @@
     <hr class="w-25 my-4 mx-auto" />
 </div>
 @section script{
-    <script>
-        //$(document).on('click', 'input[name="Contact"]', function () {
-        ////$('input[name="Contact"]').click(function () {
-        //    var contactId = $(this).val();
-        //    $('input[name="ContactId"]').val(contactId);
-        //});
-        //$(document).on('show.bs.modal', '#addContactModal', function () {
-        //    $.post('/contact/GetProvinces', provinces => {
-        //        for (var i in provinces) {
-        //            $(ProvinceId).append(`<option value="${provinces[i].provinceId}">${provinces[i].provinceName}</option>`);
-        //        }
-        //        var provinceId = $(ProvinceId).val();
-        //        addDistricts(provinceId);
-        //    });
-        //});
-        //$(document).on('submit', 'form[name="addContact"]', function (e) {
-        ////$('form[name="addContact"]').submit(function (e) {
-        //    e.preventDefault();
-        //    var fullName = $('input[name="FullName"]').val();
-        //    var phoneNumber = $('input[name="PhoneNumber"]').val();
-        //    var addressHome = $('textarea[name="AddressHome"]').val();
-        //    var provinceId = $('select[name="ProvinceId"]').val();
-        //    var districtId = $('select[name="DistrictId"]').val();
-        //    var wardId = $('select[name="WardId"]').val();
-        //    $.post('/contact/add', {
-        //        FullName: fullName,
-        //        PhoneNumber: phoneNumber,
-        //        AddressHome: addressHome,
-        //        ProvinceId: provinceId,
-        //        DistrictId: districtId,
-        //        WardId: wardId
-        //    }, result => {
-        //        location.reload();
-        //    });
-        //});
+    <script>       
+        $(document).on('click', '#btnConfirmCheckout', function (e) {
+            e.preventDefault();
+            var contact = $('input[name="ContactId"]').val();
+            console.log(contact);
+            if (!contact) {
+                alert("Bạn chưa nhập thông tin liên lạc!");
+            } else {
+                $('form[name = "formCheckout"]').submit();
+            }           
+        });
 
     </script>
 }
