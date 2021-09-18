@@ -7,8 +7,9 @@ namespace WebApp.Models
 {
     public class InventoryStatus
     {
-        public byte SizeId { get; set; }
+        public short ProductId { get; set; }        
         public short ColorId { get; set; }
+        public byte SizeId { get; set; }
         public short Quantity { get; set; }
     }
 }

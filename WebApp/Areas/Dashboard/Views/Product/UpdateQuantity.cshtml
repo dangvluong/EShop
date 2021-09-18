@@ -1,0 +1,72 @@
+﻿@model Product
+<div class="container">
+    <h4 class="text-center">CẬP NHẬT SỐ LƯỢNG TỒN KHO</h4>
+    <form action="/dashboard/product/updateQuantity" method="post">
+       
+        @{int index = 0;}
+        <table class="table table-bordered text-center ">
+            <thead>
+                <tr>
+                    <th>Màu sắc</th>
+                    <th>Size</th>
+                    <th>Tồn kho</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Colors.Count; i++)
+                {
+                    @for (int j = 0; j < Model.Sizes.Count; j++)
+                    {
+                        <tr>
+                            @{
+                                if (j == 0)
+                                {
+                                    <td class="align-middle" rowspan="@Model.Sizes.Count" data="@Model.Colors[i].ColorId">@Model.Colors[i].ColorCode</td>
+                                }
+                            }
+                            <td data="@Model.Sizes[j].SizeId">@Model.Sizes[j].SizeCode</td>
+                            <td class="InputQuantityGroup">
+                                <input type="hidden" name="[@index].ProductId" value="@Model.ProductId" />
+                                <input type="hidden" name="[@index].ColorId" class="inputColorId"/>
+                                <input type="hidden" name="[@index].SizeId" class="inputSizeId"/>
+                                <input type="number" name="[@index].Quantity" class="form-control w-50 mx-auto InputQuantity" />
+                                @{ index++;}
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <div class="d-flex">
+            <button class="btn btn-primary ml-auto mr-2">Lưu</button>
+            <a href="/dashboard/product/detail/@Model.ProductId#quantityInInventory" class="btn btn-secondary mr-auto ml-2">Hủy bỏ</a>
+        </div>
+    </form>
+</div>
+@section script{
+    <script>
+        function updateInputQuantity(id, s, c, node) {
+            $(node).find('input[class="inputSizeId"]').val(s);
+            $(node).find('input[class="inputColorId"]').val(c);
+            $.post('/product/getinventorystatus', { 'productId': id, 'sizeId': s, 'colorId': c }, (result) => {                
+                $(node).find('.InputQuantity').val(result);
+            });
+        }
+        var quantityNodes = document.getElementsByClassName('InputQuantityGroup');
+        var currentColor = "";
+        var id = @Model.ProductId;
+        var currentQuantityNode;
+        for (var node of quantityNodes) {
+            var siblingNodes = $(node).prevAll();
+            var size = $(siblingNodes[0]).attr('data');
+            var color = "";
+            if (siblingNodes[1] != null) {
+                color = $(siblingNodes[1]).attr('data');
+                currentColor = $(siblingNodes[1]).attr('data');
+            } else {
+                color = currentColor;
+            }
+            updateInputQuantity(id, size, color, node);
+        }
+    </script>
+}

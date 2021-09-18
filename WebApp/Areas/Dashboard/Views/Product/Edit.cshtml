@@ -1,149 +1,150 @@
-﻿@model Product
-
-<div class="container">
-    <form method="post" class="form-group">
-        <input type="hidden" asp-for="ProductId" class="form-control" />
-        <div class="form-group">
-            <label asp-for="ProductName"></label>
-            <input type="text" asp-for="ProductName" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label asp-for="Sku"></label>
-            <input type="text" asp-for="Sku" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label asp-for="Price"></label>
-            <input type="number" asp-for="Price" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label asp-for="PriceSaleOff"></label>
-            <input type="number" asp-for="PriceSaleOff" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label asp-for="Material"></label>
-            <input type="text" asp-for="Material" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label asp-for="Description"></label>
-            <textarea asp-for="Description" class="form-control">@Model.Description</textarea>
-        </div>
-        <div id="selectOptions">
+﻿@model Product  
+    <div class="container">
+        <h3 class="text-center mb-4">CHỈNH SỬA THÔNG TIN SẢN PHẨM</h3>
+        <form method="post" class="form-group">
+            <input type="hidden" asp-for="ProductId" class="form-control" />
             <div class="form-group">
-                <button type="button" data-toggle="collapse" data-target="#chooseColor" class="btn btn-primary">Chọn màu sắc </button>
-                <div id="chooseColor" class="collapse" data-parent="#selectOptions">
-                    <div class="row my-3">
-                        @foreach (var item in ViewBag.colors)
-                        {
-                            <div class="col-2">
-                                @if (Model.Colors.Any(p => p.ColorId == item.ColorId))
-                                {
+                <label asp-for="ProductName"></label>
+                <input type="text" asp-for="ProductName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Sku"></label>
+                <input type="text" asp-for="Sku" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Price"></label>
+                <input type="number" asp-for="Price" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="PriceSaleOff"></label>
+                <input type="number" asp-for="PriceSaleOff" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Material"></label>
+                <input type="text" asp-for="Material" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <textarea asp-for="Description" class="form-control">@Model.Description</textarea>
+            </div>
+            <div id="selectOptions">
+                <div class="form-group">
+                    <button type="button" data-toggle="collapse" data-target="#chooseColor" class="btn btn-info">Chọn màu sắc </button>
+                    <div id="chooseColor" class="collapse" data-parent="#selectOptions">
+                        <div class="row my-3">
+                            @foreach (var item in ViewBag.colors)
+                            {
+                                <div class="col-2">
+                                    @if (Model.Colors.Any(p => p.ColorId == item.ColorId))
+                                    {
 
-                                    <label>
-                                        <input type="checkbox" name="listColor" value="@item.ColorId" checked />
-                                        @item.ColorCode
-                                    </label>
+                                        <label>
+                                            <input type="checkbox" name="listColor" value="@item.ColorId" checked />
+                                            @item.ColorCode
+                                        </label>
 
-                                }
-                                else
-                                {
-                                    <label>
-                                        <input type="checkbox" name="listColor" value="@item.ColorId" />
-                                        @item.ColorCode
-                                    </label>
-                                }
-                            </div>
-                        }
+                                    }
+                                    else
+                                    {
+                                        <label>
+                                            <input type="checkbox" name="listColor" value="@item.ColorId" />
+                                            @item.ColorCode
+                                        </label>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="button" data-toggle="collapse" data-target="#chooseSize" class="btn btn-info">Chọn kích cỡ </button>
+                    <div id="chooseSize" class="collapse" data-parent="#selectOptions">
+                        <div class="row my-3">
+                            @foreach (var item in ViewBag.sizes)
+                            {
+                                <div class="col-1">
+                                    @if (Model.Sizes.Any(p => p.SizeId == item.SizeId))
+                                    {
+
+                                        <label>
+                                            <input type="checkbox" name="listSize" value="@item.SizeId" checked />
+                                            @item.SizeCode
+                                        </label>
+
+                                    }
+                                    else
+                                    {
+                                        <label>
+                                            <input type="checkbox" name="listSize" value="@item.SizeId" />
+                                            @item.SizeCode
+                                        </label>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="button" data-toggle="collapse" data-target="#chooseGuide" class="btn btn-info">Chọn hướng dẫn sử dụng </button>
+                    <div id="chooseGuide" class="collapse" data-parent="#selectOptions">
+                        <div class="row my-3">
+                            @foreach (var item in ViewBag.guides)
+                            {
+                                <div class="col-6">
+                                    @if (Model.Guides.Any(p => p.GuideId == item.GuideId))
+                                    {
+
+                                        <label>
+                                            <input type="checkbox" name="listGuide" value="@item.GuideId" checked />
+                                            @item.GuideDescription
+                                        </label>
+
+                                    }
+                                    else
+                                    {
+                                        <label>
+                                            <input type="checkbox" name="listGuide" value="@item.GuideId" />
+                                            @item.GuideDescription
+                                        </label>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="button" data-toggle="collapse" data-target="#chooseCategory" class="btn btn-info">Chọn danh mục </button>
+                    <div id="chooseCategory" class="collapse" data-parent="#selectOptions">
+                        <div class="row my-3">
+                            @foreach (var item in ViewBag.categories)
+                            {
+                                <div class="col-2">
+                                    @if (Model.Categories.Any(p => p.CategoryId == item.CategoryId))
+                                    {
+
+                                        <label>
+                                            <input type="checkbox" name="listCategory" value="@item.CategoryId" checked />
+                                            @item.CategoryName
+                                        </label>
+
+                                    }
+                                    else
+                                    {
+                                        <label>
+                                            <input type="checkbox" name="listCategory" value="@item.CategoryId" />
+                                            @item.CategoryName
+                                        </label>
+                                    }
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <button type="button" data-toggle="collapse" data-target="#chooseSize" class="btn btn-primary">Chọn kích cỡ </button>
-                <div id="chooseSize" class="collapse" data-parent="#selectOptions">
-                    <div class="row my-3">
-                        @foreach (var item in ViewBag.sizes)
-                        {
-                            <div class="col-1">
-                                @if (Model.Sizes.Any(p => p.SizeId == item.SizeId))
-                                {
-
-                                    <label>
-                                        <input type="checkbox" name="listSize" value="@item.SizeId" checked />
-                                        @item.SizeCode
-                                    </label>
-
-                                }
-                                else
-                                {
-                                    <label>
-                                        <input type="checkbox" name="listSize" value="@item.SizeId" />
-                                        @item.SizeCode
-                                    </label>
-                                }
-                            </div>
-                        }
-                    </div>
-                </div>
+            <div class="d-flex mt-5">
+                <button class="btn btn-primary ml-auto mr-2">Lưu thay đổi</button>
+                <a href="/dashboard/product/detail/@Model.ProductId" class="btn btn-secondary mr-auto ml-2">Hủy bỏ</a>
             </div>
-            <div class="form-group">
-                <button type="button" data-toggle="collapse" data-target="#chooseGuide" class="btn btn-primary">Chọn hướng dẫn sử dụng </button>
-                <div id="chooseGuide" class="collapse" data-parent="#selectOptions">
-                    <div class="row my-3">
-                        @foreach (var item in ViewBag.guides)
-                        {
-                            <div class="col-6">
-                                @if (Model.Guides.Any(p => p.GuideId == item.GuideId))
-                                {
+        </form>
 
-                                    <label>
-                                        <input type="checkbox" name="listGuide" value="@item.GuideId" checked />
-                                        @item.GuideDescription
-                                    </label>
-
-                                }
-                                else
-                                {
-                                    <label>
-                                        <input type="checkbox" name="listGuide" value="@item.GuideId" />
-                                        @item.GuideDescription
-                                    </label>
-                                }
-                            </div>
-                        }
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <button type="button" data-toggle="collapse" data-target="#chooseCategory" class="btn btn-primary">Chọn danh mục </button>
-                <div id="chooseCategory" class="collapse" data-parent="#selectOptions">
-                    <div class="row my-3">
-                        @foreach (var item in ViewBag.categories)
-                        {
-                            <div class="col-2">
-                                @if (Model.Categories.Any(p => p.CategoryId == item.CategoryId))
-                                {
-
-                                    <label>
-                                        <input type="checkbox" name="listCategory" value="@item.CategoryId" checked />
-                                        @item.CategoryName
-                                    </label>
-
-                                }
-                                else
-                                {
-                                    <label>
-                                        <input type="checkbox" name="listCategory" value="@item.CategoryId" />
-                                        @item.CategoryName
-                                    </label>
-                                }
-                            </div>
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="d-flex mt-5">
-            <button class="btn btn-primary mx-auto">Lưu thay đổi</button>
-        </div>
-    </form>
-
-</div>
+    </div>

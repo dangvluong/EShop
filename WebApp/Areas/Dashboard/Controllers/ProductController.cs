@@ -96,7 +96,7 @@ namespace WebApp.Areas.Dashboard.Controllers
                 });
             }
 
-            List<ProductGuide> productGuides= new List<ProductGuide>();
+            List<ProductGuide> productGuides = new List<ProductGuide>();
             foreach (var item in listGuide)
             {
                 productGuides.Add(new ProductGuide
@@ -131,7 +131,7 @@ namespace WebApp.Areas.Dashboard.Controllers
         [HttpPost]
         public IActionResult Add(Product obj, short[] listColor, short[] listSize, short[] listGuide, short[] listCategory)
         {
-            obj.ProductId =  provider.Product.Add(obj);
+            obj.ProductId = provider.Product.Add(obj);
             List<ProductColor> productColors = new List<ProductColor>();
             foreach (var item in listColor)
             {
@@ -178,7 +178,7 @@ namespace WebApp.Areas.Dashboard.Controllers
         public IActionResult Delete(short id)
         {
             int result = provider.Product.Delete(id);
-            string[] msg = {"Lỗi", "Xóa thành công" };
+            string[] msg = { "Lỗi", "Xóa thành công" };
             result = result > 1 ? 1 : result;
             TempData["msg"] = msg[result];
             return Redirect("/dashboard/product");
@@ -187,6 +187,20 @@ namespace WebApp.Areas.Dashboard.Controllers
         public IActionResult DeleteImage(ProductImage obj)
         {
             return Json(provider.ProductImage.Delete(obj));
+        }
+        public IActionResult UpdateQuantity(short id)
+        {
+            Product product = provider.Product.GetProductById(id);
+            product.Sizes = provider.Size.GetSizesByProduct(id);
+            product.Colors = provider.Color.GetColorsByProduct(id);
+            return View(product);
+        }
+        [HttpPost]
+        public IActionResult UpdateQuantity(List<InventoryStatus> list)
+        {
+            short productId = list[0].ProductId;
+            provider.InventoryStatus.UpdateInventoryQuantity(list);
+            return Redirect($"/dashboard/product/detail/{productId}#quantityInInventory");
         }
     }
 }

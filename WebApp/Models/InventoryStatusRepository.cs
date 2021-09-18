@@ -29,7 +29,11 @@ namespace WebApp.Models
         }
         public int UpdateInventoryQuantity(InvoiceDetail obj)
         {
-            return connection.Execute("UpdateInventoryQuantity", new { ProductId = obj.ProductId, ColorId = obj.ColorId, SizeId = obj.SizeId, Quantity = obj.Quantity }, commandType: CommandType.StoredProcedure);
+            return connection.Execute("UpdateInventoryQuantityFromInvoice", new { ProductId = obj.ProductId, ColorId = obj.ColorId, SizeId = obj.SizeId, Quantity = obj.Quantity }, commandType: CommandType.StoredProcedure);
+        }
+        public int UpdateInventoryQuantity(List<InventoryStatus> list)
+        {
+            return connection.Execute("UpdateInventoryQuantity",list, commandType: CommandType.StoredProcedure);
         }
     }
 }

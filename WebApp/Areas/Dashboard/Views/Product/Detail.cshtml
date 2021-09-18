@@ -1,9 +1,6 @@
 ﻿@model Product
-<div class="d-flex">
-    <hr class="w-25 my-4 mx-auto" />
-</div>
-<h3 class="text-center mb-4">CHI TIẾT SẢN PHẨM</h3>
 <div class="container">
+    <h3 class="text-center mb-4">CHI TIẾT SẢN PHẨM</h3>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" id="home-tab" data-toggle="tab" href="#productdetail" role="tab" aria-controls="productdetail" aria-selected="true">THÔNG TIN SẢN PHẨM</a>
@@ -48,7 +45,7 @@
         </div>
         <div class="tab-pane fade" id="quantityInInventory" role="tabpanel" aria-labelledby="quantityInInventory-tab">
             <h4 class="text-center">SỐ LƯỢNG TỒN KHO</h4>
-            <table class="table table-bordered col-form-label-sm text-center ">
+            <table class="table table-bordered text-center ">
                 <thead>
                     <tr>
                         <th>Màu sắc</th>
@@ -87,7 +84,7 @@
                 {
                     <div class="col-md-3 my-3 ">
                         <img src="/images/@item.ImageUrl" alt="@Model.ProductName" class="img-fluid" />
-                        <form action="/dashboard/product/deleteImage" method="post" class="formDeleteImage">                          
+                        <form action="/dashboard/product/deleteImage" method="post" class="formDeleteImage">
                             <input type="hidden" name="colorId" value="@item.ColorId" />
                             <input type="hidden" name="imageUrl" value="@item.ImageUrl" />
                             <div class="d-flex">
@@ -143,18 +140,18 @@
             </div>
         </div>
     </div>
-
-
-</div>
-<div class="d-flex">
-    <hr class="w-25 my-4 mx-auto" />
 </div>
 @section script{
     <script>
+        function updateQuantity(id, s, c, currentNode) {
+            $.post('/product/getinventorystatus', { 'productId': id, 'sizeId': s, 'colorId': c }, result => {
+                console.log(result);
+                $(currentNode).append(result);
+            });
+        }
         var quantityNodes = document.getElementsByClassName('quantity');
         var currentColor = "";
-        var id = @Model.ProductId;
-        var currentQuantityNode;
+        var id = @Model.ProductId;       
         for (var node of quantityNodes) {
             var siblingNodes = $(node).prevAll();
             var size = $(siblingNodes[0]).attr('data');
@@ -166,14 +163,7 @@
                 color = currentColor;
             }
             updateQuantity(id, size, color, node);
-
         }
-        function updateQuantity(id, s, c, currentNode) {
-            $.post('/product/getinventorystatus', { 'productId': id, 'sizeId': s, 'colorId': c }, (result) => {
-                $(currentNode).append(result);
-            });
-        }
-
         $(document).on('submit', 'form[name="formUploadImage"]', function (e) {
             e.preventDefault();
             var data = {
@@ -192,9 +182,9 @@
                 dataType: 'json',
                 processData: false,
                 contentType: false,
-                success: result => {
-                    location.reload();
+                success: result => {                    
                     location.href = `/dashboard/product/detail/${@Model.ProductId}#images`;
+                    location.reload();
                 }
             });
         });
@@ -232,9 +222,9 @@
                 'productId':@Model.ProductId,
                 'colorId': colorId,
                 'imageUrl' : imageUrl
-            }, result => {
-                location.reload();
+            }, result => {                
                 location.href = `/dashboard/product/detail/${@Model.ProductId}#images`;
+                location.reload();
             });
         });
 
