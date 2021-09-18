@@ -13,17 +13,15 @@ namespace WebApp.Areas.Dashboard.Controllers
     [Area("dashboard")]
     public class ColorController : Controller
     {
-        SiteProvider provider;
-        int size = 50;
+        SiteProvider provider;        
         string root = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "icon");
         public ColorController(IConfiguration configuration)
         {
             provider = new SiteProvider(configuration);
         }
-        public IActionResult Index(int id = 1)
+        public IActionResult Index()
         {
-            IEnumerable<Color> colors = provider.Color.GetColors(id, size, out int total);
-            ViewBag.totalPage = (int)Math.Ceiling(total / (float)size);
+            IEnumerable<Color> colors = provider.Color.GetColors();          
             return View(colors);
         }
         public IActionResult Edit(IFormFile iconUpload, Color obj)

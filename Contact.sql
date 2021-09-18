@@ -92,6 +92,8 @@ BEGIN
 	IF @DefaultContact = @ContactId AND (SELECT COUNT(*) FROM ContactOfMember WHERE MemberId = @MemberId) >= 2
 		UPDATE Member SET DefaultContact = 
 			(SELECT TOP 1(ContactId) FROM ContactOfMember WHERE MemberId = @MemberId AND ContactId <> @ContactId);
+	ELSE IF (SELECT COUNT(*) FROM ContactOfMember WHERE MemberId = @MemberId) = 1
+		UPDATE Member SET DefaultContact = NULL WHERE MemberId = @MemberId;
 	DELETE ContactOfMember WHERE ContactId = @ContactId;
 	UPDATE Contact SET IsDeleted = 1 WHERE ContactId = @ContactId;
 	

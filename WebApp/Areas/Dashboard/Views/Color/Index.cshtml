@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Color>
 <div class="container">
-    <h3 class="text-center">QUẢN LÝ MÀU SẮC SẢN PHẨM</h3>
+    <h3 class="text-center">QUẢN LÝ MÃ MÀU SẮC SẢN PHẨM</h3>
     <div class="my-3">
         <button class="btn btn-info" data-toggle="modal" data-target="#AddColorModal">Tạo màu sắc mới</button>
         <div class="modal fade" id="AddColorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -33,7 +33,7 @@
         </div>
         @TempData["msg"]
     </div>
-    <table class="table table-bordered">
+    <table class="table table-bordered" id="colorTable">
         <thead>
             <tr>
                 <th>ColorId</th>
@@ -56,10 +56,6 @@
             }
         </tbody>
     </table>
-    <div class="d-flex">
-        <pagination total-page="@ViewBag.totalPage" current-page="@ViewContext.RouteData.Values["id"]" url="/dashboard/color/index/{0}"></pagination>
-    </div>
-
     <div class="modal fade" id="EditColorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -105,6 +101,9 @@
         });
         $(document).on('click', '.DeleteColor', function () {
             return confirm("Bạn có chắc muốn xóa màu sắc này?");
+        });
+        $(document).ready(function () {
+            $('#colorTable').DataTable();
         });
     </script>
 }

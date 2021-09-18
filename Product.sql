@@ -367,9 +367,14 @@ AS
 GO
 --DROP PROC UpdateInventoryQuantity;
 GO
-CREATE PROC UpdateInventoryQuantity(@ProductId SMALLINT, @ColorId SMALLINT, @SizeId TINYINT, @Quantity SMALLINT)
+CREATE PROC UpdateInventoryQuantityFromInvoice(@ProductId SMALLINT, @ColorId SMALLINT, @SizeId TINYINT, @Quantity SMALLINT)
 AS
 	UPDATE InventoryStatus SET Quantity -= @Quantity WHERE ProductId = @ProductId AND ColorId = @ColorId AND SizeId = @SizeId;
+GO
+
+CREATE PROC UpdateInventoryQuantity(@ProductId SMALLINT, @ColorId SMALLINT, @SizeId TINYINT, @Quantity SMALLINT)
+AS
+	UPDATE InventoryStatus SET Quantity = @Quantity WHERE ProductId = @ProductId AND ColorId = @ColorId AND SizeId = @SizeId;
 GO
 --DROP PROC GetGuides;
 GO

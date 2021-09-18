@@ -1,11 +1,7 @@
 ﻿@model IEnumerable<Invoice>
     <div class="container">
-        <h3 class="text-center">QUẢN LÝ ĐƠN ĐẶT HÀNG</h3>
-
-        <input type="text" name="searchMember" class="form-control w-25 float-right my-3" placeholder="Tìm kiếm đơn đặt hàng" />
-        <div class="clearfix"></div>
-
-        <table class="table table-bordered">
+        <h3 class="text-center">QUẢN LÝ ĐƠN ĐẶT HÀNG</h3>        
+        <table class="table table-bordered" id="invoiceTable">
             <thead>
                 <tr>
                     <th>Mã đơn hàng</th>
@@ -33,3 +29,10 @@
             </tbody>
         </table>
     </div>
+@section script{ 
+    <script>
+        $(document).ready(function () {
+            $('#invoiceTable').DataTable();
+        });
+    </script>
+}

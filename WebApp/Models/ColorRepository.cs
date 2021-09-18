@@ -20,20 +20,9 @@ namespace WebApp.Models
         {
             return connection.Query<Color>("GetColorByProduct", new { ProductId = productId }, commandType: CommandType.StoredProcedure).ToList();
         }
-        public IEnumerable<Color> GetFullColors()
+        public IEnumerable<Color> GetColors()
         {
-            return connection.Query<Color>("SELECT * FROM Color");
-        }
-
-        public IEnumerable<Color> GetColors(int id, int size, out int total)
-        {
-            DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("@Id", id, dbType: DbType.Int32);
-            parameters.Add("@Size", size, dbType: DbType.Int32);
-            parameters.Add("@Total", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            IEnumerable<Color> colors = connection.Query<Color>("GetColors", parameters, commandType: CommandType.StoredProcedure);
-            total = parameters.Get<int>("@Total");
-            return colors;
+            return connection.Query<Color>("SELECT * FROM Color WHERE IsDeleted = 0");
         }
         public int Edit(Color obj)
         {

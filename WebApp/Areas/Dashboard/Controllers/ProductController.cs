@@ -13,21 +13,19 @@ namespace WebApp.Areas.Dashboard.Controllers
     [Area("dashboard")]
     public class ProductController : Controller
     {
-        SiteProvider provider;
-        int size = 50;
+        SiteProvider provider;        
         public ProductController(IConfiguration configuration)
         {
             provider = new SiteProvider(configuration);
         }
         public IActionResult Index(int id = 1)
         {
-            IEnumerable<Product> products = provider.Product.GetProducts(id, size, out int total);
+            IEnumerable<Product> products = provider.Product.GetAllProduct();
             foreach (var item in products)
             {
                 item.Sizes = provider.Size.GetSizesByProduct(item.ProductId);
                 item.Colors = provider.Color.GetColorsByProduct(item.ProductId);
             }
-            ViewBag.totalPage = (int)Math.Ceiling(total / (float)size);
             return View(products);
         }
         public IActionResult Detail(short id)
@@ -68,7 +66,7 @@ namespace WebApp.Areas.Dashboard.Controllers
             product.Guides = provider.Guide.GetGuidesByProduct(id);
             product.Categories = provider.Category.GetCategoriesByProduct(id);
             ViewBag.sizes = provider.Size.GetSizes();
-            ViewBag.colors = provider.Color.GetFullColors();
+            ViewBag.colors = provider.Color.GetColors();
             ViewBag.guides = provider.Guide.GetGuids();
             ViewBag.categories = provider.Category.GetCategories();
             return View(product);
@@ -123,7 +121,7 @@ namespace WebApp.Areas.Dashboard.Controllers
         public IActionResult Add()
         {
             ViewBag.sizes = provider.Size.GetSizes();
-            ViewBag.colors = provider.Color.GetFullColors();
+            ViewBag.colors = provider.Color.GetColors();
             ViewBag.guides = provider.Guide.GetGuids();
             ViewBag.categories = provider.Category.GetCategories();
             return View();

@@ -30,7 +30,7 @@
             </div>
             @TempData["msg"]
         </div>
-        <table class="table table-bordered">
+        <table class="table table-bordered" id="guideTable">
             <thead>
                 <tr>
                     <th>Guide Id</th>
@@ -89,6 +89,9 @@
             });
             $(document).on('click', '.DeleteGuide', function () {
                 return confirm("Bạn có chắc muốn xóa hướng dẫn sử dụng này?");
+            });
+            $(document).ready(function () {
+                $('#guideTable').DataTable();
             });
         </script>
     }

@@ -30,6 +30,10 @@ namespace WebApp.Models
             total = parameters.Get<int>("@Total");
             return products;
         }
+        public IEnumerable<Product> GetAllProduct()
+        {
+            return connection.Query<Product>("SELECT * FROM Product");
+        }
         public Product GetProductById(short id)
         {
             return connection.QueryFirstOrDefault<Product>("GetProductById", new { Id = id }, commandType: CommandType.StoredProcedure);
