@@ -18,7 +18,7 @@ namespace WebApp.Models
         public List<Color> Colors { get; set; }
         public IEnumerable<Category> Categories { get; set; }
         public List<Size> Sizes { get; set; }               
-        public IEnumerable<Guide> Guides { get; set; }
-        public int Sales { get; set; }
+        public IEnumerable<Guide> Guides { get; set; }        
+        public List<Product> ProductsRelation { get; set; }
     }
 }

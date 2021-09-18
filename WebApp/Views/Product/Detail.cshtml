@@ -1,13 +1,12 @@
 ﻿@model Product
 <div class="row products-page mt-5">
     <div class="col-3">
-        <partial name="_Category" model="@ViewBag.categories"/>
+        <partial name="_Category" model="@ViewBag.categories" />
     </div>
     <div class="col-9">
         <div class="row">
             <div class="col-6">
                 <partial name="_Carousel" model="@Model" />
-                @*<img src="/images/@Model.ProductImages[0].ImageUrl" alt="@Model.ProductName" class="img-fluid" id="main-image" />*@
             </div>
             <div class="col-6">
                 <h3>@Model.ProductName</h3>
@@ -84,18 +83,81 @@
         </div>
     </div>
 </div>
-
+<div class="my-5">
+    <h4 class="text-center">Các sản phẩm liên quan</h4>
+</div>
+<div class="container text-center my-3">
+    <div id="productsRelationArea" class="carousel slide w-100" data-ride="carousel">
+        <div class="carousel-inner w-100" role="listbox">
+            <div class="carousel-item active row">
+                @for (int i = 0; i < 6; i++)
+                {
+                    <div class="col-2 float-left lastest-products">
+                        <a href="/product/detail/@Model.ProductsRelation[i].ProductId">
+                            <img src="@(Model.ProductsRelation[i].ProductImages.Count == 0 ? "#" : $"/images/{Model.ProductsRelation[i].ProductImages[0].ImageUrl}")" alt="@Model.ProductsRelation[i].ProductName" class="img-fluid">
+                            <p>@Model.ProductsRelation[i].ProductName</p>
+                        </a>
+                        @{
+                            if (Model.ProductsRelation[i].PriceSaleOff == 0)
+                            {
+                                <span class="">
+                                    @Model.ProductsRelation[i].Price
+                                </span>
+                            }
+                            else
+                            {
+                                <del>@Model.ProductsRelation[i].Price</del> <span class="">@Model.ProductsRelation[i].PriceSaleOff</span>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+            <div class="carousel-item row lastest-products"">
+                @for (int i = 6; i < 12; i++)
+                {
+                    <div class="col-2 float-left">
+                        <a href="/product/detail/@Model.ProductsRelation[i].ProductId">
+                            <img src="@(Model.ProductsRelation[i].ProductImages.Count == 0 ? "#" : $"/images/{Model.ProductsRelation[i].ProductImages[0].ImageUrl}")" alt="@Model.ProductsRelation[i].ProductName" class="img-fluid">
+                            <p>@Model.ProductsRelation[i].ProductName</p>
+                        </a>
+                        @{
+                            if (Model.ProductsRelation[i].PriceSaleOff == 0)
+                            {
+                                <span class="">
+                                    @Model.ProductsRelation[i].Price
+                                </span>
+                            }
+                            else
+                            {
+                                <del>@Model.ProductsRelation[i].Price</del> <span class="">@Model.ProductsRelation[i].PriceSaleOff</span>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+        <a class="carousel-control-prev2" href="#productsRelationArea" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next2" href="#productsRelationArea" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</div>
 
 @section script{
     <script>
         $('.carousel').carousel({
-            interval: false
-        });       
+            /*interval: false*/
+        });
+        $('#productsRelationArea').carousel();
         $(".image-radio img").click(function () {
             $('input[name="ColorId"]:checked').removeAttr('checked')
             $(this).prev().click();
-            $(this).prev().attr('checked', true);           
-            var colorCode = $(this).attr('alt');           
+            $(this).prev().attr('checked', true);
+            var colorCode = $(this).attr('alt');
             var listImages = document.getElementsByClassName('scroll-images');
             $('.carousel-item.active').removeClass('active');
             for (var i = 0; i < listImages.length; i++) {
@@ -109,7 +171,7 @@
         function updateInventoryStatus() {
             var p = @Model.ProductId;
             var c = $('input[name="ColorId"]:checked').val();
-            var s = $(SizeId).val();          
+            var s = $(SizeId).val();
             var target = $(InventoryStatusQuantity);
             target.empty();
             $.post('/product/getinventorystatus', { productId: p, sizeId: s, colorId: c }, (result) => {
@@ -126,10 +188,9 @@
 
             });
         }
-        $(frm).change(function () {            
+        $(frm).change(function () {
             updateInventoryStatus();
-        });        
+        });
         updateInventoryStatus();
     </script>
-
 }

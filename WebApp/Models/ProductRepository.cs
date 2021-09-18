@@ -98,5 +98,9 @@ namespace WebApp.Models
         {
             return connection.Query<Statistic>("GetHighestInventoryProducts", commandType: CommandType.StoredProcedure);
         }
+        public List<Product> GetProductsRelation(short productId)
+        {
+            return connection.Query<Product>("GetProductsRelation", new { ProductId = productId }, commandType: CommandType.StoredProcedure).ToList();
+        }
     }
 }

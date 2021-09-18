@@ -36,6 +36,11 @@ namespace WebApp.Controllers
             product.Categories = provider.Category.GetCategoriesByProduct(id);
             product.Sizes = provider.Size.GetSizesByProduct(id);            
             product.Guides = provider.Guide.GetGuidesByProduct(id);
+            product.ProductsRelation = provider.Product.GetProductsRelation(id);
+            foreach (var item in product.ProductsRelation)
+            {
+                item.ProductImages = provider.ProductImage.GetImagesByProduct(item.ProductId);
+            }
             ViewBag.categories = provider.Category.GetCategories();
             return View(product);
         }

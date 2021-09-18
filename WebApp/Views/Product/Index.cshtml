@@ -9,7 +9,7 @@
 
                 @foreach (Product item in Model)
                 {
-                    <div class="col-md-3 lastest-products simpleCart_shelfItem">
+                    <div class="col-md-3">
                         <a href="/product/detail/@item.ProductId">
                             <img src="@(item.ProductImages.Count == 0 ? "#" : $"/images/{item.ProductImages[0].ImageUrl}")" alt="@item.ProductName" class="lastest-product-images">
                             <p>@item.ProductName</p>

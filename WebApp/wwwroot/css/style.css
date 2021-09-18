@@ -79,40 +79,13 @@
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
 }
 
-@media screen and (max-width: 768px) {
-    .dropdown-menu {
-        width: 450px;
-        border: none;
-    }
-}
 
-@media screen and (max-width: 768px) {
-    .nav-item a {
-        text-align: center;
-        color: black;
-        border: 1px solid transparent;
-        padding: 5px 10px;
-        margin-right: 15px;
-    }
-
-    .dropdown-menu.columns-3,
-    .dropdown-menu.columns-2 {
-        width: 478px;
-    }
-}
 
 .nav-item a {
     color: black;
     border: 1px solid transparent;
     padding: 5px 10px;
     margin-right: 15px;
-}
-
-@media screen and (max-width: 990px) {
-    .nav-item a {
-        padding: 5px 0;
-        margin-right: 0;
-    }
 }
 
 .nav-item.show > a,
@@ -138,7 +111,7 @@
 .banner {
     background: url("../images/icon/banner_img.jpg") no-repeat 0px 0px;
     width: 100%;
-    min-height: 700px;
+    min-height: 650px;
     background-size: cover;
 }
 
@@ -164,7 +137,7 @@
     position: relative;
     float: left;
     width: 100%;
-    min-height: 600px;
+    min-height: 450px;
     padding-top: 200px;
 }
 
@@ -209,6 +182,24 @@
 }
 /*responsive slider end*/
 
+
+/*View All Product button start*/
+#viewAllProduct {
+    margin-right: 100px;
+    text-decoration: none;
+    padding: 12px 20px;
+    border: 1px solid #000;
+    color: #000;
+    font-size: 18px;
+    letter-spacing: 2px;
+
+}
+    #viewAllProduct:hover {
+        color: #fff;
+        background-color: #816263;
+        border: 1px solid #816263;
+    }
+/*View All Product button start*/
 /*follow us - shipping - order online  start*/
 #main-content {
     margin-top: 30px;
@@ -649,7 +640,7 @@ span.image-radio input[type="radio"]:checked + img {
     width: 24%;
 }
 
-    .sb-search.sb-search-open .sb-icon-search, .no-js .sb-search .sb-icon-search {        
+    .sb-search.sb-search-open .sb-icon-search, .no-js .sb-search .sb-icon-search {
         color: #fff;
         z-index: 11;
     }
@@ -659,9 +650,10 @@ span.image-radio input[type="radio"]:checked + img {
     }
 
 /*Cart*/
-.DeleteCart, .far{
+.DeleteCart, .far {
     cursor: pointer;
 }
-a i{
+
+a i {
     color: black;
 }

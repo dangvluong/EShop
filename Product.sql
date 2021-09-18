@@ -334,6 +334,20 @@ BEGIN
 	WHERE CategoryId = @CategoryId AND Product.IsDeleted = 0;
 
 END
+--DROP PROC GetProductsRelation;
+GO
+CREATE PROC GetProductsRelation(@ProductId SMALLINT)
+AS
+BEGIN
+	SELECT DISTINCT TOP 12 Product.* FROM Product JOIN ProductInCategory
+		ON Product.ProductId = ProductInCategory.ProductId
+		JOIN (SELECT CategoryId FROM Product JOIN ProductInCategory ON Product.ProductId = ProductInCategory.ProductId WHERE Product.ProductId = 1) AS Temp
+		ON ProductInCategory.CategoryId = Temp.CategoryId
+		WHERE Product.ProductId <> @ProductId;
+END
+
+SELECT * FROM ProductInCategory;
+
 --DROP PROC SearchProduct
 GO
 CREATE PROC SearchProduct(
@@ -388,6 +402,9 @@ CREATE PROC GetGuidesByProduct(@ProductId SMALLINT)
 AS
 	SELECT Guide.* FROM Guide JOIN GuideOfProduct ON Guide.GuideId = GuideOfProduct.GuideId WHERE GuideOfProduct.ProductId = @ProductId AND Guide.IsDeleted = 0;
 GO
+
+
+
 
 
 
