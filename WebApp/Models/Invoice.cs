@@ -13,6 +13,7 @@ namespace WebApp.Models
         public short ContactId { get; set; }
         public Contact Contact { get; set; }
         public byte StatusId { get; set; }
+        public int ShipCost { get; set; }
         public Guid CartId { get; set; }
         public IEnumerable<InvoiceDetail> InvoiceDetails { get; set; }
 

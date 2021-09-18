@@ -18,7 +18,8 @@ namespace WebApp.Models
                 MemberId = obj.MemberId,
                 ContactId = obj.ContactId,
                 StatusId = obj.StatusId,
-                CartId = obj.CartId
+                CartId = obj.CartId,
+                ShipCost = obj.ShipCost
             }, commandType: CommandType.StoredProcedure);
         }
 

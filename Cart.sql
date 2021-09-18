@@ -68,3 +68,5 @@ SELECT * FROM Cart;
 SELECT * FROM Product;
 
 TRUNCATE TABLE Cart;
+
+SELECT * FROM Cart;

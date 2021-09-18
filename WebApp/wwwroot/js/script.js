@@ -68,9 +68,9 @@ $(document).on('change', '#DistrictId', function () {
 
 $(document).on('change', 'input[id="quantityInCart"]', function () {
     var listNode = $(this).parent().prevAll();
-    var pid = $(listNode[2]).attr('name');
-    var cid = $(listNode[1]).attr('name');
-    var sid = $(listNode[0]).attr('name');
+    var pid = $(listNode[3]).attr('name');
+    var cid = $(listNode[2]).attr('name');
+    var sid = $(listNode[1]).attr('name');
     var qty = $(this).val();
     $.post('/cart/editcart', { 'ProductId': pid, 'ColorId': cid, 'SizeId': sid, 'Quantity': qty }, result => {
         location.reload();
@@ -145,4 +145,8 @@ $(document).on('submit', 'form[name="editContact"]', function (e) {
     }, result => {
         location.reload();
     });
+});
+//add total cost of invoice to cart and checkout page
+$(document).ready(function () {
+    $('#totalCost').text(parseInt($('#totalProductCost').text()) + parseInt($('#shipCost').text()));
 });

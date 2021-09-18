@@ -3,8 +3,10 @@
     <hr class="w-25 my-4 mx-auto" />
 </div>
 <div class="container">
+   @{int total = 0; }
     @if (ViewBag.cart.Count > 0)
     {
+        
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -20,17 +22,34 @@
             <tbody>
                 @foreach (var item in ViewBag.cart)
                 {
-                <tr>
-                    <td class="ProductId" name="@item.ProductId">@item.ProductName</td>
-                    <td class="ColorId" name="@item.ColorId">@item.ColorCode</td>
-                    <td class="SizeId" name="@item.SizeId">@item.SizeCode</td>
-                    <th>@item.Price</th>
-                    <td><input type="number" id="quantityInCart" name="Quantity" value="@item.Quantity" min="1" max="@item.AvailableQuantity" /></td>
-                    <th class="Amount">@(item.Quantity * item.Price)</th>
-                    <td><a class="DeleteCart"><i class="fas fa-trash-alt"></i></a></td>
-                </tr>
+                    total += item.Quantity * item.Price;
+                    <tr>
+                        <td class="ProductId" name="@item.ProductId">@item.ProductName</td>
+                        <td class="ColorId" name="@item.ColorId">@item.ColorCode</td>
+                        <td class="SizeId" name="@item.SizeId">@item.SizeCode</td>
+                        <th>@item.Price</th>
+                        <td><input type="number" id="quantityInCart" name="Quantity" value="@item.Quantity" min="1" max="@item.AvailableQuantity" /></td>
+                        <th class="Amount">@(item.Quantity * item.Price)</th>
+                        <td><a class="DeleteCart"><i class="fas fa-trash-alt"></i></a></td>
+                    </tr>
                 }
             </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="5" class="text-right">Tổng tiền hàng</th>
+                    <td id="totalProductCost" colspan="2">@total</td>
+                </tr>
+                <tr>
+                    <th colspan="5" class="text-right">Phí vận chuyển</th>
+                    <td id="shipCost" colspan="2">
+                        @(total>=500000 ? "0" : "50000")
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="5" class="text-right">Tổng thành tiền</th>
+                    <td id="totalCost" colspan="2">0</td>
+                </tr>
+            </tfoot>
         </table>
     }
     else
@@ -128,6 +147,7 @@
     <div class="d-flex">
         <form method="post" class="mx-auto" name="formCheckout">
             <input type="hidden" name="ContactId" value="@Model.DefaultContact" required />
+            <input type="hidden" name="ShipCost" value="@(total>=500000 ? 0 : 50000)" />
             <button class="btn btn-primary" id="btnConfirmCheckout">Xác nhận đơn hàng</button>
         </form>
     </div>
@@ -147,7 +167,6 @@
                 $('form[name = "formCheckout"]').submit();
             }           
         });
-
     </script>
 }
 

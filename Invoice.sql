@@ -28,11 +28,12 @@ CREATE PROC AddInvoice(
 	@MemberId UNIQUEIDENTIFIER,
 	@ContactId SMALLINT,
 	@StatusId TINYINT,
-	@CartId UNIQUEIDENTIFIER
+	@CartId UNIQUEIDENTIFIER,
+	@ShipCost INT
 )	
 AS
 BEGIN
-		INSERT INTO Invoice(InvoiceId, MemberId, ContactId, StatusId) VALUES(@InvoiceId, @MemberId, @ContactId, @StatusId);
+		INSERT INTO Invoice(InvoiceId, MemberId, ContactId, StatusId, ShipCost) VALUES(@InvoiceId, @MemberId, @ContactId, @StatusId, @ShipCost);
 		INSERT INTO InvoiceDetail(InvoiceId, ProductId,ColorId, SizeId, Quantity, Price)
 			SELECT @InvoiceId, Cart.ProductId,ColorId, SizeId, Quantity, Cart.Price 
 				FROM Cart JOIN Product ON Cart.ProductId = Product.ProductId WHERE CartId = @CartId;
@@ -74,3 +75,4 @@ SELECT * FROM Invoice;
 SELECT * FROM InvoiceDetail;
 SELECT * FROM Contact;
 
+SELECT * FROM Invoice;

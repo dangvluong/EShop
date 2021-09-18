@@ -12,6 +12,7 @@
 <div class="container">
     @if (Model.ToList().Count > 0)
     {
+        int total = 0;
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -27,6 +28,7 @@
             <tbody>
                 @foreach (var item in Model)
                 {
+                    total += item.Quantity * item.Price;
                     <tr>
                         <td class="ProductId" name="@item.ProductId">@item.ProductName</td>
                         <td class="ColorId" name="@item.ColorId">@item.ColorCode</td>
@@ -38,6 +40,22 @@
                     </tr>
                 }
             </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="5" class="text-right">Tổng tiền hàng</th>
+                    <td id="totalProductCost" colspan="2">@total</td>
+                </tr>
+                <tr>
+                    <th colspan="5" class="text-right">Phí vận chuyển</th>
+                    <td id="shipCost" colspan="2">
+                        @(total>=500000 ? "0" : "50000")
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="5" class="text-right">Tổng thành tiền</th>
+                    <td id="totalCost" colspan="2">0</td>
+                </tr>
+            </tfoot>
         </table>
         <div class="text-center">
             <a href="/cart/checkout" class="btn btn-primary">Thanh toán</a>
