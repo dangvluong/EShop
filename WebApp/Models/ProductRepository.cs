@@ -16,9 +16,9 @@ namespace WebApp.Models
         {
             //this.configuration = configuration;
         }
-        public IEnumerable<Product> GetRandom10Product()
+        public IEnumerable<Product> GetRandom12Products()
         {
-            return connection.Query<Product>("GetRandom12Productcs", commandType: CommandType.StoredProcedure);
+            return connection.Query<Product>("GetRandom12Products", commandType: CommandType.StoredProcedure);
         }
         public IEnumerable<Product> GetProducts(int page, int size, out int total)
         {

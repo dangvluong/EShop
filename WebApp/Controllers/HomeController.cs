@@ -14,7 +14,7 @@ namespace WebApp.Controllers
         }
         public IActionResult Index()
         {
-            IEnumerable<Product> products = provider.Product.GetRandom10Product();
+            IEnumerable<Product> products = provider.Product.GetRandom12Products();
             foreach (var item in products)
             {
                 item.ProductImages = provider.ProductImage.GetImagesByProduct(item.ProductId);

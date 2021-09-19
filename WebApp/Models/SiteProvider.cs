@@ -14,7 +14,7 @@ namespace WebApp.Models
         ColorRepository color;
         CategoryRepository category;
         SizeRepository size;
-        InventoryStatusRepository inventoryStatus;
+        InventoryQuantityRepository inventoryStatus;
         GuideRepository guide;
         MemberRepository member;
         RoleRepository role;
@@ -244,13 +244,13 @@ namespace WebApp.Models
                 return size;
             }
         }
-        public InventoryStatusRepository InventoryStatus
+        public InventoryQuantityRepository InventoryStatus
         {
             get
             {
                 if (inventoryStatus is null)
                 {
-                    inventoryStatus = new InventoryStatusRepository(Connection);
+                    inventoryStatus = new InventoryQuantityRepository(Connection);
                 }
                 return inventoryStatus;
             }

@@ -15,6 +15,7 @@ namespace WebApp.Models
         public byte StatusId { get; set; }
         public int ShipCost { get; set; }
         public Guid CartId { get; set; }
+        public DateTime DateCreated { get; set; }
         public IEnumerable<InvoiceDetail> InvoiceDetails { get; set; }
 
     }

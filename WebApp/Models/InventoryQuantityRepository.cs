@@ -9,29 +9,29 @@ using System.Threading.Tasks;
 
 namespace WebApp.Models
 {
-    public class InventoryStatusRepository : BaseRepository
+    public class InventoryQuantityRepository : BaseRepository
     {
         //IConfiguration configuration;
-        public InventoryStatusRepository(IDbConnection connection) : base(connection)
+        public InventoryQuantityRepository(IDbConnection connection) : base(connection)
         {
             //this.configuration = configuration;
         }
 
-        public IEnumerable<InventoryStatus> GetInventoryStatusesByProduct(short productId)
+        public IEnumerable<InventoryQuantity> GetInventoryQuantitiesByProduct(short productId)
         {
-            return connection.Query<InventoryStatus>("GetInventoryStatusesByProduct", new { ProductId = productId }, commandType: CommandType.StoredProcedure);
+            return connection.Query<InventoryQuantity>("GetInventoryQuantitiesByProduct", new { ProductId = productId }, commandType: CommandType.StoredProcedure);
         }
 
-        public int GetInventoryStatusByProductColorAndSize(short productId, short colorId, byte sizeId)
+        public int GetInventoryQuantitiesByProductColorAndSize(short productId, short colorId, byte sizeId)
         {
-            string sql = $"SELECT Quantity FROM InventoryStatus WHERE ProductId = {productId} AND ColorId = {colorId} AND SizeId = {sizeId}";
+            string sql = $"SELECT Quantity FROM InventoryQuantity WHERE ProductId = {productId} AND ColorId = {colorId} AND SizeId = {sizeId}";
             return connection.QuerySingleOrDefault<int>(sql);
         }
         public int UpdateInventoryQuantity(InvoiceDetail obj)
         {
             return connection.Execute("UpdateInventoryQuantityFromInvoice", new { ProductId = obj.ProductId, ColorId = obj.ColorId, SizeId = obj.SizeId, Quantity = obj.Quantity }, commandType: CommandType.StoredProcedure);
         }
-        public int UpdateInventoryQuantity(List<InventoryStatus> list)
+        public int UpdateInventoryQuantity(List<InventoryQuantity> list)
         {
             return connection.Execute("UpdateInventoryQuantity",list, commandType: CommandType.StoredProcedure);
         }

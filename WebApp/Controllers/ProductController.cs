@@ -73,7 +73,7 @@ namespace WebApp.Controllers
         [HttpPost]
         public int GetInventoryStatus(short productId, short colorId, byte sizeId)
         {
-            return provider.InventoryStatus.GetInventoryStatusByProductColorAndSize(productId, colorId, sizeId);
+            return provider.InventoryStatus.GetInventoryQuantitiesByProductColorAndSize(productId, colorId, sizeId);
         }
     }
 }

@@ -18,6 +18,7 @@ namespace WebApp.Models
                 MemberId = obj.MemberId,
                 ContactId = obj.ContactId,
                 StatusId = obj.StatusId,
+                DateCreated = obj.DateCreated,
                 CartId = obj.CartId,
                 ShipCost = obj.ShipCost
             }, commandType: CommandType.StoredProcedure);

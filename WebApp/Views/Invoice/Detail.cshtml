@@ -47,6 +47,7 @@
         <tbody>
             @foreach (InvoiceDetail item in Model.InvoiceDetails)
             {
+                total += item.Quantity * item.Price;
                 <tr>
                     <td>@item.ProductName</td>
                     <td>@item.ColorCode</td>

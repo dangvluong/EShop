@@ -26,7 +26,7 @@ namespace WebApp.Controllers
                 IEnumerable<Cart> cart = provider.Cart.GetCarts(Guid.Parse(cartId));
                 foreach (var item in cart)
                 {
-                    item.AvailableQuantity = provider.InventoryStatus.GetInventoryStatusByProductColorAndSize(item.ProductId, item.ColorId, item.SizeId);
+                    item.AvailableQuantity = provider.InventoryStatus.GetInventoryQuantitiesByProductColorAndSize(item.ProductId, item.ColorId, item.SizeId);
                 }
                 return View(cart);
             }
@@ -96,7 +96,7 @@ namespace WebApp.Controllers
                 IEnumerable<Cart> carts = provider.Cart.GetCarts(Guid.Parse(cartId));
                 foreach (var item in carts)
                 {
-                    item.AvailableQuantity = provider.InventoryStatus.GetInventoryStatusByProductColorAndSize(item.ProductId, item.ColorId, item.SizeId);
+                    item.AvailableQuantity = provider.InventoryStatus.GetInventoryQuantitiesByProductColorAndSize(item.ProductId, item.ColorId, item.SizeId);
                 }
                 ViewBag.cart = carts;
                 return View(member);
@@ -114,6 +114,7 @@ namespace WebApp.Controllers
                 obj.CartId = Guid.Parse(cartId);
                 obj.StatusId = (int)InvoiceStatus.Processing;
                 obj.InvoiceId = Guid.NewGuid();
+                obj.DateCreated = DateTime.UtcNow;
                 provider.Invoice.Add(obj);
                 return Redirect($"/invoice/detail/{obj.InvoiceId}");
             }

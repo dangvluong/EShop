@@ -194,7 +194,7 @@ namespace WebApp.Areas.Dashboard.Controllers
             return View(product);
         }
         [HttpPost]
-        public IActionResult UpdateQuantity(List<InventoryStatus> list)
+        public IActionResult UpdateQuantity(List<InventoryQuantity> list)
         {
             short productId = list[0].ProductId;
             provider.InventoryStatus.UpdateInventoryQuantity(list);
