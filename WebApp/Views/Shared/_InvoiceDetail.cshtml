@@ -1,27 +1,4 @@
 ﻿@model Invoice
-<table class="table table-bordered my-4">
-    <thead>
-        <tr>
-            <th>Người nhận hàng: </th>
-            <td>@Model.Contact.FullName</td>
-        </tr>
-        <tr>
-            <th>Số điện thoại: </th>
-            <td>@Model.Contact.PhoneNumber</td>
-        </tr>
-        <tr>
-            <th>Địa chỉ: </th>
-            <td>@(Model.Contact.AddressHome +", " + Model.Contact.WardName+ ", " + Model.Contact.DistrictName+ ", " + Model.Contact.ProvinceName)</td>
-        </tr>
-        <tr>
-            <th>Tình trạng đơn hàng: </th>
-            <td>
-                @((InvoiceStatus)Model.StatusId)
-            </td>
-        </tr>
-    </thead>
-</table>
-
 <h4>Chi tiết đơn hàng: </h4>
 @{int total = 0; }
 <table class="table table-bordered my-4">

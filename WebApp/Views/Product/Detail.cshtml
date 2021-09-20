@@ -167,7 +167,6 @@
                 }
             }
         });
-
         function updateInventoryStatus() {
             var p = @Model.ProductId;
             var c = $('input[name="ColorId"]:checked').val();
@@ -185,7 +184,6 @@
                     $('input#Quantity').prop("disabled", true);
                     $('button.confirmCart').prop("disabled", true);
                 }
-
             });
         }
         $(frm).change(function () {

@@ -1,30 +1,8 @@
 ﻿@model Product
 <div class="container">
+    <h3 class="text-center mb-4">THÊM THÔNG TIN SẢN PHẨM</h3>
     <form method="post" class="form-group">
-        <div class="form-group">
-            <label asp-for="ProductName"></label>
-            <input type="text" asp-for="ProductName" class="form-control"  required/>
-        </div>
-        <div class="form-group">
-            <label asp-for="Sku"></label>
-            <input type="text" asp-for="Sku" class="form-control" required/>
-        </div>
-        <div class="form-group">
-            <label asp-for="Price"></label>
-            <input type="number" asp-for="Price" class="form-control" required/>
-        </div>
-        <div class="form-group">
-            <label asp-for="PriceSaleOff"></label>
-            <input type="number" asp-for="PriceSaleOff" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label asp-for="Material"></label>
-            <input type="text" asp-for="Material" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label asp-for="Description"></label>
-            <textarea asp-for="Description" class="form-control">@Model.Description</textarea>
-        </div>
+        <partial name="_InputProduct" model="@Model" />
         <div id="selectOptions">
             <div class="form-group">
                 <button type="button" data-toggle="collapse" data-target="#chooseColor" class="btn btn-info">Chọn màu sắc </button>
@@ -82,7 +60,7 @@
                         {
                             <div class="col-2">
                                 <label>
-                                    <input type="checkbox" name="listCategory" value="@item.CategoryId"/>
+                                    <input type="checkbox" name="listCategory" value="@item.CategoryId" />
                                     @item.CategoryName
                                 </label>
                             </div>

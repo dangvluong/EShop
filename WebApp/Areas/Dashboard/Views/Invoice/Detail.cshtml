@@ -30,49 +30,7 @@
             </tr>
         </thead>
     </table>
-
-    <h4>Chi tiết đơn hàng: </h4>
-    @{int total = 0; }
-    <table class="table table-bordered my-4">
-        <thead>
-            <tr>
-                <th>Tên sản phẩm</th>
-                <th>Mã màu</th>
-                <th>Size</th>
-                <th>Đơn giá</th>
-                <th>Số lượng</th>
-                <th>Thành tiền</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (InvoiceDetail item in Model.InvoiceDetails)
-            {
-                total += item.Quantity * item.Price;
-                <tr>
-                    <td>@item.ProductName</td>
-                    <td>@item.ColorCode</td>
-                    <td>@item.SizeCode</td>
-                    <td>@item.Price</td>
-                    <td>@item.Quantity</td>
-                    <td>@(item.Quantity * item.Price)</td>
-                </tr>
-            }
-        </tbody>
-        <tfoot>
-            <tr>
-                <th colspan="5" class="text-right">Tổng tiền hàng</th>
-                <td id="totalProductCost" colspan="2">@total</td>
-            </tr>
-            <tr>
-                <th colspan="5" class="text-right">Phí vận chuyển</th>
-                <td id="shipCost" colspan="2">@Model.ShipCost</td>
-            </tr>
-            <tr>
-                <th colspan="5" class="text-right">Tổng thành tiền</th>
-                <td id="totalCost" colspan="2">0</td>
-            </tr>
-        </tfoot>
-    </table>
+    <partial name="_InvoiceDetail" model="@Model" />    
     <div class="modal" id="updateInvoiceStatus">
         <div class="modal-dialog">
             <div class="modal-content">
