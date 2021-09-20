@@ -668,3 +668,7 @@ span.image-radio input[type="radio"]:checked + img {
 a i {
     color: black;
 }
+/*Pagination*/
+.fa-fast-backward, .fa-fast-forward {
+    color: #007bff;
+}
