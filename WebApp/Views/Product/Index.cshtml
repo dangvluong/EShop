@@ -11,7 +11,7 @@
                 {
                     <div class="col-md-3">
                         <a href="/product/detail/@item.ProductId">
-                            <img src="@(item.ProductImages.Count == 0 ? "#" : $"/images/{item.ProductImages[0].ImageUrl}")" alt="@item.ProductName" class="lastest-product-images">
+                            <img src="@(item.Images.Count == 0 ? "#" : $"/images/{item.Images[0].ImageUrl}")" alt="@item.ProductName" class="lastest-product-images">
                             <p>@item.ProductName</p>
                         </a>                       
                             @{
@@ -42,7 +42,7 @@
     {
         <div class="col-3">
             <a href="/product/detail/@item.ProductId">
-                <img src=@(item.ProductImages.Count == 0 ? "#" : $"/images/{item.ProductImages[0].ImageUrl}") alt="@item.ProductName" class="img-fluid" />
+                <img src=@(item.Images.Count == 0 ? "#" : $"/images/{item.ProductImages[0].ImageUrl}") alt="@item.ProductName" class="img-fluid" />
                 <p>@item.ProductName</p>
                 <p>@item.ProductId</p>
             </a>

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace WebApp.Models
 {
-    public class ProductSize
+    public class GuideOfProduct
     {
         public short ProductId { get; set; }
-        public byte SizeId { get; set; }
+        public short GuideId { get; set; }
     }
 }

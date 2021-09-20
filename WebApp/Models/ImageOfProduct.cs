@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebApp.Models
 {
-    public class ProductImage
+    public class ImageOfProduct
     {
         public short ProductId { get; set; }
         public short ColorId { get; set; }

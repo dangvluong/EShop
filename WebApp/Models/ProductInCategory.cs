@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebApp.Models
 {
-    public class ProductCategory
+    public class ProductInCategory
     {
         public short ProductId { get; set; }
         public short CategoryId { get; set; }

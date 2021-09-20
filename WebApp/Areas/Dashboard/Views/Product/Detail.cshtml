@@ -80,7 +80,7 @@
         <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
             <h4 class="text-center my-3">HÌNH ẢNH SẢN PHẨM</h4>
             <div class="row" id="productImages">
-                @foreach (var item in Model.ProductImages)
+                @foreach (var item in Model.Images)
                 {
                     <div class="col-md-3 my-3 ">
                         <img src="/images/@item.ImageUrl" alt="@Model.ProductName" class="img-fluid" />
@@ -144,7 +144,7 @@
 @section script{
     <script>
         function updateQuantity(id, s, c, currentNode) {
-            $.post('/product/getinventorystatus', { 'productId': id, 'sizeId': s, 'colorId': c }, result => {
+            $.post('/product/getinventoryquantity', { 'productId': id, 'sizeId': s, 'colorId': c }, result => {
                 console.log(result);
                 $(currentNode).append(result);
             });

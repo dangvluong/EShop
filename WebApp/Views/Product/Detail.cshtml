@@ -94,7 +94,7 @@
                 {
                     <div class="col-2 float-left lastest-products">
                         <a href="/product/detail/@Model.ProductsRelation[i].ProductId">
-                            <img src="@(Model.ProductsRelation[i].ProductImages.Count == 0 ? "#" : $"/images/{Model.ProductsRelation[i].ProductImages[0].ImageUrl}")" alt="@Model.ProductsRelation[i].ProductName" class="img-fluid">
+                            <img src="@(Model.ProductsRelation[i].Images.Count == 0 ? "#" : $"/images/{Model.ProductsRelation[i].Images[0].ImageUrl}")" alt="@Model.ProductsRelation[i].ProductName" class="img-fluid">
                             <p>@Model.ProductsRelation[i].ProductName</p>
                         </a>
                         @{
@@ -117,7 +117,7 @@
                 {
                     <div class="col-2 float-left">
                         <a href="/product/detail/@Model.ProductsRelation[i].ProductId">
-                            <img src="@(Model.ProductsRelation[i].ProductImages.Count == 0 ? "#" : $"/images/{Model.ProductsRelation[i].ProductImages[0].ImageUrl}")" alt="@Model.ProductsRelation[i].ProductName" class="img-fluid">
+                            <img src="@(Model.ProductsRelation[i].Images.Count == 0 ? "#" : $"/images/{Model.ProductsRelation[i].Images[0].ImageUrl}")" alt="@Model.ProductsRelation[i].ProductName" class="img-fluid">
                             <p>@Model.ProductsRelation[i].ProductName</p>
                         </a>
                         @{
@@ -174,7 +174,7 @@
             var s = $(SizeId).val();
             var target = $(InventoryStatusQuantity);
             target.empty();
-            $.post('/product/getinventorystatus', { productId: p, sizeId: s, colorId: c }, (result) => {
+            $.post('/product/getinventoryquantity', { productId: p, sizeId: s, colorId: c }, (result) => {
                 if (result > 0) {
                     target.append(result + " sản phẩm");
                     $('input#Quantity').attr('max', result);

@@ -22,7 +22,7 @@ namespace WebApp.Models
             return connection.Query<InventoryQuantity>("GetInventoryQuantitiesByProduct", new { ProductId = productId }, commandType: CommandType.StoredProcedure);
         }
 
-        public int GetInventoryQuantitiesByProductColorAndSize(short productId, short colorId, byte sizeId)
+        public int GetInventoryQuantitiesByProductColorAndSize(short productId, short colorId, short sizeId)
         {
             string sql = $"SELECT Quantity FROM InventoryQuantity WHERE ProductId = {productId} AND ColorId = {colorId} AND SizeId = {sizeId}";
             return connection.QuerySingleOrDefault<int>(sql);

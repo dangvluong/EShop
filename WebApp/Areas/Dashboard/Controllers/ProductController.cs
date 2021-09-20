@@ -31,7 +31,7 @@ namespace WebApp.Areas.Dashboard.Controllers
         public IActionResult Detail(short id)
         {
             Product product = provider.Product.GetProductById(id);
-            product.ProductImages = provider.ProductImage.GetImagesByProduct(id);
+            product.Images = provider.ImageOfProduct.GetImagesByProduct(id);
             product.Colors = provider.Color.GetColorsByProduct(id);
             product.Categories = provider.Category.GetCategoriesByProduct(id);
             product.Sizes = provider.Size.GetSizesByProduct(id);
@@ -42,9 +42,9 @@ namespace WebApp.Areas.Dashboard.Controllers
         [HttpPost]
         public IActionResult ImageUpload(IFormFile image, string data)
         {
-            ProductImageUpload obj = JsonConvert.DeserializeObject<ProductImageUpload>(data);
+            ImageOfProductUpload obj = JsonConvert.DeserializeObject<ImageOfProductUpload>(data);
             string root = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
-            int numberImageExists = provider.ProductImage.GetNumberImageExists(obj);
+            int numberImageExists = provider.ImageOfProduct.GetNumberImageExists(obj);
             if (image != null && !string.IsNullOrEmpty(image.FileName))
             {
                 string fileName = obj.Sku + "-" + obj.ColorId + "-" + (numberImageExists + 1) + Path.GetExtension(image.FileName);
@@ -53,7 +53,7 @@ namespace WebApp.Areas.Dashboard.Controllers
                 {
                     image.CopyTo(stream);
                 }
-                provider.ProductImage.AddProductImage(obj, fileName);
+                provider.ImageOfProduct.AddImageOfProduct(obj, fileName);
                 return Json(fileName);
             }
             return null;
@@ -75,38 +75,38 @@ namespace WebApp.Areas.Dashboard.Controllers
         public IActionResult Edit(Product obj, short[] listColor, short[] listSize, short[] listGuide, short[] listCategory)
         {
             provider.Product.Edit(obj);
-            List<ProductColor> productColors = new List<ProductColor>();
+            List<ColorOfProduct> productColors = new List<ColorOfProduct>();
             foreach (var item in listColor)
             {
-                productColors.Add(new ProductColor
+                productColors.Add(new ColorOfProduct
                 {
                     ProductId = obj.ProductId,
                     ColorId = item
                 });
             }
-            List<ProductSize> productSizes = new List<ProductSize>();
+            List<SizeOfProduct> productSizes = new List<SizeOfProduct>();
             foreach (var item in listSize)
             {
-                productSizes.Add(new ProductSize
+                productSizes.Add(new SizeOfProduct
                 {
                     ProductId = obj.ProductId,
-                    SizeId = (byte)item
+                    SizeId = item
                 });
             }
 
-            List<ProductGuide> productGuides = new List<ProductGuide>();
+            List<GuideOfProduct> productGuides = new List<GuideOfProduct>();
             foreach (var item in listGuide)
             {
-                productGuides.Add(new ProductGuide
+                productGuides.Add(new GuideOfProduct
                 {
                     ProductId = obj.ProductId,
                     GuideId = item
                 });
             }
-            List<ProductCategory> productCategories = new List<ProductCategory>();
+            List<ProductInCategory> productCategories = new List<ProductInCategory>();
             foreach (var item in listCategory)
             {
-                productCategories.Add(new ProductCategory
+                productCategories.Add(new ProductInCategory
                 {
                     ProductId = obj.ProductId,
                     CategoryId = item
@@ -130,38 +130,38 @@ namespace WebApp.Areas.Dashboard.Controllers
         public IActionResult Add(Product obj, short[] listColor, short[] listSize, short[] listGuide, short[] listCategory)
         {
             obj.ProductId = provider.Product.Add(obj);
-            List<ProductColor> productColors = new List<ProductColor>();
+            List<ColorOfProduct> productColors = new List<ColorOfProduct>();
             foreach (var item in listColor)
             {
-                productColors.Add(new ProductColor
+                productColors.Add(new ColorOfProduct
                 {
                     ProductId = obj.ProductId,
                     ColorId = item
                 });
             }
-            List<ProductSize> productSizes = new List<ProductSize>();
+            List<SizeOfProduct> productSizes = new List<SizeOfProduct>();
             foreach (var item in listSize)
             {
-                productSizes.Add(new ProductSize
+                productSizes.Add(new SizeOfProduct
                 {
                     ProductId = obj.ProductId,
-                    SizeId = (byte)item
+                    SizeId = item
                 });
             }
 
-            List<ProductGuide> productGuides = new List<ProductGuide>();
+            List<GuideOfProduct> productGuides = new List<GuideOfProduct>();
             foreach (var item in listGuide)
             {
-                productGuides.Add(new ProductGuide
+                productGuides.Add(new GuideOfProduct
                 {
                     ProductId = obj.ProductId,
                     GuideId = item
                 });
             }
-            List<ProductCategory> productCategories = new List<ProductCategory>();
+            List<ProductInCategory> productCategories = new List<ProductInCategory>();
             foreach (var item in listCategory)
             {
-                productCategories.Add(new ProductCategory
+                productCategories.Add(new ProductInCategory
                 {
                     ProductId = obj.ProductId,
                     CategoryId = item
@@ -182,9 +182,9 @@ namespace WebApp.Areas.Dashboard.Controllers
             return Redirect("/dashboard/product");
 
         }
-        public IActionResult DeleteImage(ProductImage obj)
+        public IActionResult DeleteImage(ImageOfProduct obj)
         {
-            return Json(provider.ProductImage.Delete(obj));
+            return Json(provider.ImageOfProduct.Delete(obj));
         }
         public IActionResult UpdateQuantity(short id)
         {
@@ -197,7 +197,7 @@ namespace WebApp.Areas.Dashboard.Controllers
         public IActionResult UpdateQuantity(List<InventoryQuantity> list)
         {
             short productId = list[0].ProductId;
-            provider.InventoryStatus.UpdateInventoryQuantity(list);
+            provider.InventoryQuantity.UpdateInventoryQuantity(list);
             return Redirect($"/dashboard/product/detail/{productId}#quantityInInventory");
         }
     }

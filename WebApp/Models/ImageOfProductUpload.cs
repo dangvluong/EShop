@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebApp.Models
 {
-    public class ProductImageUpload
+    public class ImageOfProductUpload
     {
         public short ProductId { get; set; }
         public short ColorId { get; set; }

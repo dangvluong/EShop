@@ -17,7 +17,7 @@ namespace WebApp.Controllers
             IEnumerable<Product> products = provider.Product.GetRandom12Products();
             foreach (var item in products)
             {
-                item.ProductImages = provider.ProductImage.GetImagesByProduct(item.ProductId);
+                item.Images = provider.ImageOfProduct.GetImagesByProduct(item.ProductId);
             }
             return View(products);
         }

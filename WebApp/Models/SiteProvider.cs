@@ -10,11 +10,11 @@ namespace WebApp.Models
     {
         public SiteProvider(IConfiguration configuration) : base(configuration) { }
         ProductRepository product;
-        ProductImageRepository productImage;
+        ImageOfProductRepository productImage;
         ColorRepository color;
         CategoryRepository category;
         SizeRepository size;
-        InventoryQuantityRepository inventoryStatus;
+        InventoryQuantityRepository inventoryQuantity;
         GuideRepository guide;
         MemberRepository member;
         RoleRepository role;
@@ -26,50 +26,50 @@ namespace WebApp.Models
         InvoiceRepository invoice;
         InvoiceDetailRepository invoiceDetail;
         MemberInRoleRepository memberInRole;
-        ProductCategoryRepository productCategory;
-        ProductColorRepository productColor;
-        ProductGuideRepository productGuide;
-        ProductSizeRepository productSize;
-        public ProductSizeRepository ProductSize
+        ProductInCategoryRepository productCategory;
+        ColorOfProductRepository productColor;
+        GuideOfProductRepository productGuide;
+        SizeOfProductRepository productSize;
+        public SizeOfProductRepository ProductSize
         {
             get
             {
                 if(productSize is null)
                 {
-                    productSize = new ProductSizeRepository(Connection);
+                    productSize = new SizeOfProductRepository(Connection);
                 }
                 return productSize;
             }
         }
-        public ProductGuideRepository ProductGuide
+        public GuideOfProductRepository ProductGuide
         {
             get
             {
                 if(productGuide is null)
                 {
-                    productGuide = new ProductGuideRepository(Connection);
+                    productGuide = new GuideOfProductRepository(Connection);
                 }
                 return productGuide;
             }
         }
-        public ProductColorRepository ProductColor
+        public ColorOfProductRepository ProductColor
         {
             get
             {
                 if(productColor is null)
                 {
-                    productColor = new ProductColorRepository(Connection);
+                    productColor = new ColorOfProductRepository(Connection);
                 }
                 return productColor;
             }
         }
-        public ProductCategoryRepository ProductCategory
+        public ProductInCategoryRepository ProductCategory
         {
             get
             {
                 if (productCategory is null)
                 {
-                    productCategory = new ProductCategoryRepository(Connection);
+                    productCategory = new ProductInCategoryRepository(Connection);
                 }
                 return productCategory;
             }
@@ -199,13 +199,13 @@ namespace WebApp.Models
             }
         }
 
-        public ProductImageRepository ProductImage
+        public ImageOfProductRepository ImageOfProduct
         {
             get
             {
                 if(productImage is null)
                 {
-                    productImage = new ProductImageRepository(Connection);
+                    productImage = new ImageOfProductRepository(Connection);
                 }
                 return productImage;
             }
@@ -244,15 +244,15 @@ namespace WebApp.Models
                 return size;
             }
         }
-        public InventoryQuantityRepository InventoryStatus
+        public InventoryQuantityRepository InventoryQuantity
         {
             get
             {
-                if (inventoryStatus is null)
+                if (inventoryQuantity is null)
                 {
-                    inventoryStatus = new InventoryQuantityRepository(Connection);
+                    inventoryQuantity = new InventoryQuantityRepository(Connection);
                 }
-                return inventoryStatus;
+                return inventoryQuantity;
             }
         }
         public GuideRepository Guide
@@ -266,7 +266,5 @@ namespace WebApp.Models
                 return guide;
             }
         }
-
-
     }
 }

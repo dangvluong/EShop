@@ -7,7 +7,7 @@ namespace WebApp.Models
 {
     public class Size
     {
-        public byte SizeId { get; set; }
+        public short SizeId { get; set; }
         public string SizeCode { get; set; }
     }
 }

@@ -56,7 +56,7 @@ namespace WebApp.Areas.Manage.Controllers
                 obj.InvoiceDetails = provider.InvoiceDetail.GetInvoiceDetails(obj.InvoiceId);
                 foreach (InvoiceDetail item in obj.InvoiceDetails)
                 {
-                    provider.InventoryStatus.UpdateInventoryQuantity(item);
+                    provider.InventoryQuantity.UpdateInventoryQuantity(item);
                 }
             }
             return Json(provider.Invoice.UpdateStatus(obj));

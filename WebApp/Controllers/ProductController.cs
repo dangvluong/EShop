@@ -21,7 +21,7 @@ namespace WebApp.Controllers
             IEnumerable<Product> products = provider.Product.GetProducts(id, size, out int total);
             foreach (var item in products)
             {
-                item.ProductImages = provider.ProductImage.GetImagesByProduct(item.ProductId);
+                item.Images = provider.ImageOfProduct.GetImagesByProduct(item.ProductId);
             }
             ViewBag.categories = provider.Category.GetCategories();
             ViewBag.totalPage = (int)Math.Ceiling(total / (float)size);
@@ -31,7 +31,7 @@ namespace WebApp.Controllers
         public IActionResult Detail(short id)
         {
             Product product = provider.Product.GetProductById(id);
-            product.ProductImages = provider.ProductImage.GetImagesByProduct(id);
+            product.Images = provider.ImageOfProduct.GetImagesByProduct(id);
             product.Colors = provider.Color.GetColorsByProduct(id);
             product.Categories = provider.Category.GetCategoriesByProduct(id);
             product.Sizes = provider.Size.GetSizesByProduct(id);            
@@ -39,7 +39,7 @@ namespace WebApp.Controllers
             product.ProductsRelation = provider.Product.GetProductsRelation(id);
             foreach (var item in product.ProductsRelation)
             {
-                item.ProductImages = provider.ProductImage.GetImagesByProduct(item.ProductId);
+                item.Images = provider.ImageOfProduct.GetImagesByProduct(item.ProductId);
             }
             ViewBag.categories = provider.Category.GetCategories();
             return View(product);
@@ -50,7 +50,7 @@ namespace WebApp.Controllers
             IEnumerable<Product> productsByCategory = provider.Product.GetProductsByCategory(id, p, size, out int total);
             foreach (var item in productsByCategory)
             {
-                item.ProductImages = provider.ProductImage.GetImagesByProduct(item.ProductId);
+                item.Images = provider.ImageOfProduct.GetImagesByProduct(item.ProductId);
             }
             ViewBag.categoryId = id;
             ViewBag.categories = provider.Category.GetCategories();
@@ -63,7 +63,7 @@ namespace WebApp.Controllers
             IEnumerable<Product> searchProducts = provider.Product.SearchProduct(query, id, size, out int total);
             foreach (var item in searchProducts)
             {
-                item.ProductImages = provider.ProductImage.GetImagesByProduct(item.ProductId);
+                item.Images = provider.ImageOfProduct.GetImagesByProduct(item.ProductId);
             }
             ViewBag.categories = provider.Category.GetCategories();
             ViewBag.totalPage = (int)Math.Ceiling(total / (float)size);
@@ -71,9 +71,9 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
-        public int GetInventoryStatus(short productId, short colorId, byte sizeId)
+        public int GetInventoryQuantity(short productId, short colorId, short sizeId)
         {
-            return provider.InventoryStatus.GetInventoryQuantitiesByProductColorAndSize(productId, colorId, sizeId);
+            return provider.InventoryQuantity.GetInventoryQuantitiesByProductColorAndSize(productId, colorId, sizeId);
         }
     }
 }

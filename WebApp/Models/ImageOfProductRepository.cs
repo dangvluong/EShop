@@ -9,26 +9,26 @@ using System.Threading.Tasks;
 
 namespace WebApp.Models
 {
-    public class ProductImageRepository : BaseRepository
+    public class ImageOfProductRepository : BaseRepository
     {
         //IConfiguration configuration;
-        public ProductImageRepository(IDbConnection connection) : base(connection)
+        public ImageOfProductRepository(IDbConnection connection) : base(connection)
         {
             //this.configuration = configuration;
         }
-        public List<ProductImage> GetImagesByProduct(short productId)
+        public List<ImageOfProduct> GetImagesByProduct(short productId)
         {
-            return connection.Query<ProductImage>("GetImagesByProduct", new { ProductId = productId }, commandType: CommandType.StoredProcedure).ToList();
+            return connection.Query<ImageOfProduct>("GetImagesByProduct", new { ProductId = productId }, commandType: CommandType.StoredProcedure).ToList();
         }
-        public int GetNumberImageExists(ProductImageUpload obj)
+        public int GetNumberImageExists(ImageOfProductUpload obj)
         {
             return connection.QuerySingleOrDefault<int>($"SELECT COUNT(*) FROM ImageOfProduct WHERE ProductId = {obj.ProductId} AND ColorId = {obj.ColorId}");
         }
-        public int AddProductImage(ProductImageUpload obj, string imageUrl)
+        public int AddImageOfProduct(ImageOfProductUpload obj, string imageUrl)
         {
             return connection.Execute("AddImageOfProduct", new { ProductId = obj.ProductId, ColorId = obj.ColorId, ImageUrl = imageUrl }, commandType: CommandType.StoredProcedure);
         }
-        public int Delete(ProductImage obj)
+        public int Delete(ImageOfProduct obj)
         {
             return connection.Execute($"DELETE FROM ImageOfProduct WHERE ProductId = {obj.ProductId} AND ColorId ='{obj.ColorId}' AND ImageUrl = '{obj.ImageUrl}'");
         }

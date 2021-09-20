@@ -14,7 +14,7 @@ namespace WebApp.Models
         public int? PriceSaleOff { get; set; }
         public string Material { get; set; }
         public string Description { get; set; }
-        public List<ProductImage> ProductImages { get; set; }
+        public List<ImageOfProduct> Images { get; set; }
         public List<Color> Colors { get; set; }
         public IEnumerable<Category> Categories { get; set; }
         public List<Size> Sizes { get; set; }               

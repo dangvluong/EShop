@@ -11,7 +11,7 @@
             {
                 <div class="col-md-3 lastest-products simpleCart_shelfItem">
                     <a href="/product/detail/@item.ProductId">
-                        <img src="@(item.ProductImages.Count == 0 ? "#" : $"/images/{item.ProductImages[0].ImageUrl}")" alt="@item.ProductName" class="lastest-product-images">
+                        <img src="@(item.Images.Count == 0 ? "#" : $"/images/{item.Images[0].ImageUrl}")" alt="@item.ProductName" class="lastest-product-images">
                         <p>@item.ProductName</p>
                     </a>
                     @{
@@ -34,84 +34,3 @@
         </div>
     </div>
 </div>
-
-
-@*<div class="container">
-    <div class="row">
-        @foreach (var item in Model)
-        {
-            <div class="col-3">
-                <a href="/product/detail/@item.ProductId">
-                    <img src=@(item.ProductImages.Count == 0 ? "#" : $"/images/{item.ProductImages[0].ImageUrl}") alt="@item.ProductName" class="img-fluid" />
-                    <p>@item.ProductName</p>
-                    <p>@item.ProductId</p>
-                </a>
-                @{
-                    if (item.PriceSaleOff == 0)
-                    {
-                        <p>Price: <b>@item.Price</b></p>
-                    }
-                    else
-                    {
-                        <p>Price: <del>@item.Price</del> <b>@item.PriceSaleOff</b> </p>
-                    }
-                }
-
-            </div>
-        }
-    </div>
-    <div class="d-flex">
-        <pagination total-page="@ViewBag.totalPage" current-page="@ViewContext.RouteData.Values["id"]" url="/product/index/{0}"></pagination>-->
-    <ul class="pagination mx-auto">
-        @for (int i = 1; i < ViewBag.totalPage; i++)
-        {
-            <li class="page-item"><a href="/home/index/@i" class="page-link">@i</a></li>
-        }
-    </ul>
-    </div>
-    </div>
-    <script>
-    //console.log(@(ViewContext.RouteData.Values["id"] == null ? 0 : @Convert.ToInt32(ViewContext.RouteData.Values["id"]) - 1));
-    //$($('.page-item')[@(ViewContext.RouteData.Values["id"] == null ? 0 : @Convert.ToInt32(ViewContext.RouteData.Values["id"]) - 1)]).addClass('active');
-    </script>*@
-
-
-
-@*@model IEnumerable<Product>
-<div class="container">
-    <div class="row">
-        @foreach (var item in Model)
-        {
-            <div class="col-3">
-                <a href="/product/detail/@item.ProductId">
-                    <img src=@(item.ProductImages.Count == 0 ? "#" : $"/images/{item.ProductImages[0].ImageUrl}") alt="@item.ProductName" class="img-fluid" />
-                    <p>@item.ProductName</p>
-                    <p>@item.ProductId</p>
-                </a>
-                @{
-                    if (item.PriceSaleOff == 0)
-                    {
-                        <p>Price: <b>@item.Price</b></p>
-                    }
-                    else
-                    {
-                        <p>Price: <del>@item.Price</del> <b>@item.PriceSaleOff</b> </p>
-                    }
-                }
-
-            </div>
-        }
-    </div>
-    <div class="d-flex">
-        <ul class="pagination mx-auto">
-            @for (int i = 1; i < ViewBag.totalPage; i++)
-            {
-                <li class="page-item"><a href="/product/search/@i/?query=@Context.Request.Query["query"]" class="page-link">@i</a></li>
-            }
-        </ul>
-    </div>
-</div>
-<script>
-    //console.log(@(ViewContext.RouteData.Values["id"] == null ? 0 : @Convert.ToInt32(ViewContext.RouteData.Values["id"]) - 1));
-    $($('.page-item')[@(ViewContext.RouteData.Values["id"] == null ? 0 : @Convert.ToInt32(ViewContext.RouteData.Values["id"]) - 1)]).addClass('active');
-</script>*@

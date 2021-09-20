@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace WebApp.Models
 {
-    public class ProductSizeRepository :BaseRepository
+    public class SizeOfProductRepository :BaseRepository
     {
-        public ProductSizeRepository(IDbConnection connection) : base(connection) { }
-        public int Edit(List<ProductSize> list)
+        public SizeOfProductRepository(IDbConnection connection) : base(connection) { }
+        public int Edit(List<SizeOfProduct> list)
         {
             var productId = list[0].ProductId;
             connection.Execute($"DELETE FROM SizeOfProduct WHERE ProductId = {productId}");
             return connection.Execute("AddSizeOfProduct", list, commandType: CommandType.StoredProcedure);
         }
-        public int Add(List<ProductSize> list)
+        public int Add(List<SizeOfProduct> list)
         {            
             return connection.Execute("AddSizeOfProduct", list, commandType: CommandType.StoredProcedure);
         }

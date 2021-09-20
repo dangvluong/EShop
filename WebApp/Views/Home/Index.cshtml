@@ -94,7 +94,7 @@
         {
             <div class="col-md-3 lastest-products simpleCart_shelfItem">
                 <a href="/product/detail/@item.ProductId">
-                    <img src="@(item.ProductImages.Count == 0 ? "#" : $"/images/{item.ProductImages[0].ImageUrl}")" alt="lastest product image" class="lastest-product-images">
+                    <img src="@(item.Images.Count == 0 ? "#" : $"/images/{item.Images[0].ImageUrl}")" alt="lastest product image" class="lastest-product-images">
                     <p>@item.ProductName</p>
                 </a>
                 @{
