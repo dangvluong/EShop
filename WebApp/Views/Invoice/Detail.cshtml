@@ -7,8 +7,8 @@
 </div>
 <div class="container">
     <h4>Thông tin đơn đặt hàng:</h4>
-
-    <table class="table table-bordered my-4">
+    <partial name="_InvoiceDetail" model="@Model" />
+    @*<table class="table table-bordered my-4">
         <thead>
             <tr>
                 <th>Người nhận hàng: </th>
@@ -72,7 +72,7 @@
                 <td id="totalCost" colspan="2">0</td>
             </tr>
         </tfoot>
-    </table>
+    </table>*@
 
 </div>
 <div class="d-flex">

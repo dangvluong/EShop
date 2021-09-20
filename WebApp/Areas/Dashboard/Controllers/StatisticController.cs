@@ -2,19 +2,16 @@
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using WebApp.Controllers;
 using WebApp.Models;
 
 namespace WebApp.Areas.Dashboard.Controllers
 {
     [Area("dashboard")]
-    public class StatisticController : Controller
-    {
-        SiteProvider provider;
-        public StatisticController(IConfiguration configuration)
-        {
-            provider = new SiteProvider(configuration);
+    public class StatisticController : BaseController
+    {      
+        public StatisticController(IConfiguration configuration):base(configuration)
+        {            
         }
         public IActionResult Index()
         {

@@ -1,22 +1,20 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.IO;
+using WebApp.Controllers;
 using WebApp.Models;
 
 namespace WebApp.Areas.Dashboard.Controllers
 {
     [Area("dashboard")]
-    public class ProductController : Controller
-    {
-        SiteProvider provider;        
-        public ProductController(IConfiguration configuration)
+    public class ProductController : BaseController
+    {        
+        public ProductController(IConfiguration configuration):base(configuration)
         {
-            provider = new SiteProvider(configuration);
+            
         }
         public IActionResult Index(int id = 1)
         {

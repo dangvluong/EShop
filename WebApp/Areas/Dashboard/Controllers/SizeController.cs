@@ -4,18 +4,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApp.Controllers;
 using WebApp.Models;
 
 namespace WebApp.Areas.Dashboard.Controllers
 {
     [Area("dashboard")]
-    public class SizeController : Controller
-    {
+    public class SizeController : BaseController
+    {        
         
-        SiteProvider provider;
-        public SizeController(IConfiguration configuration)
-        {
-            provider = new SiteProvider(configuration);
+        public SizeController(IConfiguration configuration):base(configuration)
+        {            
         }
         public IActionResult Index()
         {
@@ -40,7 +39,7 @@ namespace WebApp.Areas.Dashboard.Controllers
         public IActionResult Add(Size obj)
         {
             int result = provider.Size.Add(obj);
-            string[] message = {"Lỗi", "Cập nhật thành công" };
+            string[] message = {"Lỗi", "Tạo mới thành công" };
             TempData["msg"] = message[result];
             return Redirect("/dashboard/size");
         }

@@ -12,12 +12,11 @@ using WebApp.Models;
 
 namespace WebApp.Controllers
 {
-    public class AuthController : Controller
-    {
-        SiteProvider provider;
-        public AuthController(IConfiguration configuration)
+    public class AuthController : BaseController
+    {        
+        public AuthController(IConfiguration configuration):base(configuration)
         {
-            provider = new SiteProvider(configuration);
+            
         }
         [Authorize]
         public IActionResult Index()

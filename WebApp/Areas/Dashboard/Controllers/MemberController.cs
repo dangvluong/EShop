@@ -2,17 +2,17 @@
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using WebApp.Controllers;
 using WebApp.Models;
 
 namespace WebApp.Areas.Manage.Controllers
 {
     [Area("dashboard")]
-    public class MemberController : Controller
-    {
-        SiteProvider provider;
-        public MemberController(IConfiguration configuration)
+    public class MemberController : BaseController
+    {        
+        public MemberController(IConfiguration configuration):base(configuration)
         {
-            provider = new SiteProvider(configuration);
+            
         }        
         public IActionResult Index()
         {

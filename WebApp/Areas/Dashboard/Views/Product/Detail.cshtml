@@ -37,6 +37,39 @@
                     <th>Các màu hiện có</th>
                     <td>@string.Join(", ", Model.Colors.Select(p => p.ColorCode))</td>
                 </tr>
+                <tr>
+                    <th>Giá bán gốc</th>
+                    <td>@Model.Price</td>
+                </tr>
+                <tr>
+                    <th>Giá khuyến mãi</th>
+                    <td>@Model.PriceSaleOff</td>
+                </tr>
+                <tr>
+                    <th>Chất liệu</th>
+                    <td>@Model.Material</td>
+                </tr>
+                <tr>
+                    <th>Mô tả</th>
+                    <td>@Model.Description</td>
+                </tr>
+                <tr>
+                    <th>Thuộc danh mục</th>
+                    <td>
+                        @string.Join(", ", Model.Categories.Select(p => p.CategoryName))
+                    </td>
+                </tr>
+                <tr>
+                    <th>Hướng dẫn sử dụng</th>
+                    <td>
+                        <ul class="ml-4">
+                            @foreach (var item in Model.Guides)
+                            {
+                                <li>@item.GuideDescription</li>
+                            }
+                        </ul>
+                    </td>
+                </tr>
             </table>
             <div class="d-flex">
                 <a href="/dashboard/product/edit/@Model.ProductId" class="btn btn-primary ml-auto mr-3">Cập nhật thông tin</a>
@@ -227,6 +260,5 @@
                 location.reload();
             });
         });
-
     </script>
 }

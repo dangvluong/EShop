@@ -1,34 +1,10 @@
 ﻿@model IEnumerable<Product>
-
 <div class="row products-page mt-5">
     <div class="col-3">
         <partial name="_Category" model="@ViewBag.categories" />
     </div>
     <div class="col-9">
-        <div class="row">
-
-            @foreach (Product item in Model)
-            {
-                <div class="col-md-3 lastest-products simpleCart_shelfItem">
-                    <a href="/product/detail/@item.ProductId">
-                        <img src="@(item.Images.Count == 0 ? "#" : $"/images/{item.Images[0].ImageUrl}")" alt="@item.ProductName" class="lastest-product-images">
-                        <p>@item.ProductName</p>
-                    </a>
-                    @{
-                        if (item.PriceSaleOff == 0)
-                        {
-                            <span class="">
-                                @item.Price
-                            </span>
-                        }
-                        else
-                        {
-                            <del>@item.Price</del> <span class="">@item.PriceSaleOff</span>
-                        }
-                    }
-                </div>
-            }
-        </div>
+       <partial name="_Product" model="@Model" />
         <div class="d-flex">
             <pagination total-page="@ViewBag.totalPage" current-page="@ViewContext.RouteData.Values["id"]" url="/product/search/{0}?query=@Context.Request.Query["query"]"></pagination>
         </div>

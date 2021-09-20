@@ -25,53 +25,7 @@
             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addContactModal">Thêm thông tin liên hệ</button>
             <div class="addModal">
                 <div class="modal" id="addContactModal">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <!-- Modal Header -->
-                            <div class="modal-header">
-                                <h4 class="modal-title">Thêm thông tin liên hệ</h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            <form method="post" name="addContact" class="form-group">
-                                <!-- Modal body -->
-                                <div class="modal-body">
-                                    <div class="row my-1">
-                                        <label for="FullName" class="col-4 text-right">Tên đầy đủ: </label>
-                                        <input type="text" name="FullName" class="form-control col-7" />
-                                    </div>
-                                    <div class="row my-1">
-                                        <label for="PhoneNumber" class="col-4 text-right">Số điện thoại: </label>
-                                        <input type="text" name="PhoneNumber" class="form-control col-7" />
-                                    </div>
-                                    <div class="row my-1">
-                                        <label for="AddressHome" class="col-4 text-right">Số nhà và tên đường: </label>
-                                        <textarea name="AddressHome" class="form-control col-7"></textarea>
-                                    </div>
-                                    <div class="row my-1">
-                                        <label for="ProvinceId" class="col-4 text-right">Tỉnh/thành phố: </label>
-                                        <select id="ProvinceId" name="ProvinceId" class="form-control col-7">
-                                        </select>
-                                    </div>
-                                    <div class="row my-1">
-                                        <label for="DistrictId" class="col-4 text-right">Quận/huyện: </label>
-                                        <select id="DistrictId" name="DistrictId" class="form-control col-7">
-                                        </select>
-                                    </div>
-                                    <div class="row my-1">
-                                        <label for="WardId" class="col-4 text-right">Xã/phường: </label>
-                                        <select id="WardId" name="WardId" class="form-control col-7">
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <!-- Modal footer -->
-                                <div class="modal-footer">
-                                    <button class="btn btn-primary">Lưu</button>
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy bỏ</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                    <partial name="_ModelContact" />                   
                 </div>
             </div>
         </div>

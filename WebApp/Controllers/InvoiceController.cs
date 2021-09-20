@@ -11,12 +11,10 @@ using WebApp.Models;
 namespace WebApp.Controllers
 {
     [Authorize]
-    public class InvoiceController : Controller
-    {
-        SiteProvider provider;
-        public InvoiceController(IConfiguration configuration)
-        {
-            provider = new SiteProvider(configuration);
+    public class InvoiceController : BaseController
+    {        
+        public InvoiceController(IConfiguration configuration):base(configuration)
+        {          
         }
         public IActionResult Detail(Guid id)
         {

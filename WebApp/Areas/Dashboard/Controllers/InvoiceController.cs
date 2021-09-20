@@ -5,17 +5,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using WebApp.Controllers;
 using WebApp.Models;
 
 namespace WebApp.Areas.Manage.Controllers
 {
     [Area("dashboard")]
-    public class InvoiceController : Controller
+    public class InvoiceController : BaseController
     {
-        SiteProvider provider;
-        public InvoiceController(IConfiguration configuration)
+        public InvoiceController(IConfiguration configuration):base(configuration)
         {
-            provider = new SiteProvider(configuration);
+            
         }
         public IActionResult Index()
         {

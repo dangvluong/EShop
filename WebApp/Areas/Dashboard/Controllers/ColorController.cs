@@ -1,23 +1,20 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+using WebApp.Controllers;
 using WebApp.Models;
 
 namespace WebApp.Areas.Dashboard.Controllers
 {
     [Area("dashboard")]
-    public class ColorController : Controller
-    {
-        SiteProvider provider;        
+    public class ColorController : BaseController
+    {         
         string root = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "icon");
-        public ColorController(IConfiguration configuration)
+        public ColorController(IConfiguration configuration):base(configuration)
         {
-            provider = new SiteProvider(configuration);
+            
         }
         public IActionResult Index()
         {

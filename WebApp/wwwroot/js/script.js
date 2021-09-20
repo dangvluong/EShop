@@ -103,8 +103,7 @@ $(document).on('show.bs.modal', '.addModal > .modal', function () {
         addDistricts(provinceId);
     });
 });
-$(document).on('submit', 'form[name="addContact"]', function (e) {
-    //$('form[name="addContact"]').submit(function (e) {
+$(document).on('submit', 'form[name="addContact"]', function (e) {    
     e.preventDefault();
     var fullName = $('div.modal.show input[name="FullName"]').val();
     var phoneNumber = $('div.modal.show input[name="PhoneNumber"]').val();

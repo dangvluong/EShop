@@ -11,20 +11,21 @@ using WebApp.Models;
 
 namespace WebApp.Controllers
 {
-    public class CartController : Controller
-    {
-        SiteProvider provider;
-        public CartController(IConfiguration configuration)
-        {
-            provider = new SiteProvider(configuration);
+    public class CartController : BaseController
+    {        
+        public CartController(IConfiguration configuration):base(configuration)
+        {            
         }
         public IActionResult Index()
         {
             string cartId = Request.Cookies["cart"];
             if (!string.IsNullOrEmpty(cartId))
             {
-                IEnumerable<Cart> cart = provider.Cart.GetCarts(Guid.Parse(cartId));
-                foreach (var item in cart)
+                CartViewModel cart = new CartViewModel
+                {
+                    CartDetail = provider.Cart.GetCarts(Guid.Parse(cartId))
+                };                
+                foreach (var item in cart.CartDetail)
                 {
                     item.AvailableQuantity = provider.InventoryQuantity.GetInventoryQuantitiesByProductColorAndSize(item.ProductId, item.ColorId, item.SizeId);
                 }
@@ -51,7 +52,7 @@ namespace WebApp.Controllers
                 obj.CartId = Guid.Parse(cartId);
             }
             Product product = provider.Product.GetProductById(obj.ProductId);
-            if (product.PriceSaleOff == 0)
+            if (product.PriceSaleOff is null)
             {
                 obj.Price = product.Price;
             }
@@ -93,12 +94,15 @@ namespace WebApp.Controllers
                 Guid memberId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 Member member = provider.Member.GetMemberById(memberId);
                 member.Contacts = provider.Contact.GetContactsByMember(memberId);
-                IEnumerable<Cart> carts = provider.Cart.GetCarts(Guid.Parse(cartId));
-                foreach (var item in carts)
+                CartViewModel cart = new CartViewModel
+                {
+                    CartDetail = provider.Cart.GetCarts(Guid.Parse(cartId))
+                };
+                foreach (var item in cart.CartDetail)
                 {
                     item.AvailableQuantity = provider.InventoryQuantity.GetInventoryQuantitiesByProductColorAndSize(item.ProductId, item.ColorId, item.SizeId);
                 }
-                ViewBag.cart = carts;
+                ViewBag.cart = cart;
                 return View(member);
             }
             return Redirect("/");

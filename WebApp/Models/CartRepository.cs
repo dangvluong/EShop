@@ -23,9 +23,9 @@ namespace WebApp.Models
                 Price = obj.Price
             }, commandType: CommandType.StoredProcedure);
         }
-        public IEnumerable<Cart> GetCarts(Guid cartId)
+        public ICollection<Cart> GetCarts(Guid cartId)
         {
-            return connection.Query<Cart>("GetCarts", new { CartId = cartId }, commandType: CommandType.StoredProcedure);
+            return (ICollection<Cart>)connection.Query<Cart>("GetCarts", new { CartId = cartId }, commandType: CommandType.StoredProcedure);
         }
 
         public int Edit(Cart obj)

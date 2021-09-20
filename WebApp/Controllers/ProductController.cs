@@ -8,13 +8,12 @@ using WebApp.Models;
 
 namespace WebApp.Controllers
 {
-    public class ProductController : Controller
-    {
-        SiteProvider provider;
+    public class ProductController : BaseController
+    {       
         int size = 20;
-        public ProductController(IConfiguration configuration)
+        public ProductController(IConfiguration configuration):base(configuration)
         {
-            provider = new SiteProvider(configuration);
+            
         }
         public IActionResult Index(int id = 1)
         {

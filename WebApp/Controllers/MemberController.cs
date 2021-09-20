@@ -13,12 +13,12 @@ using System.Security.Claims;
 namespace WebApp.Controllers
 {
     [Authorize]
-    public class MemberController : Controller
+    public class MemberController : BaseController
     {
-        SiteProvider provider;
-        public MemberController(IConfiguration configuration)
+        
+        public MemberController(IConfiguration configuration):base(configuration)
         {
-            provider = new SiteProvider(configuration);
+          
         }
         public IActionResult Index()
         {

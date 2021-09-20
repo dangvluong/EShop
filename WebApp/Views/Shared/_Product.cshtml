@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Product>
+ <div class="row">
+@foreach (Product item in Model)
+{
+    <div class="col-md-3">
+        <a href="/product/detail/@item.ProductId">
+            <img src="@(item.Images.Count == 0 ? "#" : $"/images/{item.Images[0].ImageUrl}")" alt="@item.ProductName" class="lastest-product-images">
+            <p>@item.ProductName</p>
+        </a>
+        @{
+            if (item.PriceSaleOff is null)
+            {
+                <span class="">
+                    @item.Price
+                </span>
+            }
+            else
+            {
+                <del>@item.Price</del> <span class="">@item.PriceSaleOff</span>
+            }
+        }
+    </div>
+}
+</div>

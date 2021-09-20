@@ -9,14 +9,12 @@ using System.Threading.Tasks;
 using WebApp.Models;
 
 namespace WebApp.Controllers
-{   
+{
     [Authorize]
-    public class ContactController : Controller
+    public class ContactController : BaseController
     {
-        SiteProvider provider;
-        public ContactController(IConfiguration configuration)
-        {
-            provider = new SiteProvider(configuration);
+        public ContactController(IConfiguration configuration) : base(configuration)
+        {          
         }
         [HttpPost]
         public IActionResult GetProvinces()
@@ -65,6 +63,6 @@ namespace WebApp.Controllers
             Guid memberId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             Console.WriteLine(memberId);
             return Json(provider.Contact.UpdateDefaultContact(memberId, contactId));
-        }       
+        }
     }
 }

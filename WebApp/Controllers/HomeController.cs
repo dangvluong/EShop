@@ -5,12 +5,10 @@ using WebApp.Models;
 
 namespace WebApp.Controllers
 {
-    public class HomeController : Controller
-    {
-        SiteProvider provider;
-        public HomeController(IConfiguration configuration)
-        {
-            provider = new SiteProvider(configuration);
+    public class HomeController : BaseController
+    {       
+        public HomeController(IConfiguration configuration):base(configuration)
+        {            
         }
         public IActionResult Index()
         {

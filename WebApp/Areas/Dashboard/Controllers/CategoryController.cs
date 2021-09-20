@@ -1,20 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using WebApp.Controllers;
 using WebApp.Models;
 
 namespace WebApp.Areas.Dashboard.Controllers
 {
     [Area("dashboard")]
-    public class CategoryController : Controller
+    public class CategoryController : BaseController
     {
-        SiteProvider provider;
-        public CategoryController(IConfiguration configuration)
+        public CategoryController(IConfiguration configuration):base(configuration)
         {
-            provider = new SiteProvider(configuration);
+
         }
         public IActionResult Index()
         {
