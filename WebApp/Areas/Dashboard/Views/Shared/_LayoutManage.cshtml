@@ -31,49 +31,7 @@
     <div class="container-fluid" id="header-top">
         <div class="container">
             <div id="header-top-left" class="float-left">
-                <ul>
-                    @{
-                        if (User.Identity.IsAuthenticated)
-                        {
-                            <li>
-                                Xin chào
-                                <a href="/member">
-                                    @User.Identity.Name
-                                </a>
-                            </li>
-                            @if (User.IsInRole("Staff") || User.IsInRole("Manager"))
-                            {
-                                <li>
-                                    <a href="/dashboard">
-                                        Trang quản lý
-                                    </a>
-                                </li>
-                            }
-
-                            <li>
-                                <a href="/auth/logout">
-                                    Đăng xuất
-                                    <i class="fas fa-sign-out-alt"></i>
-                                </a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li>
-                                <a href="/auth/login">
-                                    <span class="fas fa-user"></span>
-                                    Đăng nhập
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/auth/register">
-                                    <span class="fas fa-lock"></span>
-                                    Đăng kí thành viên
-                                </a>
-                            </li>
-                        }
-                    }
-                </ul>
+                <partial name="_UserNavigation" />
             </div>
         </div>
     </div>

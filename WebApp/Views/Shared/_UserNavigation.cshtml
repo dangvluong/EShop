@@ -1,0 +1,52 @@
+﻿<ul>
+    @{
+        if (User.Identity.IsAuthenticated)
+        {
+            <li>
+                Xin chào  <b> @User.Identity.Name</b>
+            </li>
+            @if (User.IsInRole("Staff") || User.IsInRole("Manager"))
+            {
+                <li>
+                    <a href="/dashboard">
+                        Trang quản lý của nhân viên cửa hàng
+                    </a>
+                </li>
+            }
+            <li>
+                <a href="/member">
+                    Xem thông tin cá nhân
+                </a>
+            </li>
+            @if (User.IsInRole("Customer"))
+            {
+                <li>
+                    <a href="/invoice">
+                        Xem đơn đặt hàng
+                    </a>
+                </li>
+            }
+            <li>
+                <a href="/auth/logout">
+                    Đăng xuất
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </li>
+        }
+        else
+        {
+            <li>
+                <a href="/auth/login">
+                    <span class="fas fa-user"></span>
+                    Đăng nhập
+                </a>
+            </li>
+            <li>
+                <a href="/auth/register">
+                    <span class="fas fa-lock"></span>
+                    Đăng kí thành viên
+                </a>
+            </li>
+        }
+    }
+</ul>

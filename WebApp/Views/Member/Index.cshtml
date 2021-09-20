@@ -1,28 +1,37 @@
 ﻿@model Member
-<div class="container">   
+<div class="d-flex">
+    <hr class="w-25 my-4 mx-auto" />
+</div>
+<h4 class="text-center mb-4">Thông tin cá nhân</h4>
+<div class="container">
+    <table class="table table-bordered">
+        <tr>
+            <th>Tên tài khoản</th>
+            <td>@Model.Username</td>
+        </tr>
+        <tr>
+            <th>Giới tính</th>
+            <td>@(Model.Gender ==  false ? "Nữ" : "Nam")</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>@Model.Email</td>
+        </tr>
+        <tr>
+            <th>Ngày gia nhập</th>
+            <td>@Model.JoinDate.ToLongDateString()</td>
+        </tr>
+    </table>
+
+    <div class="mt-5">
+        <h4 class="text-center mb-4">Thông tin liên hệ</h4>        
+        @(Model.Contacts.Count<Contact>() == 0 ? "Bạn chưa có thông tin liên hệ nào" : Html.Raw("<div class=\"my-3\"><table class='table table-bordered'><thead><tr><th>Tên đầy đủ</th><th>Số điện thoại</th><th>Địa chỉ</th><th>Là địa chỉ mặc định?</th><th>Chỉnh sửa</th><th>Xóa</th></tr></thead><tbody id='contactList'></tbody></table></div>"))
+    </div>
     <div>
-        <div>
-            Tên tài khoản: @Model.Username
-        </div>
-        <div>
-            Giới tính: @(Model.Gender ==  false ? "Nữ" : "Nam")
-        </div>
-        <div>
-            Địa chỉ email: @Model.Email
-        </div>
-        <div>
-            Ngày gia nhập: @Model.JoinDate.ToLongDateString()
-        </div>
-        <div class="mt-5">
-            Thông tin liên hệ:
-            @(Model.Contacts.Count<Contact>() == 0 ? "Bạn chưa có thông tin liên hệ nào" : Html.Raw("<div class=\"my-3\"><table class='table table-bordered'><thead><tr><th>Tên đầy đủ</th><th>Số điện thoại</th><th>Địa chỉ</th><th>Là địa chỉ mặc định?</th><th>Chỉnh sửa</th><th>Xóa</th></tr></thead><tbody id='contactList'></tbody></table></div>"))
-        </div>
-        <div>
-            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addContactModal">Thêm thông tin liên hệ</button>
-            <div class="addModal">
-                <div class="modal" id="addContactModal">
-                    <partial name="_ModelContact" />                   
-                </div>
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addContactModal">Thêm thông tin liên hệ</button>
+        <div class="addModal">
+            <div class="modal" id="addContactModal">
+                <partial name="_ModelContact" />
             </div>
         </div>
     </div>
@@ -45,7 +54,7 @@
                         innnerHtml += `<td><input type="checkbox" class="defaultAddress" value="${data[i].contactId}" /></td>`;
                     }
                     innnerHtml += `<td>
-    <span data-toggle="modal" data-target="#editModal${data[i].contactId}"> <i class="far fa-edit"></i></span> 
+    <span data-toggle="modal" data-target="#editModal${data[i].contactId}"> <i class="far fa-edit"></i></span>
     <div class="editModal">
     <div class="modal" id="editModal${data[i].contactId}">
                 <div class="modal-dialog">

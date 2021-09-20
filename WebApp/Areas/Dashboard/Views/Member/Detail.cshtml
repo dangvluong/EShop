@@ -1,36 +1,44 @@
 ﻿@model Member
 
 <div>
-    <div>
-        Tên tài khoản: @Model.Username
-    </div>
-    <div>
-        Giới tính: @(Model.Gender ==  false ? "Nữ" : "Nam")
-    </div>
-    <div>
-        Địa chỉ email: @Model.Email
-    </div>
-    <div>
-        Ngày gia nhập: @Model.JoinDate.ToLongDateString()
-    </div>
-    <div>Trạng thái tài khoản: @(Model.IsBanned ? "Đã bị khóa" : "Đang hoạt động")</div>
-    <div>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addRoles">Cấp quyền cho tài khoản</button>
-    </div>
-    <div>
+    <table class="table table-bordered">
+        <tr>
+            <th>Tên tài khoản</th>
+            <td>@Model.Username</td>
+        </tr>
+        <tr>
+            <th>Giới tính</th>
+            <td>@(Model.Gender ==  false ? "Nữ" : "Nam")</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>@Model.Email</td>
+        </tr>
+        <tr>
+            <th>Ngày gia nhập</th>
+            <td>@Model.JoinDate.ToLongDateString()</td>
+        </tr>
+        <tr>
+            <th>Trạng thái tài khoản</th>
+            <td>@(Model.IsBanned ? "Đã bị khóa" : "Đang hoạt động")</td>
+        </tr>
+    </table>
+    <div class="d-flex">
+        <button type="button" class="btn btn-primary ml-auto mr-2" data-toggle="modal" data-target="#addRoles">Cấp quyền cho tài khoản</button>    
         @{
             if (!Model.IsBanned)
             {
-                <button class="btn btn-danger" id="banAccount">Khóa tài khoản</button>
+                <button class="btn btn-danger  mr-auto ml-2" id="banAccount">Khóa tài khoản</button>
             }
             else
             {
-                <button class="btn btn-danger" id="banAccount">Mở khóa tài khoản</button>
+                <button class="btn btn-danger  mr-auto ml-2" id="banAccount">Mở khóa tài khoản</button>
             }
         }
     </div>
-    <div>
-        Thông tin liên hệ: @(Model.Contacts.Count<Contact>() == 0 ? "Chưa có thông tin liên hệ nào" : Html.Raw("<div><table class='table table-bordered'><thead><tr><th>Tên đầy đủ</th><th>Số điện thoại</th><th>Địa chỉ</th></tr></thead><tbody id='contactList'></tbody></table></div>"))
+    <div class="mt-5">
+        <h4 class="text-center mb-4">Thông tin liên hệ</h4>
+        @(Model.Contacts.Count<Contact>() == 0 ? "<h6>Chưa có thông tin liên hệ nào</h6>" : Html.Raw("<div><table class='table table-bordered'><thead><tr><th>Tên đầy đủ</th><th>Số điện thoại</th><th>Địa chỉ</th></tr></thead><tbody id='contactList'></tbody></table></div>"))
     </div>
 </div>
 <div class="modal" id="addRoles">

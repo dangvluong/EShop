@@ -25,11 +25,12 @@ namespace WebApp.Controllers
         {
             Guid memberId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             IEnumerable<Invoice> invoices = provider.Invoice.GetInvoicesByMember(memberId);
+            
             foreach (Invoice invoice in invoices)
             {
-                invoice.Contact = provider.Contact.GetContactsById(invoice.ContactId);
-                invoice.Member = provider.Member.GetMemberById(memberId);
+                invoice.Contact = provider.Contact.GetContactsById(invoice.ContactId);                
             }
+            ViewBag.member = provider.Member.GetMemberById(memberId);
             return View(invoices);
         }
         public IActionResult InvoiceOfMember()
