@@ -1,4 +1,7 @@
 ﻿@model Member
+<div class="d-flex">
+    <hr class="w-25 mb-4 mx-auto" />
+</div>
 <div class="row">
     <div class="col-4"></div>
     <div class="col-4">
@@ -19,13 +22,13 @@
             <div class="form-group">
                 <label asp-for="Gender">Giới tính: </label>
                 <select asp-for="Gender" class="form-control">
-                    <option value="false">Nữ</option>
                     <option value="true">Nam</option>
+                    <option value="false">Nữ</option>
                 </select>
             </div>
             <div class="d-flex mb-3">
                 <button class="btn btn-primary mx-auto">Đăng kí</button>
-               
+
             </div>
             <div class="text-center">
                 <p>Đã có tài khoản?  <a href="/auth/login">Đăng nhập </a>ngay</p>

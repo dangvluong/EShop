@@ -1,0 +1,19 @@
+﻿@model Product
+<div class="col-2 float-left lastest-products">
+    <a href="/product/detail/@Model.ProductId" class="product_link">
+        <img src="@(Model.Images.Count == 0 ? "#" : $"/images/{Model.Images[0].ImageUrl}")" alt="@Model.ProductName" class="img-fluid">
+        <p class="product_name">@Model.ProductName</p>
+    </a>
+    @{
+        if (Model.PriceSaleOff is null)
+        {
+            <span class="text-danger">
+                @Helper.FormatCurrencyString(Model.Price)
+            </span>
+        }
+        else
+        {
+            <del class="text-secondary">@Helper.FormatCurrencyString(Model.Price)</del> <span class="text-danger">@Helper.FormatCurrencyString(Model.PriceSaleOff.Value)</span>
+        }
+    }
+</div>

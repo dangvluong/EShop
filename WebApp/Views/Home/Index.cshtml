@@ -46,12 +46,13 @@
                     });
                 });
             </script>
+            <div class="float-right">
+                <a href="/product" id="viewAllProduct">XEM TẤT CẢ SẢN PHẨM</a>
+            </div>
         </div>
         <div class="clearfix"></div>
     </div>
-    <div class="float-right">
-        <a href="/product"id="viewAllProduct">XEM TẤT CẢ SẢN PHẨM</a>
-    </div>
+   
 </div>
 <!--banner end-->
 <!--follow us - shipping - order online start-->
@@ -59,7 +60,7 @@
     <div id="main-content">
         <div class="row text-center">
             <div class="col-md-4" id="follow-us">
-                Follow Us:
+                <span style="font-size: 20px;">Theo dõi chúng tôi:</span>
                 <a href="#" id="twitter"></a>
                 <a href="#" id="facebook"></a>
             </div>
@@ -68,13 +69,13 @@
                     <span class="fas fa-truck-moving" id="truct-shipping"></span>
                 </div>
                 <div id="content-shipping">
-                    <p id="free-shipping-slogan">Free Shipping</p>
-                    <p>on orders over 500,000đ</p>
+                    <p id="free-shipping-slogan">Miễn phí vận chuyển</p>
+                    <p>cho đơn hàng từ 500,000 đ</p>
                 </div>
             </div>
             <div class="col-md-4" id="order-online">
-                Order online
-                <p id="order-telephone">Tel: 19001009</p>
+                Đặt hàng qua điện thoại
+                <p id="order-telephone">Gọi 19001009</p>
             </div>
         </div>
     </div>
@@ -85,31 +86,7 @@
 
 <div class="container" id="lastest-product-section">
     <h1 class="text-center">Các sản phẩm nổi bật</h1>
-    <div class="row">
-
-        @foreach (Product item in Model)
-        {
-            <div class="col-md-3 lastest-products simpleCart_shelfItem">
-                <a href="/product/detail/@item.ProductId">
-                    <img src="@(item.Images.Count == 0 ? "#" : $"/images/{item.Images[0].ImageUrl}")" alt="lastest product image" class="lastest-product-images">
-                    <p>@item.ProductName</p>
-                </a>
-                @{
-                    if (item.PriceSaleOff == 0)
-                    {
-                        <span class="">
-                            @item.Price
-                        </span>
-                    }
-                    else
-                    {
-                        <del>@item.Price</del> <span class="">@item.PriceSaleOff</span>
-                    }
-                }
-            </div>
-        }
-
-    </div>
+    <partial name="_Product" model="@Model" />   
 </div>
 
 

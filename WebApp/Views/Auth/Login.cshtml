@@ -1,4 +1,7 @@
 ﻿@model Member
+<div class="d-flex">
+    <hr class="w-25 mb-4 mx-auto" />
+</div>
 <div asp-validation-summary="All"></div>
 @TempData["msg"]
 <div class="row">
@@ -16,11 +19,11 @@
             </div>
             <div class="form-group form-check">
                 <label asp-for="Remember" class="form-check-label">
-                    <input type="checkbox" asp-for="Remember" value="True" class="form-check-input" /> Ghi nhớ đăng nhập
+                    <input type="checkbox" asp-for="Remember" value="True" class="form-check-input" /> Ghi nhớ tài khoản
                 </label>
             </div>
             <div class="d-flex mb-3">
-                <button class="btn btn-primary mx-auto">Login</button>
+                <button class="btn btn-primary mx-auto">Đăng nhập</button>
             </div>
             <div class="text-center">
                 <p>Chưa có tài khoản? <a href="/auth/register" class="">Đăng kí thành viên</a> ngay</p>

@@ -1,14 +1,17 @@
-﻿@model IEnumerable<Product>    
+﻿@model IEnumerable<Product>
+<div class="d-flex">
+    <hr class="w-25 mb-4 mx-auto" />
+</div>
 <div class="row products-page mt-5">
     <div class="col-3">
-        <partial name="_Category" model="@ViewBag.categories"/>
+        <partial name="_Category" model="@ViewBag.categories" />
     </div>
     <div class="col-9">
         <div class="row">
 
             <partial name="_Product" model="@Model" />
         </div>
-        <div class="d-flex">
+        <div class="d-flex mt-5">
             <pagination total-page="@ViewBag.totalPage" current-page="@ViewContext.RouteData.Values["id"]" url="/product/index/{0}"></pagination>
         </div>
     </div>

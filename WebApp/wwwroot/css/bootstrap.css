@@ -6548,7 +6548,7 @@ a.close.disabled {
 .carousel-control-prev2,
 .carousel-control-next2 {
     position: absolute;
-    top: -65px;
+    top: -25px;
     bottom: 0;
     z-index: 1;
     display: -ms-flexbox;

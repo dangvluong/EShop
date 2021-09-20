@@ -1,154 +1,160 @@
 ﻿@model Product
-<div class="row products-page mt-5">
-    <div class="col-3">
-        <partial name="_Category" model="@ViewBag.categories" />
+    <div class="d-flex">
+        <hr class="w-25 mb-4 mx-auto" />
     </div>
-    <div class="col-9">
-        <div class="row">
-            <div class="col-6">
-                <partial name="_Carousel" model="@Model" />
+    <div class="row products-page mt-5">
+        <div class="col-3">
+            <partial name="_Category" model="@ViewBag.categories" />
+        </div>
+        <div class="col-9">
+            <div class="row">
+                <div class="col-6">
+                    <partial name="_Carousel" model="@Model" />
+                </div>
+                <div class="col-6">
+                    <h3>@Model.ProductName</h3>
+                    <p>Mã: @Model.Sku</p>
+                    <partial name="_Price" model="@Model" />
+                    @*@{
+                        if (Model.PriceSaleOff is null)
+                        {
+                            <p>Giá: <b class="text-danger">@Helper.FormatCurrencyString(Model.Price)</b></p>
+                        }
+                        else
+                        {
+                            <p>Giá: <del class="text-secondary">@Helper.FormatCurrencyString(Model.Price)</del> <b class="text-danger">@Helper.FormatCurrencyString(Model.PriceSaleOff.Value)</b> </p>
+                        }
+                    }*@
+                    <p>Chất liệu: @Model.Material</p>
+                    <p>Mô tả: @Model.Description</p>
+                    <form method="post" name="frm" action="/cart/addcart" class="form-group">
+                        <input type="hidden" name="ProductId" value="@Model.ProductId" />
+                        <div class="my-2">
+                            Chọn màu sắc:
+                            @for (int i = 0; i < Model.Colors.Count; i++)
+                            {
+                                <span class="image-radio">
+                                    @if (i == 0)
+                                    {
+                                        <input type="radio" name="ColorId" class="ColorId" value="@Model.Colors[i].ColorId" checked="checked" />
+                                    }
+                                    else
+                                    {
+                                        <input type="radio" name="ColorId" class="ColorId" value="@Model.Colors[i].ColorId" />
+                                    }
+                                    <img src="/images/icon/@Model.Colors[i].IconUrl" alt="@Model.Colors[i].ColorCode" class="img-fluid img-thumbnail color-images" />
+                                </span>
+                            }
+                        </div>
+                        <div class="my-2">
+                            <label for="SizeId">Chọn kích cỡ:</label>
+                            <select id="SizeId" name="SizeId" class="form-control-sm w-25">
+                                @foreach (Size item in Model.Sizes)
+                                {
+                                    <option value="@item.SizeId">@item.SizeCode</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="my-2">
+                            Số lượng tồn kho: <b id="InventoryStatusQuantity"></b>
+                        </div>
+                        <div id="cartQuantity my-2">
+                            <label for="Quantity">Chọn số lượng: </label>
+                            <input type="number" name="Quantity" value="1" id="Quantity" min="1" class="form-control-sm w-25" />
+                        </div>
+                        <div>
+                            <button class="confirmCart btn btn-primary my-2">Thêm vào giỏ hàng</button>
+                        </div>
+                    </form>
+                    <div>
+                        Thuộc danh mục:
+                        @foreach (var item in Model.Categories)
+                        {
+                            <a href="/product/category/@item.CategoryId">@item.CategoryName</a>
+                        }
+                    </div>
+                    <div class="guideOfProduct my-3">
+                        <b>Hướng dẫn sử dụng:</b>
+                        <ul>
+                            @foreach (var item in Model.Guides)
+                            {
+                                <li>  @item.GuideDescription.Trim()</li>
+
+                            }
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div class="col-6">
-                <h3>@Model.ProductName</h3>
-                <p>Mã: @Model.Sku</p>
-                @{
-                    if (Model.PriceSaleOff == 0)
+        </div>
+    </div>
+    <div class="mt-5">
+        <h4 class="text-center">Các sản phẩm liên quan</h4>
+    </div>
+    <div class="container text-center my-3">
+        <div id="productsRelationArea" class="carousel slide w-100" data-ride="carousel">
+            <div class="carousel-inner w-100" role="listbox">
+                <div class="carousel-item active row">
+                    @for (int i = 0; i < 6; i++)
                     {
-                        <p>Giá: <b>@Model.Price</b></p>
+                        <partial name="_ProductsRelation" model="@Model.ProductsRelation[i]" />
+                    @*<div class="col-2 float-left lastest-products">
+                        <a href="/product/detail/@Model.ProductsRelation[i].ProductId" class="product_link">
+                            <img src="@(Model.ProductsRelation[i].Images.Count == 0 ? "#" : $"/images/{Model.ProductsRelation[i].Images[0].ImageUrl}")" alt="@Model.ProductsRelation[i].ProductName" class="img-fluid">
+                            <p class="product_name">@Model.ProductsRelation[i].ProductName</p>
+                        </a>
+                        @{
+                            if (Model.ProductsRelation[i].PriceSaleOff is null)
+                            {
+                                <span class="text-danger">
+                                    @Helper.FormatCurrencyString(Model.ProductsRelation[i].Price)
+                                </span>
+                            }
+                            else
+                            {
+                                <del class="text-secondary">@Helper.FormatCurrencyString(Model.ProductsRelation[i].Price)</del> <span class="text-danger">@Helper.FormatCurrencyString(Model.ProductsRelation[i].PriceSaleOff.Value)</span>
+                            }
+                        }
+                    </div>*@
+                    }
+                </div>
+                <div class="carousel-item row">
+                    @for (int i = 6; i < 12; i++)
+                    {
+                        <partial name="_ProductsRelation" model="@Model.ProductsRelation[i]" />
+                        @*<div class="col-2 float-left lastest-products">
+                <a href="/product/detail/@Model.ProductsRelation[i].ProductId">
+                    <img src="@(Model.ProductsRelation[i].Images.Count == 0 ? "#" : $"/images/{Model.ProductsRelation[i].Images[0].ImageUrl}")" alt="@Model.ProductsRelation[i].ProductName" class="img-fluid">
+                    <p>@Model.ProductsRelation[i].ProductName</p>
+                </a>
+                @{
+                    if (Model.ProductsRelation[i].PriceSaleOff is null)
+                    {
+                        <span class="text-danger">
+                            @Model.ProductsRelation[i].Price
+                        </span>
                     }
                     else
                     {
-                        <p>Giá: <del>@Model.Price</del> <b>@Model.PriceSaleOff</b> </p>
+                        <del class="text-secondary">@Model.ProductsRelation[i].Price</del> <span class="text-danger">@Model.ProductsRelation[i].PriceSaleOff</span>
                     }
                 }
-                <p>Chất liệu: @Model.Material</p>
-                <p>Mô tả: @Model.Description</p>
-                <form method="post" name="frm" action="/cart/addcart" class="form-group">
-                    <input type="hidden" name="ProductId" value="@Model.ProductId" />
-                    <div class="my-2">
-                        Chọn màu sắc:
-                        @for (int i = 0; i < Model.Colors.Count; i++)
-                        {
-                            <span class="image-radio">
-                                @if (i == 0)
-                                {
-                                    <input type="radio" name="ColorId" class="ColorId" value="@Model.Colors[i].ColorId" checked="checked" />
-                                }
-                                else
-                                {
-                                    <input type="radio" name="ColorId" class="ColorId" value="@Model.Colors[i].ColorId" />
-                                }
-                                <img src="/images/icon/@Model.Colors[i].IconUrl" alt="@Model.Colors[i].ColorCode" class="img-fluid img-thumbnail color-images" />
-                            </span>
-                        }
-                    </div>
-                    <div class="my-2">
-                        <label for="SizeId">Chọn kích cỡ:</label>
-                        <select id="SizeId" name="SizeId" class="form-control-sm w-25">
-                            @foreach (Size item in Model.Sizes)
-                            {
-                                <option value="@item.SizeId">@item.SizeCode</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="my-2">
-                        Số lượng tồn kho: <b id="InventoryStatusQuantity"></b>
-                    </div>
-                    <div id="cartQuantity my-2">
-                        <label for="Quantity">Chọn số lượng: </label>
-                        <input type="number" name="Quantity" value="1" id="Quantity" min="1" class="form-control-sm w-25" />
-                    </div>
-                    <div>
-                        <button class="confirmCart btn btn-primary my-2">Thêm vào giỏ hàng</button>
-                    </div>
-                </form>
-                <div>
-                    Danh mục:
-                    @foreach (var item in Model.Categories)
-                    {
-                        <a href="/product/category/@item.CategoryId">@item.CategoryName</a>
+            </div>*@
                     }
                 </div>
-                <div class="guideOfProduct my-3">
-                    <b>Hướng dẫn sử dụng:</b>
-                    <ul>
-                        @foreach (var item in Model.Guides)
-                        {
-                            <li>  @item.GuideDescription.Trim()</li>
-
-                        }
-                    </ul>
-                </div>
             </div>
+            <a class="carousel-control-prev2" href="#productsRelationArea" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next2" href="#productsRelationArea" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
         </div>
     </div>
-</div>
-<div class="my-5">
-    <h4 class="text-center">Các sản phẩm liên quan</h4>
-</div>
-<div class="container text-center my-3">
-    <div id="productsRelationArea" class="carousel slide w-100" data-ride="carousel">
-        <div class="carousel-inner w-100" role="listbox">
-            <div class="carousel-item active row">
-                @for (int i = 0; i < 6; i++)
-                {
-                    <div class="col-2 float-left lastest-products">
-                        <a href="/product/detail/@Model.ProductsRelation[i].ProductId">
-                            <img src="@(Model.ProductsRelation[i].Images.Count == 0 ? "#" : $"/images/{Model.ProductsRelation[i].Images[0].ImageUrl}")" alt="@Model.ProductsRelation[i].ProductName" class="img-fluid">
-                            <p>@Model.ProductsRelation[i].ProductName</p>
-                        </a>
-                        @{
-                            if (Model.ProductsRelation[i].PriceSaleOff == 0)
-                            {
-                                <span class="">
-                                    @Model.ProductsRelation[i].Price
-                                </span>
-                            }
-                            else
-                            {
-                                <del>@Model.ProductsRelation[i].Price</del> <span class="">@Model.ProductsRelation[i].PriceSaleOff</span>
-                            }
-                        }
-                    </div>
-                }
-            </div>
-            <div class="carousel-item row lastest-products"">
-                @for (int i = 6; i < 12; i++)
-                {
-                    <div class="col-2 float-left">
-                        <a href="/product/detail/@Model.ProductsRelation[i].ProductId">
-                            <img src="@(Model.ProductsRelation[i].Images.Count == 0 ? "#" : $"/images/{Model.ProductsRelation[i].Images[0].ImageUrl}")" alt="@Model.ProductsRelation[i].ProductName" class="img-fluid">
-                            <p>@Model.ProductsRelation[i].ProductName</p>
-                        </a>
-                        @{
-                            if (Model.ProductsRelation[i].PriceSaleOff == 0)
-                            {
-                                <span class="">
-                                    @Model.ProductsRelation[i].Price
-                                </span>
-                            }
-                            else
-                            {
-                                <del>@Model.ProductsRelation[i].Price</del> <span class="">@Model.ProductsRelation[i].PriceSaleOff</span>
-                            }
-                        }
-                    </div>
-                }
-            </div>
-        </div>
-        <a class="carousel-control-prev2" href="#productsRelationArea" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next2" href="#productsRelationArea" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
-</div>
 
-@section script{
-    <script>
+    @section script{
+        <script>
         $('.carousel').carousel({
             /*interval: false*/
         });
@@ -190,5 +196,5 @@
             updateInventoryStatus();
         });
         updateInventoryStatus();
-    </script>
-}
+        </script>
+    }

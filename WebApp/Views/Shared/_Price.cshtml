@@ -1,0 +1,11 @@
+﻿@model Product
+@{
+    if (Model.PriceSaleOff is null)
+    {
+        <p>Giá: <b class="text-danger">@Helper.FormatCurrencyString(Model.Price)</b></p>
+    }
+    else
+    {
+        <p>Giá: <del class="text-secondary">@Helper.FormatCurrencyString(Model.Price)</del> <b class="text-danger">@Helper.FormatCurrencyString(Model.PriceSaleOff.Value)</b> </p>
+    }
+}

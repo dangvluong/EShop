@@ -145,7 +145,11 @@ $(document).on('submit', 'form[name="editContact"]', function (e) {
         location.reload();
     });
 });
+
+function formatCurrency(input) {
+    return input.toLocaleString({ style: "currency", currency: "VND" }).replace(/,/g, ".") + " ₫";
+}
 //add total cost of invoice to cart and checkout page
 $(document).ready(function () {
-    $('#totalCost').text(parseInt($('#totalProductCost').text()) + parseInt($('#shipCost').text()));
+    $('#totalCost').text(formatCurrency(parseInt($('#totalProductCost').text().replace(".", "").replace("đ", "")) + parseInt($('#shipCost').text().replace(".", "").replace("đ", ""))));
 });

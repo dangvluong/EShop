@@ -1,14 +1,14 @@
 ﻿@model CartViewModel
 <div class="d-flex">
-    <hr class="w-25 my-4 mx-auto" />
+    <hr class="w-25 mb-4 mx-auto" />
 </div>
 <div class="mb-4">
     <h4 class="text-center">Giỏ hàng</h4>
 </div>
 <div class="container">
     @if (Model.CartDetail.Count > 0)
-    {        
-        <partial name="_CartDetail" model="@Model"/>        
+    {
+        <partial name="_CartDetail" model="@Model" />
         <div class="text-center">
             <a href="/cart/checkout" class="btn btn-primary">Thanh toán</a>
             <a href="/product" class="btn btn-secondary">Tiếp tục mua sắm</a>
@@ -21,7 +21,4 @@
             <p>Click vào <a href="/product">ĐÂY</a> để tiếp tục mua sắm.</p>
         </div>
     }
-</div>
-<div class="d-flex">
-    <hr class="w-25 my-4 mx-auto" />
 </div>

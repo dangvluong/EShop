@@ -48,7 +48,7 @@
         function updateInputQuantity(id, s, c, node) {
             $(node).find('input[class="inputSizeId"]').val(s);
             $(node).find('input[class="inputColorId"]').val(c);
-            $.post('/product/getinventorystatus', { 'productId': id, 'sizeId': s, 'colorId': c }, (result) => {                
+            $.post('/product/getinventoryquantity', { 'productId': id, 'sizeId': s, 'colorId': c }, (result) => {                
                 $(node).find('.InputQuantity').val(result);
             });
         }

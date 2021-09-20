@@ -1,24 +1,26 @@
 ﻿@model IEnumerable<Product>
- <div class="row">
-@foreach (Product item in Model)
-{
-    <div class="col-md-3">
-        <a href="/product/detail/@item.ProductId">
-            <img src="@(item.Images.Count == 0 ? "#" : $"/images/{item.Images[0].ImageUrl}")" alt="@item.ProductName" class="lastest-product-images">
-            <p>@item.ProductName</p>
-        </a>
-        @{
-            if (item.PriceSaleOff is null)
-            {
-                <span class="">
-                    @item.Price
-                </span>
-            }
-            else
-            {
-                <del>@item.Price</del> <span class="">@item.PriceSaleOff</span>
-            }
-        }
-    </div>
-}
+<div class="row">
+    @foreach (Product item in Model)
+    {
+        <div class="col-3 d-flex flex-column my-2">
+            <a href="/product/detail/@item.ProductId" class="product_link">
+                <img src="@(item.Images.Count == 0 ? "#" : $"/images/{item.Images[0].ImageUrl}")" alt="@item.ProductName" class="lastest-product-images">
+                <p class="product_name">@item.ProductName</p>
+            </a>
+            <div class="text-center mt-auto">
+                @{
+                    if (item.PriceSaleOff is null)
+                    {
+                        <span class="text-danger">
+                            @Helper.FormatCurrencyString(item.Price)
+                        </span>
+                    }
+                    else
+                    {
+                        <del class="text-secondary"> @Helper.FormatCurrencyString(item.Price)</del> <span class="text-danger"> @Helper.FormatCurrencyString(item.PriceSaleOff.Value)</span>
+                    }
+                }
+            </div>
+        </div>
+    }
 </div>

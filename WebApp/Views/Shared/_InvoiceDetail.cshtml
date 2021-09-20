@@ -20,20 +20,20 @@
                 <td>@item.ProductName</td>
                 <td>@item.ColorCode</td>
                 <td>@item.SizeCode</td>
-                <td>@item.Price</td>
+                <td>@Helper.FormatCurrencyString(item.Price)</td>
                 <td>@item.Quantity</td>
-                <td>@(item.Quantity * item.Price)</td>
+                <td>@(Helper.FormatCurrencyString(item.Quantity * item.Price))</td>
             </tr>
         }
     </tbody>
     <tfoot>
         <tr>
             <th colspan="5" class="text-right">Tổng tiền hàng</th>
-            <td id="totalProductCost" colspan="2">@total</td>
+            <td id="totalProductCost" colspan="2">@Helper.FormatCurrencyString(total)</td>
         </tr>
         <tr>
             <th colspan="5" class="text-right">Phí vận chuyển</th>
-            <td id="shipCost" colspan="2">@Model.ShipCost</td>
+            <td id="shipCost" colspan="2">@Helper.FormatCurrencyString(Model.ShipCost)</td>
         </tr>
         <tr>
             <th colspan="5" class="text-right">Tổng thành tiền</th>

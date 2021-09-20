@@ -39,11 +39,11 @@
                 </tr>
                 <tr>
                     <th>Giá bán gốc</th>
-                    <td>@Model.Price</td>
+                    <td>@Helper.FormatCurrencyString(Model.Price)</td>
                 </tr>
                 <tr>
                     <th>Giá khuyến mãi</th>
-                    <td>@Model.PriceSaleOff</td>
+                    <td>@(Model.PriceSaleOff is null ? "" : Helper.FormatCurrencyString(Model.PriceSaleOff.Value))</td>
                 </tr>
                 <tr>
                     <th>Chất liệu</th>

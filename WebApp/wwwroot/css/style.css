@@ -184,6 +184,17 @@
 
 
 /*View All Product button start*/
+.product_name {   
+    color: #000;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    text-align: center;
+}
+.product_link:hover {
+    text-decoration: none;
+}
 #viewAllProduct {
     margin-right: 100px;
     text-decoration: none;
@@ -242,8 +253,8 @@
 .free-shipping #truct-shipping {
     display: block;
     float: left;
-    padding: 14px 0px 0px 39px;
-    font-size: 40px;
+    padding: 14px 0px 0px 20px;
+    font-size: 35px;
 }
 
 .free-shipping #content-shipping {
@@ -254,7 +265,7 @@
 
 #content-shipping #free-shipping-slogan,
 #order-online #order-telephone {
-    font-size: 25px;
+    font-size: 20px;
     color: purple;
     margin: 0;
 }
