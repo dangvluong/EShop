@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using WebApp.Controllers;
+using WebApp.Helper;
 using WebApp.Models;
 
 namespace WebApp.Areas.Dashboard.Controllers
@@ -9,7 +9,7 @@ namespace WebApp.Areas.Dashboard.Controllers
     public class GuideController : BaseController
     {        
         int size = 50;
-        public GuideController(IConfiguration configuration):base(configuration)
+        public GuideController(SiteProvider provider) :base(provider)
         {
             
         }

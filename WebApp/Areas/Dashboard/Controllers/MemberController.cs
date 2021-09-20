@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using WebApp.Controllers;
+using WebApp.Helper;
 using WebApp.Models;
 
 namespace WebApp.Areas.Manage.Controllers
@@ -10,7 +10,7 @@ namespace WebApp.Areas.Manage.Controllers
     [Area("dashboard")]
     public class MemberController : BaseController
     {        
-        public MemberController(IConfiguration configuration):base(configuration)
+        public MemberController(SiteProvider provider) : base(provider)
         {
             
         }        

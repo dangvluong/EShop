@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.IO;
 using WebApp.Controllers;
+using WebApp.Helper;
 using WebApp.Models;
 
 namespace WebApp.Areas.Dashboard.Controllers
@@ -12,7 +13,7 @@ namespace WebApp.Areas.Dashboard.Controllers
     public class ColorController : BaseController
     {         
         string root = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "icon");
-        public ColorController(IConfiguration configuration):base(configuration)
+        public ColorController(SiteProvider provider) :base(provider)
         {
             
         }

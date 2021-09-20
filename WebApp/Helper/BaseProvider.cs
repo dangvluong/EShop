@@ -5,8 +5,9 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApp.Helper;
 
-namespace WebApp.Models
+namespace WebApp.Helper
 {
     public class BaseProvider : IDisposable
     {

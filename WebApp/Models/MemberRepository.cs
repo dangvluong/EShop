@@ -2,8 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+using WebApp.Helper;
 
 namespace WebApp.Models
 {
@@ -18,7 +17,7 @@ namespace WebApp.Models
                 connection.Execute("AddMember", new
                 {
                     Username = obj.Username,
-                    Password = Helper.HashPassword(obj.Password),
+                    Password = SiteHelper.HashPassword(obj.Password),
                     Email = obj.Email,
                     Gender = obj.Gender,
                     JoinDate = DateTime.UtcNow
@@ -39,7 +38,7 @@ namespace WebApp.Models
         {
             return connection.QuerySingleOrDefault<Member>("Login",
                 new { Username = obj.Username,
-                    Password = Helper.HashPassword(obj.Password) },
+                    Password = SiteHelper.HashPassword(obj.Password) },
                 commandType: CommandType.StoredProcedure); 
         }
         public Member GetMemberById(Guid memberId)

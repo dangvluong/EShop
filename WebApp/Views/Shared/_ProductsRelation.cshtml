@@ -8,12 +8,12 @@
         if (Model.PriceSaleOff is null)
         {
             <span class="text-danger">
-                @Helper.FormatCurrencyString(Model.Price)
+                @SiteHelper.FormatCurrencyString(Model.Price)
             </span>
         }
         else
         {
-            <del class="text-secondary">@Helper.FormatCurrencyString(Model.Price)</del> <span class="text-danger">@Helper.FormatCurrencyString(Model.PriceSaleOff.Value)</span>
+            <del class="text-secondary">@SiteHelper.FormatCurrencyString(Model.Price)</del> <span class="text-danger">@SiteHelper.FormatCurrencyString(Model.PriceSaleOff.Value)</span>
         }
     }
 </div>

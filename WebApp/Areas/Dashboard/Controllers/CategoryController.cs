@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using WebApp.Controllers;
+using WebApp.Helper;
 using WebApp.Models;
 
 namespace WebApp.Areas.Dashboard.Controllers
@@ -8,7 +9,7 @@ namespace WebApp.Areas.Dashboard.Controllers
     [Area("dashboard")]
     public class CategoryController : BaseController
     {
-        public CategoryController(IConfiguration configuration):base(configuration)
+        public CategoryController(SiteProvider provider):base(provider)
         {
 
         }

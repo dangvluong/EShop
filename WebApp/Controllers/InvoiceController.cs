@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
+using WebApp.Helper;
 using WebApp.Models;
 
 namespace WebApp.Controllers
@@ -13,7 +11,7 @@ namespace WebApp.Controllers
     [Authorize]
     public class InvoiceController : BaseController
     {        
-        public InvoiceController(IConfiguration configuration):base(configuration)
+        public InvoiceController(SiteProvider provider) :base(provider)
         {          
         }
         public IActionResult Detail(Guid id)

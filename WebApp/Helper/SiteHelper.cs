@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
+﻿using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace WebApp
+namespace WebApp.Helper
 {
-    public class Helper
+    public static class SiteHelper
     {
         public static byte[] HashPassword(string plaintext)
         {

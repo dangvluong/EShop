@@ -2,10 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
+using WebApp.Helper;
 using WebApp.Models;
 
 namespace WebApp.Controllers
@@ -13,12 +11,12 @@ namespace WebApp.Controllers
     [Authorize]
     public class ContactController : BaseController
     {
-        public ContactController(IConfiguration configuration) : base(configuration)
+        public ContactController(SiteProvider provider) : base(provider)
         {          
         }
         [HttpPost]
         public IActionResult GetProvinces()
-        {
+        {            
             return Json(provider.Province.GetProvinces());
         }
 

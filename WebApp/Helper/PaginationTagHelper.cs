@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebApp
+namespace WebApp.Helper
 {
     public class PaginationTagHelper : TagHelper
     {

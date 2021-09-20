@@ -12,12 +12,12 @@
                     if (item.PriceSaleOff is null)
                     {
                         <span class="text-danger">
-                            @Helper.FormatCurrencyString(item.Price)
+                            @SiteHelper.FormatCurrencyString(item.Price)
                         </span>
                     }
                     else
                     {
-                        <del class="text-secondary"> @Helper.FormatCurrencyString(item.Price)</del> <span class="text-danger"> @Helper.FormatCurrencyString(item.PriceSaleOff.Value)</span>
+                        <del class="text-secondary"> @SiteHelper.FormatCurrencyString(item.Price)</del> <span class="text-danger"> @SiteHelper.FormatCurrencyString(item.PriceSaleOff.Value)</span>
                     }
                 }
             </div>

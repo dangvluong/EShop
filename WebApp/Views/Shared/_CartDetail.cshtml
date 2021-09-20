@@ -19,9 +19,9 @@
                 <td class="ProductId" name="@item.ProductId">@item.ProductName</td>
                 <td class="ColorId" name="@item.ColorId">@item.ColorCode</td>
                 <td class="SizeId" name="@item.SizeId">@item.SizeCode</td>
-                <td>@Helper.FormatCurrencyString(item.Price)</td>
+                <td>@SiteHelper.FormatCurrencyString(item.Price)</td>
                 <td><input type="number" id="quantityInCart" name="Quantity" value="@item.Quantity" min="1" max="@item.AvailableQuantity" /></td>
-                <td class="Amount">@(Helper.FormatCurrencyString(item.Quantity * item.Price))</td>
+                <td class="Amount">@(SiteHelper.FormatCurrencyString(item.Quantity * item.Price))</td>
                 <td><a class="DeleteCart"><i class="fas fa-trash-alt"></i></a></td>
             </tr>
         }
@@ -29,12 +29,12 @@
     <tfoot>
         <tr>
             <th colspan="5" class="text-right">Tổng tiền hàng</th>
-            <td id="totalProductCost" colspan="2">@Helper.FormatCurrencyString(Model.Total)</td>
+            <td id="totalProductCost" colspan="2">@SiteHelper.FormatCurrencyString(Model.Total)</td>
         </tr>
         <tr>
             <th colspan="5" class="text-right">Phí vận chuyển</th>
             <td id="shipCost" colspan="2">
-                @(Helper.FormatCurrencyString(Model.Total >= 500000 ? 0 : 50000))
+                @(SiteHelper.FormatCurrencyString(Model.Total >= 500000 ? 0 : 50000))
             </td>
         </tr>
         <tr>

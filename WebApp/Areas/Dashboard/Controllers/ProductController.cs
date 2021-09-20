@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using WebApp.Controllers;
+using WebApp.Helper;
 using WebApp.Models;
 
 namespace WebApp.Areas.Dashboard.Controllers
@@ -12,7 +12,7 @@ namespace WebApp.Areas.Dashboard.Controllers
     [Area("dashboard")]
     public class ProductController : BaseController
     {        
-        public ProductController(IConfiguration configuration):base(configuration)
+        public ProductController(SiteProvider provider) : base(provider)
         {
             
         }

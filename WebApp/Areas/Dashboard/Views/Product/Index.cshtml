@@ -23,8 +23,8 @@
                     <td>@item.ProductId</td>
                     <td>@item.ProductName</td>
                     <td>@item.Sku</td>
-                    <td>@Helper.FormatCurrencyString(item.Price)</td>
-                    <td>@(item.PriceSaleOff is null ? "" :Helper.FormatCurrencyString(item.PriceSaleOff.Value))</td>                  
+                    <td>@SiteHelper.FormatCurrencyString(item.Price)</td>
+                    <td>@(item.PriceSaleOff is null ? "" :SiteHelper.FormatCurrencyString(item.PriceSaleOff.Value))</td>                  
                     <td><a href="/dashboard/product/detail/@item.ProductId">Chi tiết</a></td>
                 </tr>
             }

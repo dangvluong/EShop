@@ -8,15 +8,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using WebApp.Helper;
 using WebApp.Models;
 
 namespace WebApp.Controllers
 {
     public class AuthController : BaseController
     {        
-        public AuthController(IConfiguration configuration):base(configuration)
-        {
-            
+        public AuthController(SiteProvider provider):base(provider)
+        {            
         }
         [Authorize]
         public IActionResult Index()
