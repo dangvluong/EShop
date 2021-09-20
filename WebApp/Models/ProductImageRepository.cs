@@ -22,15 +22,15 @@ namespace WebApp.Models
         }
         public int GetNumberImageExists(ProductImageUpload obj)
         {
-            return connection.QuerySingleOrDefault<int>($"SELECT COUNT(*) FROM ProductImage WHERE ProductId = {obj.ProductId} AND ColorId = {obj.ColorId}");
+            return connection.QuerySingleOrDefault<int>($"SELECT COUNT(*) FROM ImageOfProduct WHERE ProductId = {obj.ProductId} AND ColorId = {obj.ColorId}");
         }
         public int AddProductImage(ProductImageUpload obj, string imageUrl)
         {
-            return connection.Execute("AddProductImage", new { ProductId = obj.ProductId, ColorId = obj.ColorId, ImageUrl = imageUrl }, commandType: CommandType.StoredProcedure);
+            return connection.Execute("AddImageOfProduct", new { ProductId = obj.ProductId, ColorId = obj.ColorId, ImageUrl = imageUrl }, commandType: CommandType.StoredProcedure);
         }
         public int Delete(ProductImage obj)
         {
-            return connection.Execute($"DELETE FROM ProductImage WHERE ProductId = {obj.ProductId} AND ColorId ='{obj.ColorId}' AND ImageUrl = '{obj.ImageUrl}'");
+            return connection.Execute($"DELETE FROM ImageOfProduct WHERE ProductId = {obj.ProductId} AND ColorId ='{obj.ColorId}' AND ImageUrl = '{obj.ImageUrl}'");
         }
     }
 }

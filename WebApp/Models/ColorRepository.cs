@@ -45,9 +45,9 @@ namespace WebApp.Models
         {
             return connection.Execute("AddColor", new { ColorCode = obj.ColorCode, IconUrl = obj.IconUrl }, commandType: CommandType.StoredProcedure);
         }
-        public IEnumerable<Statistic> GetBestSellingColor()
+        public IEnumerable<Statistic> GetBestSellingColors()
         {
-            return connection.Query<Statistic>("GetBestSellingColor", commandType: CommandType.StoredProcedure);
+            return connection.Query<Statistic>("GetBestSellingColors", commandType: CommandType.StoredProcedure);
         }
     }
 }

@@ -199,6 +199,7 @@ BEGIN
 	WHERE CategoryId = @CategoryId AND Product.IsDeleted = 0;
 
 END
+
 --DROP PROC GetProductsRelation;
 GO
 CREATE PROC GetProductsRelation(@ProductId SMALLINT)
@@ -206,7 +207,7 @@ AS
 BEGIN
 	SELECT DISTINCT TOP 12 Product.* FROM Product JOIN ProductInCategory
 		ON Product.ProductId = ProductInCategory.ProductId
-		JOIN (SELECT CategoryId FROM Product JOIN ProductInCategory ON Product.ProductId = ProductInCategory.ProductId WHERE Product.ProductId = 1) AS Temp
+		JOIN (SELECT CategoryId FROM Product JOIN ProductInCategory ON Product.ProductId = ProductInCategory.ProductId WHERE Product.ProductId = @ProductId) AS Temp
 		ON ProductInCategory.CategoryId = Temp.CategoryId
 		WHERE Product.ProductId <> @ProductId;
 END
@@ -248,10 +249,14 @@ CREATE PROC UpdateInventoryQuantityFromInvoice(@ProductId SMALLINT, @ColorId SMA
 AS
 	UPDATE InventoryQuantity SET Quantity -= @Quantity WHERE ProductId = @ProductId AND ColorId = @ColorId AND SizeId = @SizeId;
 GO
-
+--DROP PROC UpdateInventoryQuantity;
+GO
 CREATE PROC UpdateInventoryQuantity(@ProductId SMALLINT, @ColorId SMALLINT, @SizeId TINYINT, @Quantity SMALLINT)
 AS
-	UPDATE InventoryQuantity SET Quantity = @Quantity WHERE ProductId = @ProductId AND ColorId = @ColorId AND SizeId = @SizeId;
+	IF EXISTS(SELECT * FROM InventoryQuantity WHERE ProductId = @ProductId AND ColorId = @ColorId AND SizeId = @SizeId)
+		UPDATE InventoryQuantity SET Quantity = @Quantity WHERE ProductId = @ProductId AND ColorId = @ColorId AND SizeId = @SizeId;
+	ELSE
+		INSERT INTO InventoryQuantity(ProductId, ColorId, SizeId, Quantity) VALUES(@ProductId, @ColorId, @SizeId, @Quantity);
 GO
 --DROP PROC GetGuides;
 GO
@@ -569,7 +574,7 @@ END
 GO
 --DROP PROC GetBestSellingSize;
 GO
-CREATE PROC GetBestSellingSize
+CREATE PROC GetBestSellingSizes
 AS
 BEGIN
 	SELECT TOP (5) Size.SizeId AS Id, Size.SizeCode AS Name, SUM(InvoiceDetail.Quantity * InvoiceDetail.Price) AS Total
@@ -581,7 +586,7 @@ END
 GO
 --DROP PROC GetBestSellingColor;
 GO
-CREATE PROC GetBestSellingColor
+CREATE PROC GetBestSellingColors
 AS
 BEGIN
 	SELECT TOP (5) Color.ColorId AS Id, Color.ColorCode AS Name, SUM(InvoiceDetail.Quantity * InvoiceDetail.Price) AS Total

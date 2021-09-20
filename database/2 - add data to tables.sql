@@ -1,203 +1,4 @@
-﻿USE master;
-GO
-DROP DATABASE EShop;
-GO
-
--------------------------CREATE DATABASE-------------------------
-CREATE DATABASE EShop;
-GO
-USE EShop;
-GO
-
--------------------------CREATE TABLES-------------------------
-CREATE TABLE Product(
-	ProductId SMALLINT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	ProductName NVARCHAR(100) NOT NULL,
-	Sku VARCHAR(32) NOT NULL,
-	Price INT NOT NULL,
-	PriceSaleOff INT,
-	Material NVARCHAR(64),
-	Description NVARCHAR(MAX),
-	IsDeleted BIT DEFAULT 0
-)
-GO
-
-CREATE TABLE Category(
-	CategoryId SMALLINT NOT NULL PRIMARY KEY IDENTITY (1,1),
-	CategoryName NVARCHAR(64) NOT NULL
-)
-GO
-
-CREATE TABLE ProductInCategory(
-	ProductId SMALLINT NOT NULL REFERENCES Product(ProductId),
-	CategoryId SMALLINT NOT NULL REFERENCES Category(CategoryId),
-	PRIMARY KEY(ProductId, CategoryId)
-)
-GO
-
-CREATE TABLE Color(
-	ColorId SMALLINT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	ColorCode VARCHAR(20) NOT NULL,
-	IconUrl VARCHAR(32),
-	IsDeleted BIT DEFAULT 0
-)
-GO
-
-CREATE TABLE ColorOfProduct(
-	ProductId SMALLINT NOT NULL REFERENCES Product(ProductId),
-	ColorId SMALLINT NOT NULL REFERENCES Color(ColorId),
-	PRIMARY KEY (ProductId, ColorId)
-)
-GO
-
-CREATE TABLE Size(
-	SizeId SMALLINT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	SizeCode VARCHAR(20) NOT NULL,
-	IsDeleted BIT DEFAULT 0
-)
-GO
-
-CREATE TABLE SizeOfProduct(
-	ProductId SMALLINT NOT NULL REFERENCES Product(ProductId),
-	SizeId SMALLINT NOT NULL REFERENCES Size(SizeId),
-	PRIMARY KEY(ProductId, SizeId)
-)
-GO
-
-CREATE TABLE Guide(
-	GuideId SMALLINT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	GuideDescription NVARCHAR(100) NOT NULL,
-	IsDeleted BIT DEFAULT 0
-)
-GO
-
-CREATE TABLE GuideOfProduct(
-	ProductId SMALLINT NOT NULL REFERENCES Product(ProductId),
-	GuideId SMALLINT NOT NULL REFERENCES Guide(GuideId),
-	PRIMARY KEY(ProductId, GuideId)
-)
-GO
-
-CREATE TABLE ImageOfProduct(
-	ProductId SMALLINT NOT NULL REFERENCES Product(ProductId),
-	ColorId SMALLINT NOT NULL REFERENCES Color(ColorId),
-	ImageUrl VARCHAR(100) NOT NULL,
-	PRIMARY KEY (ProductId, ColorId, ImageUrl)
-)
-GO
-
-CREATE TABLE Province(
-	ProvinceId SMALLINT NOT NULL PRIMARY KEY,
-	ProvinceName NVARCHAR(32) NOT NULL
-)
-GO
-
-CREATE TABLE District(
-	DistrictId SMALLINT NOT NULL PRIMARY KEY,
-	DistrictName NVARCHAR(32) NOT NULL,
-	ProvinceId SMALLINT NOT NULL REFERENCES Province(ProvinceId)
-)
-GO
-
-CREATE TABLE Ward(
-	WardId SMALLINT NOT NULL PRIMARY KEY,
-	WardName NVARCHAR(32) NOT NULL,	
-	DistrictId SMALLINT NOT NULL REFERENCES District(DistrictId)
-)
-GO
-
-CREATE TABLE Contact(
-	ContactId SMALLINT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	AddressHome NVARCHAR(100) NOT NULL,
-	ProvinceId SMALLINT NOT NULL REFERENCES Province(ProvinceId),
-	DistrictId SMALLINT NOT NULL REFERENCES District(DistrictId),
-	WardId SMALLINT NOT NULL REFERENCES Ward(WardId),
-	PhoneNumber VARCHAR(15) NOT NULL,
-	FullName NVARCHAR(32) NOT NULL,
-	IsDeleted BIT DEFAULT 0
-)
-GO
-
-CREATE TABLE Member(
-	MemberId UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
-	Username VARCHAR(32) NOT NULL,
-	Password VARBINARY(64) NOT NULL,
-	Email VARCHAR(32) NOT NULL,
-	Gender BIT NOT NULL,
-	JoinDate DATETIME NOT NULL,
-	DefaultContact SMALLINT DEFAULT NULL,
-	IsBanned BIT DEFAULT 0
-)
-
-CREATE TABLE Role(
-	RoleId TINYINT NOT NULL PRIMARY KEY,
-	RoleName VARCHAR(32) NOT NULL
-)
-GO
-
-CREATE TABLE MemberInRole(
-	MemberId UNIQUEIDENTIFIER NOT NULL REFERENCES Member(MemberId),
-	RoleId TINYINT NOT NULL REFERENCES Role(RoleId),
-	IsDeleted BIT DEFAULT 0,
-	PRIMARY KEY(MemberId, RoleId)
-)
-GO
-
-CREATE TABLE ContactOfMember(
-	MemberId UNIQUEIDENTIFIER NOT NULL REFERENCES Member(MemberId),
-	ContactId SMALLINT NOT NULL REFERENCES Contact(ContactId),	
-	PRIMARY KEY(MemberId,ContactId)
-)
-GO
-
-CREATE TABLE InventoryQuantity(
-	ProductId SMALLINT NOT NULL REFERENCES Product(ProductId),
-	ColorId SMALLINT NOT NULL REFERENCES Color(ColorId),
-	SizeId SMALLINT NOT NULL REFERENCES Size(SizeId),
-	Quantity SMALLINT NOT NULL,
-	PRIMARY KEY (ProductId, ColorId, SizeId)
-) 
-GO
-
-CREATE TABLE Cart(
-	CartId UNIQUEIDENTIFIER NOT NULL,
-	ProductId SMALLINT NOT NULL REFERENCES Product(ProductId),
-	ColorId SMALLINT NOT NULL REFERENCES Color(ColorId),
-	SizeId SMALLINT NOT NULL REFERENCES Size(SizeId),
-	Quantity SMALLINT NOT NULL,
-	Price INT NOT NULL,
-	PRIMARY KEY(CartId, ProductId, ColorId, SizeId)
-)
-GO
-
-CREATE TABLE InvoiceStatus(
-	StatusId TINYINT NOT NULL PRIMARY KEY,
-	StatusName VARCHAR(32) NOT NULL
-)
-GO
-
-CREATE TABLE Invoice(
-	InvoiceId UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
-	MemberId UNIQUEIDENTIFIER NOT NULL REFERENCES Member(MemberId),
-	ContactId SMALLINT NOT NULL REFERENCES Contact(ContactId),
-	StatusId TINYINT NOT NULL REFERENCES InvoiceStatus(StatusId),
-	DateCreated DATETIME NOT NULL,
-	ShipCost INT NOT NULL
-)
-GO
-
-CREATE TABLE InvoiceDetail(
-	InvoiceId UNIQUEIDENTIFIER NOT NULL REFERENCES Invoice(InvoiceId),
-	ProductId SMALLINT NOT NULL REFERENCES Product(ProductId),
-	ColorId SMALLINT NOT NULL REFERENCES Color(ColorId),
-	SizeId SMALLINT NOT NULL REFERENCES Size(SizeId),
-	Quantity SMALLINT NOT NULL,
-	Price INT NOT NULL,
-	PRIMARY KEY(InvoiceId, ProductId, ColorId, SizeId)
-)
-GO
-
-
+﻿
 -------------------------INSERT DATA TO TABLES-------------------------
 --TABLE Product
 SET IDENTITY_INSERT [dbo].[Product] ON 
@@ -18884,7 +18685,7 @@ INSERT [dbo].[ImageOfProduct] ([ProductId], [ColorId], [ImageUrl]) VALUES (848, 
 INSERT [dbo].[ImageOfProduct] ([ProductId], [ColorId], [ImageUrl]) VALUES (848, 764, N'2ot20w018-sk056-110-2.jpg')
 INSERT [dbo].[ImageOfProduct] ([ProductId], [ColorId], [ImageUrl]) VALUES (848, 764, N'2ot20w018-sk056-110-3.jpg')
 INSERT [dbo].[ImageOfProduct] ([ProductId], [ColorId], [ImageUrl]) VALUES (849, 765, N'2bp20w008-sb150-110.jpg')
-INSERT [dbo].[ImageOfProduct] ([ProductId], [ColorId], [ImageUrl]) VALUES (850, 766, N'2tw20w003-pb291-120-1.jpg')ProductInCategory
+INSERT [dbo].[ImageOfProduct] ([ProductId], [ColorId], [ImageUrl]) VALUES (850, 766, N'2tw20w003-pb291-120-1.jpg')
 INSERT [dbo].[ImageOfProduct] ([ProductId], [ColorId], [ImageUrl]) VALUES (850, 766, N'2tw20w003-pb291-120-3.jpg')
 INSERT [dbo].[ImageOfProduct] ([ProductId], [ColorId], [ImageUrl]) VALUES (851, 418, N'2ot20w015-sg043-120.jpg')
 INSERT [dbo].[ImageOfProduct] ([ProductId], [ColorId], [ImageUrl]) VALUES (851, 418, N'2ot20w015-sg043-120-2.jpg')
@@ -42048,4 +41849,64 @@ INSERT [dbo].[InvoiceStatus] ([StatusId], [StatusName]) VALUES (4,'Success')
 INSERT [dbo].[Role] ([RoleId], [RoleName]) VALUES (1, 'Customer')
 INSERT [dbo].[Role] ([RoleId], [RoleName]) VALUES (2, 'Staff')
 INSERT [dbo].[Role] ([RoleId], [RoleName]) VALUES (3, 'Manager')
+GO
+
+INSERT [dbo].[Member] ([MemberId], [Username], [Password], [Email], [Gender], [JoinDate], [DefaultContact], [IsBanned]) VALUES (N'1ec1fab0-9eb3-4a62-b841-104a8db81524', N'manager', 0x3C9909AFEC25354D551DAE21590BB26E38D53F2173B8D3DC3EEE4C047E7AB1C1EB8B85103E3BE7BA613B31BB5C9C36214DC9F14A42FD7A2FDB84856BCA5C44C2, N'manager@gmail.com', 0, CAST(N'2021-04-20T02:31:02.660' AS DateTime), NULL, 0)
+INSERT [dbo].[Member] ([MemberId], [Username], [Password], [Email], [Gender], [JoinDate], [DefaultContact], [IsBanned]) VALUES (N'31853df7-8e42-426c-8171-14c996baf5d2', N'tranb', 0x3C9909AFEC25354D551DAE21590BB26E38D53F2173B8D3DC3EEE4C047E7AB1C1EB8B85103E3BE7BA613B31BB5C9C36214DC9F14A42FD7A2FDB84856BCA5C44C2, N'tranb@gmail.com', 1, CAST(N'2021-04-20T02:59:36.457' AS DateTime), 3, 0)
+INSERT [dbo].[Member] ([MemberId], [Username], [Password], [Email], [Gender], [JoinDate], [DefaultContact], [IsBanned]) VALUES (N'18a6266e-0b4c-4fe5-859e-4a09757a29a0', N'vanluong92', 0x3C9909AFEC25354D551DAE21590BB26E38D53F2173B8D3DC3EEE4C047E7AB1C1EB8B85103E3BE7BA613B31BB5C9C36214DC9F14A42FD7A2FDB84856BCA5C44C2, N'severus.expelliarmus@gmail.com', 1, CAST(N'2021-04-20T02:09:34.403' AS DateTime), NULL, 1)
+INSERT [dbo].[Member] ([MemberId], [Username], [Password], [Email], [Gender], [JoinDate], [DefaultContact], [IsBanned]) VALUES (N'ee9f56c0-6ef6-41f6-b4ca-a516ad8c8a3a', N'trinhthic', 0x3C9909AFEC25354D551DAE21590BB26E38D53F2173B8D3DC3EEE4C047E7AB1C1EB8B85103E3BE7BA613B31BB5C9C36214DC9F14A42FD7A2FDB84856BCA5C44C2, N'trinhthic@gmail.com', 0, CAST(N'2021-04-20T02:57:46.893' AS DateTime), 2, 0)
+INSERT [dbo].[Member] ([MemberId], [Username], [Password], [Email], [Gender], [JoinDate], [DefaultContact], [IsBanned]) VALUES (N'f9639415-6a67-4d0c-a2d5-c71d677ccc58', N'nguyenvana', 0x3C9909AFEC25354D551DAE21590BB26E38D53F2173B8D3DC3EEE4C047E7AB1C1EB8B85103E3BE7BA613B31BB5C9C36214DC9F14A42FD7A2FDB84856BCA5C44C2, N'nguyenvana@gmail.com', 1, CAST(N'2021-04-20T02:56:14.570' AS DateTime), 1, 0)
+GO
+INSERT [dbo].[MemberInRole] ([MemberId], [RoleId], [IsDeleted]) VALUES (N'1ec1fab0-9eb3-4a62-b841-104a8db81524', 1, 0)
+INSERT [dbo].[MemberInRole] ([MemberId], [RoleId], [IsDeleted]) VALUES (N'1ec1fab0-9eb3-4a62-b841-104a8db81524', 2, 0)
+INSERT [dbo].[MemberInRole] ([MemberId], [RoleId], [IsDeleted]) VALUES (N'1ec1fab0-9eb3-4a62-b841-104a8db81524', 3, 0)
+INSERT [dbo].[MemberInRole] ([MemberId], [RoleId], [IsDeleted]) VALUES (N'31853df7-8e42-426c-8171-14c996baf5d2', 1, 0)
+INSERT [dbo].[MemberInRole] ([MemberId], [RoleId], [IsDeleted]) VALUES (N'18a6266e-0b4c-4fe5-859e-4a09757a29a0', 1, 0)
+INSERT [dbo].[MemberInRole] ([MemberId], [RoleId], [IsDeleted]) VALUES (N'18a6266e-0b4c-4fe5-859e-4a09757a29a0', 2, 0)
+INSERT [dbo].[MemberInRole] ([MemberId], [RoleId], [IsDeleted]) VALUES (N'ee9f56c0-6ef6-41f6-b4ca-a516ad8c8a3a', 1, 0)
+INSERT [dbo].[MemberInRole] ([MemberId], [RoleId], [IsDeleted]) VALUES (N'f9639415-6a67-4d0c-a2d5-c71d677ccc58', 1, 0)
+GO
+
+SET IDENTITY_INSERT [dbo].[Contact] ON 
+
+INSERT [dbo].[Contact] ([ContactId], [AddressHome], [ProvinceId], [DistrictId], [WardId], [PhoneNumber], [FullName], [IsDeleted]) VALUES (1, N'123 Abc', 1, 3, 29, N'0911222333', N'Nguyễn Văn A', 0)
+INSERT [dbo].[Contact] ([ContactId], [AddressHome], [ProvinceId], [DistrictId], [WardId], [PhoneNumber], [FullName], [IsDeleted]) VALUES (2, N'123 abc', 1, 7, 101, N'0944555666', N'Trịnh Thị C', 0)
+INSERT [dbo].[Contact] ([ContactId], [AddressHome], [ProvinceId], [DistrictId], [WardId], [PhoneNumber], [FullName], [IsDeleted]) VALUES (3, N'456 abc', 1, 1, 1, N'0956789123', N'Trần B', 0)
+SET IDENTITY_INSERT [dbo].[Contact] OFF
+GO
+
+INSERT [dbo].[ContactOfMember] ([MemberId], [ContactId]) VALUES (N'31853df7-8e42-426c-8171-14c996baf5d2', 3)
+INSERT [dbo].[ContactOfMember] ([MemberId], [ContactId]) VALUES (N'ee9f56c0-6ef6-41f6-b4ca-a516ad8c8a3a', 2)
+INSERT [dbo].[ContactOfMember] ([MemberId], [ContactId]) VALUES (N'f9639415-6a67-4d0c-a2d5-c71d677ccc58', 1)
+GO
+
+INSERT [dbo].[Invoice] ([InvoiceId], [MemberId], [ContactId], [StatusId], [DateCreated], [ShipCost]) VALUES (N'888b0406-50c4-4c35-83a0-2f0acffe041b', N'f9639415-6a67-4d0c-a2d5-c71d677ccc58', 1, 1, CAST(N'2021-05-20T03:04:20.710' AS DateTime), 0)
+INSERT [dbo].[Invoice] ([InvoiceId], [MemberId], [ContactId], [StatusId], [DateCreated], [ShipCost]) VALUES (N'616d951e-eade-4c10-908d-31c8d80880e3', N'ee9f56c0-6ef6-41f6-b4ca-a516ad8c8a3a', 2, 4, CAST(N'2021-06-20T02:59:13.177' AS DateTime), 0)
+INSERT [dbo].[Invoice] ([InvoiceId], [MemberId], [ContactId], [StatusId], [DateCreated], [ShipCost]) VALUES (N'3818a92e-6ba5-4111-a8cf-55da093c7b1d', N'ee9f56c0-6ef6-41f6-b4ca-a516ad8c8a3a', 2, 4, CAST(N'2021-07-20T02:58:36.657' AS DateTime), 0)
+INSERT [dbo].[Invoice] ([InvoiceId], [MemberId], [ContactId], [StatusId], [DateCreated], [ShipCost]) VALUES (N'0ef4997d-7252-4ebd-98ef-7648881cc497', N'f9639415-6a67-4d0c-a2d5-c71d677ccc58', 1, 4, CAST(N'2021-08-20T02:57:03.083' AS DateTime), 0)
+INSERT [dbo].[Invoice] ([InvoiceId], [MemberId], [ContactId], [StatusId], [DateCreated], [ShipCost]) VALUES (N'd3c06b81-36a1-453b-bae0-78737a5498ce', N'ee9f56c0-6ef6-41f6-b4ca-a516ad8c8a3a', 2, 1, CAST(N'2021-05-20T03:04:55.247' AS DateTime), 0)
+INSERT [dbo].[Invoice] ([InvoiceId], [MemberId], [ContactId], [StatusId], [DateCreated], [ShipCost]) VALUES (N'3214c9c0-a838-49b9-9d1b-79ac2230bdb7', N'31853df7-8e42-426c-8171-14c996baf5d2', 3, 4, CAST(N'2021-06-20T03:00:31.600' AS DateTime), 0)
+INSERT [dbo].[Invoice] ([InvoiceId], [MemberId], [ContactId], [StatusId], [DateCreated], [ShipCost]) VALUES (N'cc4f587b-b0ca-409e-8d8a-cdc5d6db70e3', N'f9639415-6a67-4d0c-a2d5-c71d677ccc58', 1, 4, CAST(N'2021-07-20T02:57:25.843' AS DateTime), 0)
+INSERT [dbo].[Invoice] ([InvoiceId], [MemberId], [ContactId], [StatusId], [DateCreated], [ShipCost]) VALUES (N'a7fb6a58-9a95-46c0-8a88-ffc078377be1', N'f9639415-6a67-4d0c-a2d5-c71d677ccc58', 1, 1, CAST(N'2021-09-20T03:03:05.900' AS DateTime), 0)
+GO
+INSERT [dbo].[InvoiceDetail] ([InvoiceId], [ProductId], [ColorId], [SizeId], [Quantity], [Price]) VALUES (N'888b0406-50c4-4c35-83a0-2f0acffe041b', 338, 380, 7, 1, 299000)
+INSERT [dbo].[InvoiceDetail] ([InvoiceId], [ProductId], [ColorId], [SizeId], [Quantity], [Price]) VALUES (N'888b0406-50c4-4c35-83a0-2f0acffe041b', 343, 386, 1, 1, 299000)
+INSERT [dbo].[InvoiceDetail] ([InvoiceId], [ProductId], [ColorId], [SizeId], [Quantity], [Price]) VALUES (N'616d951e-eade-4c10-908d-31c8d80880e3', 14, 23, 1, 1, 299000)
+INSERT [dbo].[InvoiceDetail] ([InvoiceId], [ProductId], [ColorId], [SizeId], [Quantity], [Price]) VALUES (N'616d951e-eade-4c10-908d-31c8d80880e3', 431, 23, 15, 1, 129000)
+INSERT [dbo].[InvoiceDetail] ([InvoiceId], [ProductId], [ColorId], [SizeId], [Quantity], [Price]) VALUES (N'616d951e-eade-4c10-908d-31c8d80880e3', 446, 22, 15, 1, 179000)
+INSERT [dbo].[InvoiceDetail] ([InvoiceId], [ProductId], [ColorId], [SizeId], [Quantity], [Price]) VALUES (N'3818a92e-6ba5-4111-a8cf-55da093c7b1d', 1, 3, 1, 1, 399000)
+INSERT [dbo].[InvoiceDetail] ([InvoiceId], [ProductId], [ColorId], [SizeId], [Quantity], [Price]) VALUES (N'3818a92e-6ba5-4111-a8cf-55da093c7b1d', 6, 17, 1, 1, 249000)
+INSERT [dbo].[InvoiceDetail] ([InvoiceId], [ProductId], [ColorId], [SizeId], [Quantity], [Price]) VALUES (N'3818a92e-6ba5-4111-a8cf-55da093c7b1d', 16, 14, 1, 1, 149000)
+INSERT [dbo].[InvoiceDetail] ([InvoiceId], [ProductId], [ColorId], [SizeId], [Quantity], [Price]) VALUES (N'0ef4997d-7252-4ebd-98ef-7648881cc497', 259, 10, 7, 1, 599000)
+INSERT [dbo].[InvoiceDetail] ([InvoiceId], [ProductId], [ColorId], [SizeId], [Quantity], [Price]) VALUES (N'0ef4997d-7252-4ebd-98ef-7648881cc497', 266, 295, 1, 2, 399000)
+INSERT [dbo].[InvoiceDetail] ([InvoiceId], [ProductId], [ColorId], [SizeId], [Quantity], [Price]) VALUES (N'd3c06b81-36a1-453b-bae0-78737a5498ce', 433, 23, 15, 1, 169000)
+INSERT [dbo].[InvoiceDetail] ([InvoiceId], [ProductId], [ColorId], [SizeId], [Quantity], [Price]) VALUES (N'd3c06b81-36a1-453b-bae0-78737a5498ce', 434, 12, 15, 1, 199000)
+INSERT [dbo].[InvoiceDetail] ([InvoiceId], [ProductId], [ColorId], [SizeId], [Quantity], [Price]) VALUES (N'd3c06b81-36a1-453b-bae0-78737a5498ce', 448, 36, 15, 1, 299000)
+INSERT [dbo].[InvoiceDetail] ([InvoiceId], [ProductId], [ColorId], [SizeId], [Quantity], [Price]) VALUES (N'3214c9c0-a838-49b9-9d1b-79ac2230bdb7', 260, 284, 1, 1, 499000)
+INSERT [dbo].[InvoiceDetail] ([InvoiceId], [ProductId], [ColorId], [SizeId], [Quantity], [Price]) VALUES (N'3214c9c0-a838-49b9-9d1b-79ac2230bdb7', 266, 23, 1, 1, 399000)
+INSERT [dbo].[InvoiceDetail] ([InvoiceId], [ProductId], [ColorId], [SizeId], [Quantity], [Price]) VALUES (N'3214c9c0-a838-49b9-9d1b-79ac2230bdb7', 277, 316, 1, 2, 349000)
+INSERT [dbo].[InvoiceDetail] ([InvoiceId], [ProductId], [ColorId], [SizeId], [Quantity], [Price]) VALUES (N'cc4f587b-b0ca-409e-8d8a-cdc5d6db70e3', 267, 297, 1, 1, 199000)
+INSERT [dbo].[InvoiceDetail] ([InvoiceId], [ProductId], [ColorId], [SizeId], [Quantity], [Price]) VALUES (N'cc4f587b-b0ca-409e-8d8a-cdc5d6db70e3', 270, 303, 1, 1, 349000)
+INSERT [dbo].[InvoiceDetail] ([InvoiceId], [ProductId], [ColorId], [SizeId], [Quantity], [Price]) VALUES (N'a7fb6a58-9a95-46c0-8a88-ffc078377be1', 272, 307, 1, 1, 299000)
+INSERT [dbo].[InvoiceDetail] ([InvoiceId], [ProductId], [ColorId], [SizeId], [Quantity], [Price]) VALUES (N'a7fb6a58-9a95-46c0-8a88-ffc078377be1', 278, 318, 1, 1, 499000)
 GO

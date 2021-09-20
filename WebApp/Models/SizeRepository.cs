@@ -37,9 +37,9 @@ namespace WebApp.Models
         {
             return connection.Execute($"INSERT INTO Size(SizeCode) VALUES('{obj.SizeCode}')");
         }
-        public IEnumerable<Statistic> GetBestSellingSize()
+        public IEnumerable<Statistic> GetBestSellingSizes()
         {
-            return connection.Query<Statistic>("GetBestSellingSize", commandType: CommandType.StoredProcedure);
+            return connection.Query<Statistic>("GetBestSellingSizes", commandType: CommandType.StoredProcedure);
         }
     }
 }

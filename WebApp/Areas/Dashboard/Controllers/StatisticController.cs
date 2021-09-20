@@ -28,7 +28,7 @@ namespace WebApp.Areas.Dashboard.Controllers
         [HttpPost]
         public IActionResult GetRevenueRatioBySize()
         {
-            IEnumerable<Statistic> top5Size = provider.Size.GetBestSellingSize();
+            IEnumerable<Statistic> top5Size = provider.Size.GetBestSellingSizes();
             int totalRevenue = provider.InvoiceDetail.GetTotalRevenue();
             List<object> sizeRatio = new List<object>();
             int totalRevenueOfTop5Size = 0;
@@ -87,7 +87,7 @@ namespace WebApp.Areas.Dashboard.Controllers
         [HttpPost]
         public IActionResult GetRevenueRatioByColor()
         {
-            IEnumerable<Statistic> top5Color = provider.Color.GetBestSellingColor();
+            IEnumerable<Statistic> top5Color = provider.Color.GetBestSellingColors();
             int totalRevenue = provider.InvoiceDetail.GetTotalRevenue();
             List<object> colorRatio = new List<object>();
             int totalRevenueOfTop5Color = 0;
