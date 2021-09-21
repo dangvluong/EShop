@@ -34,7 +34,11 @@ namespace WebApp.Controllers
         public IActionResult Add(Contact obj)
         {
             Guid memberId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            return Json(provider.Contact.Add(obj, memberId));
+            int result = provider.Contact.Add(obj, memberId);
+            string[] msg = { "Có lỗi xảy ra", "Đã cập nhật thông tin liên hệ" };
+            result = result > 1 ? 1 : result;
+            TempData["msg"] = msg[result];
+            return Json(result);
         }
 
         [HttpPost]
@@ -46,21 +50,32 @@ namespace WebApp.Controllers
         [HttpPost]
         public IActionResult UpdateContact(Contact obj)
         {
-            return Json(provider.Contact.Update(obj));
+            int result = provider.Contact.Update(obj);
+            string[] msg = { "Có lỗi xảy ra", "Đã cập nhật thông tin liên hệ" };
+            result = result > 1 ? 1 : result;
+            TempData["msg"] = msg[result];
+            return Redirect("/member");
         }
 
         public IActionResult DeleteContact(short id)
-        {
-            provider.Contact.Delete(id);
+        {           
+            int result = provider.Contact.Delete(id);
+            string[] msg = { "Có lỗi xảy ra", "Đã xóa thông tin liên hệ" };
+            result = result > 1 ? 1 : result;
+            TempData["msg"] = msg[result];
             return Redirect("/member");
         }
         [HttpPost]
         public IActionResult UpdateDefaultContact(short contactId)
-        {
-            Console.WriteLine("Update COntact");
+        {            
             Guid memberId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             Console.WriteLine(memberId);
             return Json(provider.Contact.UpdateDefaultContact(memberId, contactId));
+        }
+        [HttpPost]
+        public IActionResult GetContactById(short id)
+        {
+            return Json(provider.Contact.GetContactsById(id));
         }
     }
 }

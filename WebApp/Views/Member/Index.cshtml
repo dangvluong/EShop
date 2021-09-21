@@ -28,95 +28,149 @@
 
     <div class="mt-5">
         <h4 class="text-center mb-4">Thông tin liên hệ</h4>
-        @(Model.Contacts.Count<Contact>() == 0 ? "Bạn chưa có thông tin liên hệ nào" : Html.Raw("<div class=\"my-3\"><table class='table table-bordered'><thead><tr><th>Tên đầy đủ</th><th>Số điện thoại</th><th>Địa chỉ</th><th>Là địa chỉ mặc định?</th><th>Chỉnh sửa</th><th>Xóa</th></tr></thead><tbody id='contactList'></tbody></table></div>"))
+
+        @if (Model.Contacts.Count<Contact>() == 0)
+        {
+            <p>Bạn chưa có thông tin liên hệ nào</p>
+        }
+        else
+        {
+            <div class="my-3">
+                <table class='table table-bordered'>
+                    <thead>
+                        <tr>
+                            <th>Tên đầy đủ</th>
+                            <th>Số điện thoại</th>
+                            <th>Địa chỉ</th>
+                            <th>Là địa chỉ mặc định?</th>
+                            <th>Chỉnh sửa</th>
+                            <th>Xóa</th>
+                        </tr>
+                    </thead>
+                    <tbody id='contactList'>
+                        @foreach (var item in Model.Contacts)
+                        {
+                            <tr>
+                                <td>@item.FullName</td>
+                                <td>@item.PhoneNumber</td>
+                                <td class='address'>@item.AddressHome, @item.WardName, @item.DistrictName, @item.ProvinceName</td>
+                                <td><input type="checkbox" class="defaultAddress" value="@item.ContactId" @(item.ContactId == Model.DefaultContact ? "checked" : "") /></td>
+                                <td>
+                                    <span data-toggle="modal" data-target="#editContactModal" class="editContactButton" data="@item.ContactId"> <i class="far fa-edit"></i></span>
+
+                                </td>
+                                <td><a href='/contact/deletecontact/@item.ContactId' id='deleteContact'><i class="fas fa-trash-alt"></i></a></td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
     </div>
     <div>
         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addContactModal">Thêm thông tin liên hệ</button>
+        @TempData["msg"]
         <div class="addModal">
             <div class="modal" id="addContactModal">
-                <partial name="_ModelContact"/>
+                <partial name="_ModelAddContact" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="editContactModal">
+    <div class="modal" id="editContactModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!--Modal Header-->
+                <div class="modal-header">
+                    <h4 class="modal-title">Chỉnh sửa thông tin liên hệ</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <form method="post" name="editContact">
+                    <!---Modal body-->
+                    <div class="modal-body">
+                        <input type="hidden" name="ContactId" />
+                        <div class="row my-1">
+                            <label for="FullName" class="col-4 text-right">Tên đầy đủ: </label>
+                            <input type="text" name="FullName" class="form-control col-7" required />
+                        </div>
+                        <div class="row my-1">
+                            <label for="PhoneNumber" class="col-4 text-right">Số điện thoại: </label>
+                            <input type="text" name="PhoneNumber" class="form-control col-7" required />
+                        </div>
+                        <div class="row my-1">
+                            <label for="AddressHome" class="col-4 text-right">Số nhà và tên đường: </label>
+                            <textarea name="AddressHome" class="form-control col-7" required></textarea>
+                        </div>
+                        <div class="row my-1">
+                            <label for="ProvinceId" class="col-4 text-right">Tỉnh/thành phố: </label>
+                            <select id="ProvinceId" name="ProvinceId" class="form-control col-7" required>
+                            </select>
+                        </div>
+                        <div class="row my-1">
+                            <label for="DistrictId" class="col-4 text-right">Quận/huyện: </label>
+                            <select id="DistrictId" name="DistrictId" class="form-control col-7" required>
+                            </select>
+                        </div>
+                        <div class="row my-1">
+                            <label for="WardId" class="col-4 text-right">Xã/phường: </label>
+                            <select id="WardId" name="WardId" class="form-control col-7" required>
+                            </select>
+                        </div>
+                    </div>
+                    <!--Modal footer-->
+                    <div class="modal-footer">
+                        <button class="btn btn-primary">Lưu</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
 @section script{
     <script>
-        if ($(contactList) != null) {
-            var contactListElement = $(contactList);
-            var memberId = "@Model.MemberId";
-            $.post("/contact/GetContactsByMember", {'memberId':memberId}, data => {
-                for (var i in data) {
-                    var innnerHtml = `<tr id='${data[i].contactId}'>
-                    <td>${data[i].fullName}</td>
-                    <td>${data[i].phoneNumber}</td>
-                    <td class='address'>${data[i].addressHome
-        }, ${data[i].wardName}, ${data[i].districtName}, ${data[i].provinceName}</td>`;
-                    if (data[i].contactId == @Model.DefaultContact) {
-                        innnerHtml += `<td><input type="checkbox" class="defaultAddress" value="${data[i].contactId}"checked  /></td>`;
-                    } else {
-                        innnerHtml += `<td><input type="checkbox" class="defaultAddress" value="${data[i].contactId}" /></td>`;
+        $(document).on('click', '.editContactButton', function () {
+            var contactId = $(this).attr('data');
+            $.post(`/contact/getContactById`, { Id: contactId }, result => {
+                $('.editContactModal >.modal').modal('show');
+                $('div.modal.show input[name="ContactId"]').val(result['contactId']);
+                $('div.modal.show input[name="FullName"]').val(result['fullName']);
+                $('div.modal.show input[name="PhoneNumber"]').val(result['phoneNumber']);
+                $('div.modal.show textarea[name="AddressHome"]').val(result['addressHome']);
+                $.post('/contact/GetProvinces', provinces => {
+                    for (var i in provinces) {                      
+                        $('div.modal.show #ProvinceId').append(`<option value="${provinces[i].provinceId}">${provinces[i].provinceName}</option>`);                      
                     }
-                    innnerHtml += `<td>
-    <span data-toggle="modal" data-target="#editModal${data[i].contactId}"> <i class="far fa-edit"></i></span>
-    <div class="editModal">
-    <div class="modal" id="editModal${data[i].contactId}">
-                <div class="modal-dialog">
-                <div class="modal-content">
-
-                  <!-- Modal Header -->
-                  <div class="modal-header">
-                    <h4 class="modal-title">Chỉnh sửa thông tin liên hệ</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  </div>
-                  <form  method="post" name="editContact">
-                  <!-- Modal body -->
-                  <div class="modal-body">
-                        <input type="hidden" name="ContactId" value="${data[i].contactId}">
-                        <div class="row my-1">
-                            <label for="FullName" class="col-4 text-right">Tên đầy đủ: </label>
-                            <input type="text" name="FullName" class="form-control col-7" value="${data[i].fullName}"/>
-                        </div>
-                        <div class="row my-1">
-                            <label for="PhoneNumber" class="col-4 text-right">Số điện thoại: </label>
-                            <input type="text" name="PhoneNumber" class="form-control col-7" value="${data[i].phoneNumber}"/>
-                        </div>
-                        <div class="row my-1">
-                            <label for="AddressHome" class="col-4 text-right">Số nhà và tên đường: </label>
-                            <textarea name="AddressHome" class="form-control col-7">${data[i].addressHome}</textarea>
-                        </div>
-                        <div class="row my-1">
-                            <label for="ProvinceId" class="col-4 text-right">Tỉnh/thành phố: </label>
-                            <select id="ProvinceId" name="ProvinceId" class="form-control col-7">
-                            </select>
-                        </div>
-                        <div class="row my-1">
-                            <label for="DistrictId" class="col-4 text-right">Quận/huyện: </label>
-                            <select id="DistrictId" name="DistrictId" class="form-control col-7">
-                            </select>
-                        </div>
-                        <div class="row my-1">
-                            <label for="WardId" class="col-4 text-right">Xã/phường: </label>
-                            <select id="WardId" name="WardId" class="form-control col-7">
-                            </select>
-                        </div>
-                  </div>
-
-                  <!-- Modal footer -->
-                  <div class="modal-footer">
-                    <button class="btn btn-primary">Lưu</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
-                  </div>
-                </form>
-                </div>
-              </div> </div>
-            </div>
-            </td>`;
-                    innnerHtml += `<td><a href='/contact/deletecontact/${data[i].contactId}' id='deleteContact'><i class="fas fa-trash-alt"></i></a></td>`;
-                    innnerHtml += '</tr>';
-                    contactListElement.append(innnerHtml);
-                }
+                    addDistricts(result['provinceId']);
+                });
+                $('div.modal.show #ProvinceId').val(result['provinceId']);
+                $('div.modal.show #DistrictId').val(result['districtId']);
+                $('div.modal.show #WardId').val(result['wardId']);
             });
-        }
+        });
+        $(document).on('submit', 'form[name="editContact"]', function (e) {            
+            e.preventDefault();
+            var contactId = $('div.modal.show input[name="ContactId"]').val();
+            var fullName = $('div.modal.show input[name="FullName"]').val();
+            var phoneNumber = $('div.modal.show input[name="PhoneNumber"]').val();
+            var addressHome = $('div.modal.show textarea[name="AddressHome"]').val();
+            var provinceId = $('div.modal.show select[name="ProvinceId"]').val();
+            var districtId = $('div.modal.show select[name="DistrictId"]').val();
+            var wardId = $('div.modal.show select[name="WardId"]').val();
+            $.post('/contact/UpdateContact', {
+                'ContactId': contactId,
+                'FullName': fullName,
+                'PhoneNumber': phoneNumber,
+                'AddressHome': addressHome,
+                'ProvinceId': provinceId,
+                'DistrictId': districtId,
+                'WardId': wardId
+            }, result => {
+                location.reload();
+            });
+        });
 
     </script>
 }

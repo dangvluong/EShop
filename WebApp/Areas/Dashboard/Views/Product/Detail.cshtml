@@ -151,7 +151,7 @@
                                 <div class="modal-body">
                                     <div class="row">
                                         <label for="colorId" class="col-4 text-right mt-1">Chọn mã màu: </label>
-                                        <select name="colorId" class="form-control w-25 col-6">
+                                        <select name="colorId" class="form-control w-25 col-6" required>
                                             @foreach (var item in Model.Colors)
                                             {
                                                 <option value="@item.ColorId">@item.ColorCode</option>

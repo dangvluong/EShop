@@ -1,49 +1,24 @@
 ﻿/*Contact Section*/
-function addWards(districtId, selectedAddress = null) {    
+function addWards(districtId) {    
     var wardElement = $('div.modal.show #WardId');   
     $(wardElement).empty();
     $.post('/contact/GetWardsByDistrict', { 'districtId': districtId }, data => {
-        for (var i in data) {
-            if (selectedAddress == null || data[i].wardName != selectedAddress[1].trim()) {
-                $(wardElement).append(`<option value="${data[i].wardId}">${data[i].wardName}</option>`);
-            }
-            else {
-                $(wardElement).append(`<option value="${data[i].wardId}" selected>${data[i].wardName}</option>`);
-            }
+        for (var i in data) {           
+                $(wardElement).append(`<option value="${data[i].wardId}">${data[i].wardName}</option>`);           
         }
     });
 }
-function addDistricts(provinceId, selectedAddress = null) {
-    var wardElement = $('div.modal.show #DistrictId');   
-    $(wardElement).empty();
+function addDistricts(provinceId) {
+    var districtElement = $('div.modal.show #DistrictId');   
+    $(districtElement).empty();
     $.post(`/contact/GetDistrictsByProvince/`, { 'provinceId': provinceId }, districts => {
-        for (var i in districts) {
-            if (selectedAddress == null || districts[i].districtName != selectedAddress[2].trim()) {
-                $(wardElement).append(`<option value="${districts[i].districtId}">${districts[i].districtName}</option>`);
-            } else {
-                $(wardElement).append(`<option value="${districts[i].districtId}" selected>${districts[i].districtName}</option>`);
-            }
+        for (var i in districts) {            
+                $(districtElement).append(`<option value="${districts[i].districtId}">${districts[i].districtName}</option>`);           
         }
-        var districtid = $(wardElement).val();
-        addWards(districtid, selectedAddress);
+        var districtid = $(districtElement).val();
+        addWards(districtid);
     });
 }
-
-$(document).on('show.bs.modal', '.editModal >.modal', function () {
-    var targetRow = ($(this).attr('id')).replace('editModal', '');
-    var selectedAddress = $(`#${targetRow}`).find('.address').text().split(',');
-    $.post('/contact/GetProvinces', provinces => {
-        for (var i in provinces) {
-            if (provinces[i].provinceName == selectedAddress[3].trim()) {
-                $(ProvinceId).append(`<option value="${provinces[i].provinceId}" selected>${provinces[i].provinceName}</option>`);
-            } else {
-                $(ProvinceId).append(`<option value="${provinces[i].provinceId}">${provinces[i].provinceName}</option>`);
-            }
-        }
-        var provinceId = $(ProvinceId).val();
-        addDistricts(provinceId, selectedAddress);
-    });
-})
 
 $(document).on('click', '.defaultAddress', function () {
     $('.defaultAddress').prop('checked', false);
@@ -54,9 +29,7 @@ $(document).on('click', '.defaultAddress', function () {
     });
 });
 
-/*Cart and Checkout Section*/
-$(document).on('change', '#ProvinceId', function () {
-    //var p = $(ProvinceId).val();
+$(document).on('change', '#ProvinceId', function () {   
     var p = $('div.modal.show #ProvinceId').val();   
     addDistricts(p);
 });
@@ -65,7 +38,7 @@ $(document).on('change', '#DistrictId', function () {
     var districtid = $('div.modal.show #DistrictId').val();          
     addWards(districtid);
 });
-
+/*Update cart*/
 $(document).on('change', 'input[id="quantityInCart"]', function () {
     var listNode = $(this).parent().prevAll();
     var pid = $(listNode[3]).attr('name');
@@ -88,12 +61,12 @@ $(document).on('click', '.DeleteCart', function () {
     }
 });
 
-/*Add contact form*/
-$(document).on('click', 'input[name="Contact"]', function () {
-    //$('input[name="Contact"]').click(function () {
+/*Choose contact when checkout*/
+$(document).on('click', 'input[name="Contact"]', function () {  
     var contactId = $(this).val();
     $('input[name="ContactId"]').val(contactId);
 });
+/*Add contact modal*/
 $(document).on('show.bs.modal', '.addModal > .modal', function () {
     $.post('/contact/GetProvinces', provinces => {
         for (var i in provinces) {
@@ -103,6 +76,7 @@ $(document).on('show.bs.modal', '.addModal > .modal', function () {
         addDistricts(provinceId);
     });
 });
+
 $(document).on('submit', 'form[name="addContact"]', function (e) {    
     e.preventDefault();
     var fullName = $('div.modal.show input[name="FullName"]').val();
@@ -123,28 +97,6 @@ $(document).on('submit', 'form[name="addContact"]', function (e) {
     });
 });
 
-$(document).on('submit', 'form[name="editContact"]', function (e) {
-    //$('form[name="addContact"]').submit(function (e) {
-    e.preventDefault();
-    var contactId = $('div.modal.show input[name="ContactId"]').val();
-    var fullName = $('div.modal.show input[name="FullName"]').val();
-    var phoneNumber = $('div.modal.show input[name="PhoneNumber"]').val();
-    var addressHome = $('div.modal.show textarea[name="AddressHome"]').val();
-    var provinceId = $('div.modal.show select[name="ProvinceId"]').val();
-    var districtId = $('div.modal.show select[name="DistrictId"]').val();
-    var wardId = $('div.modal.show select[name="WardId"]').val();
-    $.post('/contact/UpdateContact', {
-        'ContactId':contactId,
-        'FullName': fullName,
-        'PhoneNumber': phoneNumber,
-        'AddressHome': addressHome,
-        'ProvinceId': provinceId,
-        'DistrictId': districtId,
-        'WardId': wardId
-    }, result => {
-        location.reload();
-    });
-});
 
 function formatCurrency(input) {
     return input.toLocaleString({ style: "currency", currency: "VND" }).replace(/,/g, ".") + " ₫";
