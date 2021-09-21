@@ -1,4 +1,7 @@
 ﻿@model IEnumerable<Product>
+@{
+    ViewBag.Title = "Trang chủ";
+}
 <div class="banner">
     <div class="container">
         <div class="banner-left">
@@ -52,7 +55,7 @@
         </div>
         <div class="clearfix"></div>
     </div>
-   
+
 </div>
 <!--banner end-->
 <!--follow us - shipping - order online start-->
@@ -86,7 +89,7 @@
 
 <div class="container" id="lastest-product-section">
     <h1 class="text-center">Các sản phẩm nổi bật</h1>
-    <partial name="_Product" model="@Model" />   
+    <partial name="_Product" model="@Model" />
 </div>
 
 

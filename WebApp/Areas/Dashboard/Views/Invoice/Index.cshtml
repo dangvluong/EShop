@@ -1,35 +1,38 @@
 ﻿@model IEnumerable<Invoice>
-    <div class="container">
-        <h3 class="text-center">QUẢN LÝ ĐƠN ĐẶT HÀNG</h3>        
-        <table class="table table-bordered" id="invoiceTable">
-            <thead>
+@{
+    ViewBag.Title = "Quản lý đơn đặt hàng";
+}
+<div class="container">
+    <h3 class="text-center">QUẢN LÝ ĐƠN ĐẶT HÀNG</h3>
+    <table class="table table-bordered" id="invoiceTable">
+        <thead>
+            <tr>
+                <th>Mã đơn hàng</th>
+                <th>Tài khoản mua hàng</th>
+                <th>Tên người nhận hàng</th>
+                <th>Số điện thoại nhận hàng</th>
+                <th>Địa chỉ giao hàng</th>
+                <th>Tình trạng đơn hàng</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Invoice item in Model)
+            {
                 <tr>
-                    <th>Mã đơn hàng</th>
-                    <th>Tài khoản mua hàng</th>
-                    <th>Tên người nhận hàng</th>
-                    <th>Số điện thoại nhận hàng</th>
-                    <th>Địa chỉ giao hàng</th>
-                    <th>Tình trạng đơn hàng</th>
-                    <th></th>
+                    <td>@item.InvoiceId</td>
+                    <td>@item.Member.Username</td>
+                    <td>@item.Contact.FullName</td>
+                    <td>@item.Contact.PhoneNumber</td>
+                    <td>@(item.Contact.AddressHome + ", " + item.Contact.WardName + ", " + item.Contact.DistrictName + ", " + item.Contact.ProvinceName)</td>
+                    <td>@((InvoiceStatus)item.StatusId)</td>
+                    <td><a href="/dashboard/invoice/detail/@item.InvoiceId">Xem chi tiết</a></td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (Invoice item in Model)
-                {
-                    <tr>
-                        <td>@item.InvoiceId</td>
-                        <td>@item.Member.Username</td>
-                        <td>@item.Contact.FullName</td>
-                        <td>@item.Contact.PhoneNumber</td>
-                        <td>@(item.Contact.AddressHome + ", " + item.Contact.WardName + ", " + item.Contact.DistrictName + ", " + item.Contact.ProvinceName)</td>
-                        <td>@((InvoiceStatus)item.StatusId)</td>
-                        <td><a href="/dashboard/invoice/detail/@item.InvoiceId">Xem chi tiết</a></td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-@section script{ 
+            }
+        </tbody>
+    </table>
+</div>
+@section script{
     <script>
         $(document).ready(function () {
             $('#invoiceTable').DataTable();

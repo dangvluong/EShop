@@ -1,6 +1,9 @@
 ﻿@model IEnumerable<Color>
+@{
+    ViewBag.Title = "Quản lý màu sắc sản phẩm";
+}
 <div class="container">
-    <h3 class="text-center">QUẢN LÝ MÃ MÀU SẮC SẢN PHẨM</h3>
+    <h3 class="text-center">QUẢN LÝ MÀU SẮC SẢN PHẨM</h3>
     <div class="my-3">
         <button class="btn btn-info" data-toggle="modal" data-target="#AddColorModal">Tạo màu sắc mới</button>
         <div class="modal fade" id="AddColorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -16,7 +19,7 @@
                         <div class="modal-body">
                             <div class="row">
                                 <label class="col-4">Tên màu sắc mới:</label>
-                                <input type="text" name="colorCode" class="form-control col-6"/>                                
+                                <input type="text" name="colorCode" class="form-control col-6" required/>
                             </div>
                             <div class="row mt-3">
                                 <label class="col-4"> Icon hiển thị: </label>
@@ -40,7 +43,7 @@
                 <th>Tên</th>
                 <th>Icon</th>
                 <th>Chỉnh sửa</th>
-                <th>Xóa</th>                
+                <th>Xóa</th>
             </tr>
         </thead>
         <tbody>
@@ -50,8 +53,8 @@
                     <td>@item.ColorId</td>
                     <td>@item.ColorCode</td>
                     <td><img src="/images/icon/@item.IconUrl" alt="@item.ColorCode" class="img-fluid" /></td>
-                    <td>  
-                        <span class="EditColor" data-toggle="modal" data-target="#EditColorModal"><i class="far fa-edit"></i></span>                    
+                    <td>
+                        <span class="EditColor" data-toggle="modal" data-target="#EditColorModal"><i class="far fa-edit"></i></span>
                     </td>
                     <td><a href="/dashboard/color/delete/@item.ColorId" class="DeleteColor"><i class="far fa-trash-alt"></i></a></td>
                 </tr>
@@ -73,7 +76,7 @@
                         <input type="hidden" name="iconUrl" />
                         <div class="row">
                             <label class="col-4">Tên màu sắc mới:</label>
-                            <input type="text" name="colorCode" class="form-control col-6" />
+                            <input type="text" name="colorCode" class="form-control col-6" required/>
                         </div>
                         <div class="row mt-3">
                             <label class="col-4"> Icon hiển thị mới: </label>
@@ -95,7 +98,7 @@
             var listSibling = $(this).parent().prevAll();
             var colorId = $(listSibling[2]).text();
             var colorCode = $(listSibling[1]).text();
-            var iconUrl = $(listSibling[0]).children().attr('src').replace('/images/icon/','');            
+            var iconUrl = $(listSibling[0]).children().attr('src').replace('/images/icon/', '');
             $('input[name="colorId"]').val(colorId);
             $('input[name="iconUrl"]').val(iconUrl);
             $('input[name="colorCode"]').val(colorCode);

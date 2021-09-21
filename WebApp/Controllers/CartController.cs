@@ -82,7 +82,7 @@ namespace WebApp.Controllers
             }
             return Redirect("/");
         }
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         public IActionResult Checkout()
         {
             string cartId = Request.Cookies["cart"];
@@ -104,7 +104,7 @@ namespace WebApp.Controllers
             }
             return Redirect("/");
         }
-        [HttpPost, Authorize]
+        [HttpPost, Authorize(Roles = "Customer")]
         public IActionResult Checkout(Invoice obj)
         {
             string cartId = Request.Cookies["cart"];

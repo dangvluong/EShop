@@ -1,4 +1,7 @@
 ﻿@model IEnumerable<Product>
+@{
+    ViewBag.Title = "Quản lý sản phẩm";
+}
 <div class="container">
     <h3 class="text-center">QUẢN LÝ SẢN PHẨM</h3>
     <div class="my-3">
@@ -12,7 +15,7 @@
                 <th>Tên sản phẩm</th>
                 <th>Sku</th>
                 <th>Giá gốc</th>
-                <th>Giá giảm</th>                
+                <th>Giá giảm</th>
                 <th>Chi tiết</th>
             </tr>
         </thead>
@@ -24,12 +27,12 @@
                     <td>@item.ProductName</td>
                     <td>@item.Sku</td>
                     <td>@SiteHelper.FormatCurrencyString(item.Price)</td>
-                    <td>@(item.PriceSaleOff is null ? "" :SiteHelper.FormatCurrencyString(item.PriceSaleOff.Value))</td>                  
+                    <td>@(item.PriceSaleOff is null ? "" :SiteHelper.FormatCurrencyString(item.PriceSaleOff.Value))</td>
                     <td><a href="/dashboard/product/detail/@item.ProductId">Chi tiết</a></td>
                 </tr>
             }
         </tbody>
-    </table>    
+    </table>
 </div>
 @section script{
     <script>

@@ -1,4 +1,7 @@
 ﻿@model Member
+@{
+    ViewBag.Title = "Thông tin tài khoản thành viên";
+}
 <div class="d-flex">
     <hr class="w-25 my-4 mx-auto" />
 </div>
@@ -24,14 +27,14 @@
     </table>
 
     <div class="mt-5">
-        <h4 class="text-center mb-4">Thông tin liên hệ</h4>        
+        <h4 class="text-center mb-4">Thông tin liên hệ</h4>
         @(Model.Contacts.Count<Contact>() == 0 ? "Bạn chưa có thông tin liên hệ nào" : Html.Raw("<div class=\"my-3\"><table class='table table-bordered'><thead><tr><th>Tên đầy đủ</th><th>Số điện thoại</th><th>Địa chỉ</th><th>Là địa chỉ mặc định?</th><th>Chỉnh sửa</th><th>Xóa</th></tr></thead><tbody id='contactList'></tbody></table></div>"))
     </div>
     <div>
         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addContactModal">Thêm thông tin liên hệ</button>
         <div class="addModal">
             <div class="modal" id="addContactModal">
-                <partial name="_ModelContact" />
+                <partial name="_ModelContact"/>
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.IO;
 using WebApp.Controllers;
@@ -10,6 +10,7 @@ using WebApp.Models;
 namespace WebApp.Areas.Dashboard.Controllers
 {
     [Area("dashboard")]
+    [Authorize(Roles = "Manager, Staff")]
     public class ColorController : BaseController
     {         
         string root = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "icon");

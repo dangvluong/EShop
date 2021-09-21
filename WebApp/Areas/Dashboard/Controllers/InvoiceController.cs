@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using WebApp.Controllers;
@@ -8,6 +9,7 @@ using WebApp.Models;
 namespace WebApp.Areas.Manage.Controllers
 {
     [Area("dashboard")]
+    [Authorize(Roles = "Manager, Staff")]
     public class InvoiceController : BaseController
     {
         public InvoiceController(SiteProvider provider) :base(provider)

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using WebApp.Models;
 namespace WebApp.Areas.Dashboard.Controllers
 {
     [Area("dashboard")]
+    [Authorize(Roles = "Manager, Staff")]
     public class ProductController : BaseController
     {        
         public ProductController(SiteProvider provider) : base(provider)

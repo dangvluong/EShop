@@ -1,10 +1,13 @@
 ﻿@model IEnumerable<Product>
+@{
+    ViewBag.Title = "Tìm kiếm sản phẩm";
+}
 <div class="row products-page mt-5">
     <div class="col-3">
         <partial name="_Category" model="@ViewBag.categories" />
     </div>
     <div class="col-9">
-       <partial name="_Product" model="@Model" />
+        <partial name="_Product" model="@Model" />
         <div class="d-flex">
             <pagination total-page="@ViewBag.totalPage" current-page="@ViewContext.RouteData.Values["id"]" url="/product/search/{0}?query=@Context.Request.Query["query"]"></pagination>
         </div>

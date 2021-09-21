@@ -1,4 +1,7 @@
 ﻿@model Invoice
+@{
+    ViewBag.Title = "Chi tiết đơn đặt hàng";
+}
 <div class="container">
     <h4>Thông tin đơn đặt hàng:</h4>
 
@@ -30,7 +33,7 @@
             </tr>
         </thead>
     </table>
-    <partial name="_InvoiceDetail" model="@Model" />    
+    <partial name="_InvoiceDetail" model="@Model" />
     <div class="modal" id="updateInvoiceStatus">
         <div class="modal-dialog">
             <div class="modal-content">

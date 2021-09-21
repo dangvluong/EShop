@@ -8,7 +8,7 @@ using WebApp.Models;
 
 namespace WebApp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Customer")]
     public class InvoiceController : BaseController
     {        
         public InvoiceController(SiteProvider provider) :base(provider)

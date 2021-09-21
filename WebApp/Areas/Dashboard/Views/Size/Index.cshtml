@@ -1,4 +1,7 @@
 ﻿@model IEnumerable<Size>
+@{
+    ViewBag.Title = "Quản lý kích thước sản phẩm";
+}
 <div class="container">
     <h3 class="text-center">QUẢN LÝ MÃ KÍCH THƯỚC SẢN PHẨM</h3>
     <div class="my-3">
@@ -16,7 +19,7 @@
                         <div class="modal-body">
                             <div>
                                 <label>Tên size mới:</label>
-                                <input type="text" name="sizeCode" class="form-control w-50" />
+                                <input type="text" name="sizeCode" class="form-control w-50" required/>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -45,7 +48,7 @@
                     <td>@item.SizeId</td>
                     <td>@item.SizeCode</td>
                     <td>
-                        <span class="EditSize" data-toggle="modal" data-target="#EditSizeModal"><i class="far fa-edit"></i></span>                   
+                        <span class="EditSize" data-toggle="modal" data-target="#EditSizeModal"><i class="far fa-edit"></i></span>
                     </td>
                     <td><a href="/dashboard/size/delete/@item.SizeId" class="DeleteSize"><i class="far fa-trash-alt"></i></a></td>
                 </tr>
@@ -66,7 +69,7 @@
                         <input type="hidden" name="sizeId" />
                         <div>
                             <label>Tên size mới:</label>
-                            <input type="text" name="sizeCode" class="form-control w-50" />
+                            <input type="text" name="sizeCode" class="form-control w-50" required/>
                         </div>
                     </div>
                     <div class="modal-footer">

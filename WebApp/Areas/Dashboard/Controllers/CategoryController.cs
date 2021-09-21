@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebApp.Controllers;
 using WebApp.Helper;
 using WebApp.Models;
@@ -7,6 +7,7 @@ using WebApp.Models;
 namespace WebApp.Areas.Dashboard.Controllers
 {
     [Area("dashboard")]
+    [Authorize(Roles ="Manager, Staff")]
     public class CategoryController : BaseController
     {
         public CategoryController(SiteProvider provider):base(provider)

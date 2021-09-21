@@ -1,8 +1,11 @@
 ﻿@model Product
+@{
+    ViewBag.Title = "Cập nhật số lượng tồn kho của sản phẩm";
+}
 <div class="container">
     <h4 class="text-center">CẬP NHẬT SỐ LƯỢNG TỒN KHO</h4>
     <form action="/dashboard/product/updateQuantity" method="post">
-       
+
         @{int index = 0;}
         <table class="table table-bordered text-center ">
             <thead>
@@ -27,9 +30,9 @@
                             <td data="@Model.Sizes[j].SizeId">@Model.Sizes[j].SizeCode</td>
                             <td class="InputQuantityGroup">
                                 <input type="hidden" name="[@index].ProductId" value="@Model.ProductId" />
-                                <input type="hidden" name="[@index].ColorId" class="inputColorId"/>
-                                <input type="hidden" name="[@index].SizeId" class="inputSizeId"/>
-                                <input type="number" name="[@index].Quantity" class="form-control w-50 mx-auto InputQuantity" />
+                                <input type="hidden" name="[@index].ColorId" class="inputColorId" />
+                                <input type="hidden" name="[@index].SizeId" class="inputSizeId" />
+                                <input type="number" name="[@index].Quantity" class="form-control w-50 mx-auto InputQuantity" required/>
                                 @{ index++;}
                             </td>
                         </tr>
@@ -48,7 +51,7 @@
         function updateInputQuantity(id, s, c, node) {
             $(node).find('input[class="inputSizeId"]').val(s);
             $(node).find('input[class="inputColorId"]').val(c);
-            $.post('/product/getinventoryquantity', { 'productId': id, 'sizeId': s, 'colorId': c }, (result) => {                
+            $.post('/product/getinventoryquantity', { 'productId': id, 'sizeId': s, 'colorId': c }, (result) => {
                 $(node).find('.InputQuantity').val(result);
             });
         }

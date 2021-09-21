@@ -1,4 +1,7 @@
 ﻿@model Product
+@{
+    ViewBag.Title = "Chi tiết sản phẩm";
+}
 <div class="container">
     <h3 class="text-center mb-4">CHI TIẾT SẢN PHẨM</h3>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -184,7 +187,7 @@
         }
         var quantityNodes = document.getElementsByClassName('quantity');
         var currentColor = "";
-        var id = @Model.ProductId;       
+        var id = @Model.ProductId;
         for (var node of quantityNodes) {
             var siblingNodes = $(node).prevAll();
             var size = $(siblingNodes[0]).attr('data');
@@ -215,7 +218,7 @@
                 dataType: 'json',
                 processData: false,
                 contentType: false,
-                success: result => {                    
+                success: result => {
                     location.href = `/dashboard/product/detail/${@Model.ProductId}#images`;
                     location.reload();
                 }
@@ -255,7 +258,7 @@
                 'productId':@Model.ProductId,
                 'colorId': colorId,
                 'imageUrl' : imageUrl
-            }, result => {                
+            }, result => {
                 location.href = `/dashboard/product/detail/${@Model.ProductId}#images`;
                 location.reload();
             });

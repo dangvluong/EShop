@@ -18,11 +18,6 @@ namespace WebApp.Controllers
         public AuthController(SiteProvider provider):base(provider)
         {            
         }
-        [Authorize]
-        public IActionResult Index()
-        {
-            return View();
-        }
         public IActionResult Register()
         {
             if (User.Identity.IsAuthenticated)

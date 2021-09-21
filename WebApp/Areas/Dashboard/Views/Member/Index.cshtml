@@ -1,55 +1,58 @@
 ﻿@model IEnumerable<Member>
-    <div class="container">
-        <h3 class="text-center">QUẢN LÝ THÀNH VIÊN</h3>
-        <table class="table table-bordered" id="memberTable">
-            <thead>
+@{
+    ViewBag.Title = "Quản lý thành viên";
+}
+<div class="container">
+    <h3 class="text-center">QUẢN LÝ THÀNH VIÊN</h3>
+    <table class="table table-bordered" id="memberTable">
+        <thead>
+            <tr>
+                <th>Loại thành viên</th>
+                <th>Tên tài khoản</th>
+                <th>Ngày gia nhập</th>
+                <th>Email</th>
+                <th>Trạng thái tài khoản</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="memberList">
+            @foreach (Member item in Model)
+            {
                 <tr>
-                    <th>Loại thành viên</th>
-                    <th>Tên tài khoản</th>
-                    <th>Ngày gia nhập</th>
-                    <th>Email</th>
-                    <th>Trạng thái tài khoản</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody id="memberList">
-                @foreach (Member item in Model)
-                {
-                    <tr>
-                        <td>
-                            @foreach (var role in item.Roles)
+                    <td>
+                        @foreach (var role in item.Roles)
+                        {
+                            if (role.Checked)
                             {
-                                if (role.Checked)
-                                {
-                                    <span>@role.RoleName</span><br />
-                                }
+                                <span>@role.RoleName</span><br />
                             }
-                        </td>
-                        <td>@item.Username</td>
-                        <td>@item.JoinDate.ToString("dd/MM/yyyy")</td>
-                        <td>@item.Email</td>
-                        <td>@(item.IsBanned ? "Đã bị khóa" : "Đang hoạt động")</td>
-                        <td><a href="/dashboard/member/detail/@item.MemberId">Chi tiết</a></td>
-                    </tr>
+                        }
+                    </td>
+                    <td>@item.Username</td>
+                    <td>@item.JoinDate.ToString("dd/MM/yyyy")</td>
+                    <td>@item.Email</td>
+                    <td>@(item.IsBanned ? "Đã bị khóa" : "Đang hoạt động")</td>
+                    <td><a href="/dashboard/member/detail/@item.MemberId">Chi tiết</a></td>
+                </tr>
 
-                }
-            </tbody>
-        </table>
-    </div>
-    @section script{
-        <script>            
-            function convertDate(originDate) {
-                originDate = new Date(originDate);
-                var date = originDate.getDate();
-                var month = originDate.getMonth();
-                if (month < 10) {
-                    month = "0" + month;
-                }
-                var year = originDate.getFullYear();
-                return `${date}/${month}/${year}`;
             }
-            $(document).ready(function () {
-                $('#memberTable').DataTable();
-            });
-        </script>
-    }
+        </tbody>
+    </table>
+</div>
+@section script{
+    <script>
+        function convertDate(originDate) {
+            originDate = new Date(originDate);
+            var date = originDate.getDate();
+            var month = originDate.getMonth();
+            if (month < 10) {
+                month = "0" + month;
+            }
+            var year = originDate.getFullYear();
+            return `${date}/${month}/${year}`;
+        }
+        $(document).ready(function () {
+            $('#memberTable').DataTable();
+        });
+    </script>
+}
