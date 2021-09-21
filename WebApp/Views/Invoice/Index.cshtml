@@ -6,30 +6,38 @@
     <hr class="w-25 my-4 mx-auto" />
 </div>
 <h4 class="text-center mb-4">Danh sách đơn đặt hàng của tài khoản @ViewBag.member.Username</h4>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Mã đơn hàng</th>
-            <th>Ngày đặt hàng</th>
-            <th>Tên người nhận hàng</th>
-            <th>Số điện thoại nhận hàng</th>
-            <th>Địa chỉ giao hàng</th>
-            <th>Tình trạng đơn hàng</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (Invoice item in Model)
-        {
+@if (Model.ToList().Count > 0)
+{
+    <table class="table table-bordered">
+        <thead>
             <tr>
-                <td>@item.InvoiceId</td>
-                <td>@item.DateCreated.ToLongDateString()</td>
-                <td>@item.Contact.FullName</td>
-                <td>@item.Contact.PhoneNumber</td>
-                <td>@(item.Contact.AddressHome + ", " + item.Contact.WardName + ", " + item.Contact.DistrictName + ", " + item.Contact.ProvinceName)</td>
-                <td>@((InvoiceStatus)item.StatusId)</td>
-                <td><a href="/invoice/detail/@item.InvoiceId">Xem chi tiết</a></td>
+                <th>Mã đơn hàng</th>
+                <th>Ngày đặt hàng</th>
+                <th>Tên người nhận hàng</th>
+                <th>Số điện thoại nhận hàng</th>
+                <th>Địa chỉ giao hàng</th>
+                <th>Tình trạng đơn hàng</th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (Invoice item in Model)
+            {
+                <tr>
+                    <td>@item.InvoiceId</td>
+                    <td>@item.DateCreated.ToLongDateString()</td>
+                    <td>@item.Contact.FullName</td>
+                    <td>@item.Contact.PhoneNumber</td>
+                    <td>@(item.Contact.AddressHome + ", " + item.Contact.WardName + ", " + item.Contact.DistrictName + ", " + item.Contact.ProvinceName)</td>
+                    <td>@((InvoiceStatus)item.StatusId)</td>
+                    <td><a href="/invoice/detail/@item.InvoiceId">Xem chi tiết</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p class="text-center">Bạn chưa có đơn đặt hàng nào <br/>
+    Click vào <a href="/product">ĐÂY</a> để bắt đầu mua sắm ngay.</p>
+}
