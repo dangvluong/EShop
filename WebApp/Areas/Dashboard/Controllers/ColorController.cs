@@ -35,14 +35,14 @@ namespace WebApp.Areas.Dashboard.Controllers
                 }
             }
             int result = provider.Color.Edit(obj);
-            string[] msg = {"Lỗi", "Cập nhật thành công" };
+            string[] msg = {"Có lỗi xảy ra", "Chỉnh sửa màu sắc thành công" };
             TempData["msg"] = msg[result];
             return Redirect("/dashboard/color");
         }
         public IActionResult Delete(short id)
         {
             int result = provider.Color.Delete(id);
-            string[] msg = {"Lỗi", "Xóa thành công" };
+            string[] msg = { "Có lỗi xảy ra", "Xóa màu sắc thành công" };
             result = result > 1 ? 1 : result;
             TempData["msg"] = msg[result];
             return Redirect("/dashboard/color");
@@ -68,7 +68,7 @@ namespace WebApp.Areas.Dashboard.Controllers
                 }
                 indexMessage = provider.Color.AddColor(obj);                
             }
-            string[] message = { "Đã tồn tại màu sắc này","Lỗi", "Thêm thành công" };
+            string[] message = { "Đã tồn tại màu sắc này", "Có lỗi xảy ra", "Thêm màu sắc thành công" };
             TempData["msg"] = message[indexMessage + 1];
             return Redirect("/dashboard/color");
         }

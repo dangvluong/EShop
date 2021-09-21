@@ -7,7 +7,7 @@ namespace WebApp.Helper
     {
         public SiteProvider(IConfiguration configuration) : base(configuration) { }
         ProductRepository product;
-        ImageOfProductRepository productImage;
+        ImageOfProductRepository imageOfProduct;
         ColorRepository color;
         CategoryRepository category;
         SizeRepository size;
@@ -23,52 +23,52 @@ namespace WebApp.Helper
         InvoiceRepository invoice;
         InvoiceDetailRepository invoiceDetail;
         MemberInRoleRepository memberInRole;
-        ProductInCategoryRepository productCategory;
-        ColorOfProductRepository productColor;
-        GuideOfProductRepository productGuide;
-        SizeOfProductRepository productSize;
-        public SizeOfProductRepository ProductSize
+        ProductInCategoryRepository productInCategory;
+        ColorOfProductRepository colorOfProduct;
+        GuideOfProductRepository guideOfProduct;
+        SizeOfProductRepository sizeOfProduct;
+        public SizeOfProductRepository SizeOfProduct
         {
             get
             {
-                if(productSize is null)
+                if(sizeOfProduct is null)
                 {
-                    productSize = new SizeOfProductRepository(Connection);
+                    sizeOfProduct = new SizeOfProductRepository(Connection);
                 }
-                return productSize;
+                return sizeOfProduct;
             }
         }
-        public GuideOfProductRepository ProductGuide
+        public GuideOfProductRepository GuideOfProduct
         {
             get
             {
-                if(productGuide is null)
+                if(guideOfProduct is null)
                 {
-                    productGuide = new GuideOfProductRepository(Connection);
+                    guideOfProduct = new GuideOfProductRepository(Connection);
                 }
-                return productGuide;
+                return guideOfProduct;
             }
         }
-        public ColorOfProductRepository ProductColor
+        public ColorOfProductRepository ColorOfProduct
         {
             get
             {
-                if(productColor is null)
+                if(colorOfProduct is null)
                 {
-                    productColor = new ColorOfProductRepository(Connection);
+                    colorOfProduct = new ColorOfProductRepository(Connection);
                 }
-                return productColor;
+                return colorOfProduct;
             }
         }
-        public ProductInCategoryRepository ProductCategory
+        public ProductInCategoryRepository ProductInCategory
         {
             get
             {
-                if (productCategory is null)
+                if (productInCategory is null)
                 {
-                    productCategory = new ProductInCategoryRepository(Connection);
+                    productInCategory = new ProductInCategoryRepository(Connection);
                 }
-                return productCategory;
+                return productInCategory;
             }
         }
         public MemberInRoleRepository MemberInRole
@@ -200,11 +200,11 @@ namespace WebApp.Helper
         {
             get
             {
-                if(productImage is null)
+                if(imageOfProduct is null)
                 {
-                    productImage = new ImageOfProductRepository(Connection);
+                    imageOfProduct = new ImageOfProductRepository(Connection);
                 }
-                return productImage;
+                return imageOfProduct;
             }
         }
 

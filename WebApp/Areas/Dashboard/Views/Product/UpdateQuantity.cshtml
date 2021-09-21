@@ -4,47 +4,58 @@
 }
 <div class="container">
     <h4 class="text-center">CẬP NHẬT SỐ LƯỢNG TỒN KHO</h4>
-    <form action="/dashboard/product/updateQuantity" method="post">
-
-        @{int index = 0;}
-        <table class="table table-bordered text-center ">
-            <thead>
-                <tr>
-                    <th>Màu sắc</th>
-                    <th>Size</th>
-                    <th>Tồn kho</th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (int i = 0; i < Model.Colors.Count; i++)
-                {
-                    @for (int j = 0; j < Model.Sizes.Count; j++)
-                    {
-                        <tr>
-                            @{
-                                if (j == 0)
-                                {
-                                    <td class="align-middle" rowspan="@Model.Sizes.Count" data="@Model.Colors[i].ColorId">@Model.Colors[i].ColorCode</td>
-                                }
-                            }
-                            <td data="@Model.Sizes[j].SizeId">@Model.Sizes[j].SizeCode</td>
-                            <td class="InputQuantityGroup">
-                                <input type="hidden" name="[@index].ProductId" value="@Model.ProductId" />
-                                <input type="hidden" name="[@index].ColorId" class="inputColorId" />
-                                <input type="hidden" name="[@index].SizeId" class="inputSizeId" />
-                                <input type="number" name="[@index].Quantity" class="form-control w-50 mx-auto InputQuantity" required/>
-                                @{ index++;}
-                            </td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
+    @if (Model.Colors.Count == 0 || Model.Sizes.Count == 0)
+    {
+        <div class="text-center my-4">Sản phẩm chưa có màu sắc hoặc kích thước. Vui lòng cập nhật màu sắc và kích thước trước khi thực  hiện cập nhật số lượng</div>
         <div class="d-flex">
-            <button class="btn btn-primary ml-auto mr-2">Lưu</button>
-            <a href="/dashboard/product/detail/@Model.ProductId#quantityInInventory" class="btn btn-secondary mr-auto ml-2">Hủy bỏ</a>
+            <a href="/dashboard/product/detail/@Model.ProductId" class="btn btn-secondary mx-auto">Quay lại</a>
         </div>
-    </form>
+    }
+    else
+    {
+        <form action="/dashboard/product/updateQuantity" method="post">
+
+            @{int index = 0;}
+            <table class="table table-bordered text-center ">
+                <thead>
+                    <tr>
+                        <th>Màu sắc</th>
+                        <th>Size</th>
+                        <th>Tồn kho</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Colors.Count; i++)
+                    {
+                        @for (int j = 0; j < Model.Sizes.Count; j++)
+                        {
+                            <tr>
+                                @{
+                                    if (j == 0)
+                                    {
+                                        <td class="align-middle" rowspan="@Model.Sizes.Count" data="@Model.Colors[i].ColorId">@Model.Colors[i].ColorCode</td>
+                                    }
+                                }
+                                <td data="@Model.Sizes[j].SizeId">@Model.Sizes[j].SizeCode</td>
+                                <td class="InputQuantityGroup">
+                                    <input type="hidden" name="[@index].ProductId" value="@Model.ProductId" />
+                                    <input type="hidden" name="[@index].ColorId" class="inputColorId" />
+                                    <input type="hidden" name="[@index].SizeId" class="inputSizeId" />
+                                    <input type="number" name="[@index].Quantity" class="form-control w-50 mx-auto InputQuantity" required />
+                                    @{ index++;}
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+            <div class="d-flex">
+                <button class="btn btn-primary ml-auto mr-2">Lưu</button>
+                <a href="/dashboard/product/detail/@Model.ProductId#quantityInInventory" class="btn btn-secondary mr-auto ml-2">Hủy bỏ</a>
+            </div>
+        </form>
+    }
+
 </div>
 @section script{
     <script>

@@ -21,14 +21,14 @@ namespace WebApp.Areas.Dashboard.Controllers
         public IActionResult Edit(Size obj)
         {
             int result = provider.Size.Edit(obj);
-            string[] message = {"Lỗi", "Cập nhật thành công" };
+            string[] message = {"Có lỗi xảy ra", "Cập nhật kích thước thành công" };
             TempData["msg"] = message[result];
             return Redirect("/dashboard/size");
         }
         public IActionResult Delete(short id)
         {
             int result = provider.Size.Delete(id);
-            string[] message = {"Lỗi", "Xóa thành công" };
+            string[] message = { "Có lỗi xảy ra", "Xóa kích thước thành công" };
             result = result > 1 ? 1 : result;
             TempData["msg"] = message[result ];
             return Redirect("/dashboard/size");
@@ -37,7 +37,7 @@ namespace WebApp.Areas.Dashboard.Controllers
         public IActionResult Add(Size obj)
         {
             int result = provider.Size.Add(obj);
-            string[] message = {"Lỗi", "Tạo mới thành công" };
+            string[] message = { "Có lỗi xảy ra", "Tạo mới kích thước thành công" };
             TempData["msg"] = message[result];
             return Redirect("/dashboard/size");
         }

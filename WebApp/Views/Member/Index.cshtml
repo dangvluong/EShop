@@ -103,19 +103,20 @@
 
                   <!-- Modal footer -->
                   <div class="modal-footer">
-                    <button class="btn btn-primary">Lưu thay đổi</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button class="btn btn-primary">Lưu</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
                   </div>
                 </form>
                 </div>
               </div> </div>
             </div>
             </td>`;
-                    innnerHtml += `<td><a href='/contact/deletecontact/${data[i].contactId}'><i class="fas fa-trash-alt"></i></a></td>`;
+                    innnerHtml += `<td><a href='/contact/deletecontact/${data[i].contactId}' id='deleteContact'><i class="fas fa-trash-alt"></i></a></td>`;
                     innnerHtml += '</tr>';
                     contactListElement.append(innnerHtml);
                 }
             });
         }
+
     </script>
 }

@@ -13,10 +13,10 @@ namespace WebApp.Areas.Dashboard.Controllers
     [Area("dashboard")]
     [Authorize(Roles = "Manager, Staff")]
     public class ProductController : BaseController
-    {        
+    {
         public ProductController(SiteProvider provider) : base(provider)
         {
-            
+
         }
         public IActionResult Index(int id = 1)
         {
@@ -54,8 +54,10 @@ namespace WebApp.Areas.Dashboard.Controllers
                     image.CopyTo(stream);
                 }
                 provider.ImageOfProduct.AddImageOfProduct(obj, fileName);
+                TempData["msg"] = "Đã thêm mới hình ảnh sản phẩm thành công";
                 return Json(fileName);
             }
+            TempData["msg"] = "Có lỗi xảy ra";
             return null;
         }
         public IActionResult Edit(short id)
@@ -112,10 +114,14 @@ namespace WebApp.Areas.Dashboard.Controllers
                     CategoryId = item
                 });
             }
-            provider.ProductCategory.Edit(productCategories);
-            provider.ProductColor.Edit(productColors);
-            provider.ProductGuide.Edit(productGuides);
-            provider.ProductSize.Edit(productSizes);
+            provider.ProductInCategory.Edit(productCategories, obj.ProductId);
+
+            provider.ColorOfProduct.Edit(productColors, obj.ProductId);
+
+            provider.GuideOfProduct.Edit(productGuides, obj.ProductId);
+
+            provider.SizeOfProduct.Edit(productSizes, obj.ProductId);
+            TempData["msg"] = "Chỉnh sửa thông tin sản phẩm thành công";
             return Redirect($"/dashboard/product/detail/{obj.ProductId}");
         }
         public IActionResult Add()
@@ -167,16 +173,17 @@ namespace WebApp.Areas.Dashboard.Controllers
                     CategoryId = item
                 });
             }
-            provider.ProductCategory.Add(productCategories);
-            provider.ProductColor.Add(productColors);
-            provider.ProductGuide.Add(productGuides);
-            provider.ProductSize.Add(productSizes);
+            provider.ProductInCategory.Add(productCategories);
+            provider.ColorOfProduct.Add(productColors);
+            provider.GuideOfProduct.Add(productGuides);
+            provider.SizeOfProduct.Add(productSizes);
+            TempData["msg"] = "Đã thêm mới sản phẩm thành công";
             return Redirect($"/dashboard/product/detail/{obj.ProductId}");
         }
         public IActionResult Delete(short id)
         {
             int result = provider.Product.Delete(id);
-            string[] msg = { "Lỗi", "Xóa thành công" };
+            string[] msg = { "Có lỗi xảy ra", "Xóa thông tin sản phẩm thành công" };
             result = result > 1 ? 1 : result;
             TempData["msg"] = msg[result];
             return Redirect("/dashboard/product");
@@ -184,6 +191,7 @@ namespace WebApp.Areas.Dashboard.Controllers
         }
         public IActionResult DeleteImage(ImageOfProduct obj)
         {
+            TempData["msg"] = "Xóa hình ảnh sản phẩm thành công";
             return Json(provider.ImageOfProduct.Delete(obj));
         }
         public IActionResult UpdateQuantity(short id)
@@ -197,7 +205,10 @@ namespace WebApp.Areas.Dashboard.Controllers
         public IActionResult UpdateQuantity(List<InventoryQuantity> list)
         {
             short productId = list[0].ProductId;
-            provider.InventoryQuantity.UpdateInventoryQuantity(list);
+            int result = provider.InventoryQuantity.UpdateInventoryQuantity(list);
+            string[] msg = { "Có lỗi xảy ra", "Cập nhật số lượng tồn kho của sản phẩm thành công" };
+            result = result > 1 ? 1 : result;
+            TempData["msg"] = msg[result];
             return Redirect($"/dashboard/product/detail/{productId}#quantityInInventory");
         }
     }

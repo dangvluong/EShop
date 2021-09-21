@@ -45,6 +45,7 @@ namespace WebApp.Areas.Manage.Controllers
                     provider.InventoryQuantity.UpdateInventoryQuantity(item);
                 }
             }
+            TempData["msg"] = "Đã cập nhật trạng thái đơn đặt hàng";
             return Json(provider.Invoice.UpdateStatus(obj));
         }
     }

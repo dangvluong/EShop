@@ -21,17 +21,25 @@ namespace WebApp.Areas.Dashboard.Controllers
         [HttpPost]
         public IActionResult Edit(Category obj)
         {
-            return Json(provider.Category.Edit(obj));
+            int result = provider.Category.Edit(obj);
+            string[] msg = { "Có lỗi xảy ra", "Chỉnh sửa danh mục thành công" };
+            TempData["msg"] = msg[result];
+            return Json(result);
         }
         [HttpPost]
         public IActionResult Delete(short id)
         {
-            return Json(provider.Category.Delete(id));
+            int result = provider.Category.Delete(id);
+            string[] msg = { "Có lỗi xảy ra", "Xóa danh mục thành công" };
+            TempData["msg"] = msg[result];
+            return Json(result);
         }
         [HttpPost]
         public IActionResult Add(string categoryName)
         {
-            provider.Category.Add(categoryName);
+            int result = provider.Category.Add(categoryName);
+            string[] msg = { "Có lỗi xảy ra", "Tạo danh mục thành công" };
+            TempData["msg"] = msg[result];
             return Redirect("/dashboard/category");
         }
     }

@@ -10,9 +10,8 @@ namespace WebApp.Models
     public class ProductInCategoryRepository : BaseRepository
     {
         public ProductInCategoryRepository(IDbConnection connection) : base(connection) { }
-        public int Edit(List<ProductInCategory> list)
+        public int Edit(List<ProductInCategory> list, short productId)
         {
-            var productId = list[0].ProductId;
             connection.Execute($"DELETE FROM ProductInCategory WHERE ProductId = {productId}");
             return connection.Execute("AddProductInCategory", list, commandType: CommandType.StoredProcedure);
         }

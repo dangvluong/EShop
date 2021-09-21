@@ -10,9 +10,8 @@ namespace WebApp.Models
     public class ColorOfProductRepository : BaseRepository
     {
         public ColorOfProductRepository(IDbConnection connection) : base(connection) { }
-        public int Edit(List<ColorOfProduct> list)
-        {
-            var productId = list[0].ProductId;
+        public int Edit(List<ColorOfProduct> list, short productId)
+        {            
             connection.Execute($"DELETE FROM ColorOfProduct WHERE ProductId = {productId}");
             return connection.Execute("AddColorOfProduct", list, commandType: CommandType.StoredProcedure);
         }

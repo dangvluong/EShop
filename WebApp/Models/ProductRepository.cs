@@ -49,14 +49,14 @@ namespace WebApp.Models
             total = parameters.Get<int>("@Total");
             return products;
         }
-        public IEnumerable<Product> SearchProduct(string query, int page, int size, out int total)
+        public ICollection<Product> SearchProduct(string query, int page, int size, out int total)
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@Query", "%" + query + "%");
             parameters.Add("@Page", page, dbType: DbType.Int32);
             parameters.Add("@Size", size, dbType: DbType.Int32);
             parameters.Add("@Total", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            IEnumerable<Product> products = connection.Query<Product>("SearchProduct", parameters, commandType: CommandType.StoredProcedure);
+            ICollection<Product> products = (ICollection<Product>)connection.Query<Product>("SearchProduct", parameters, commandType: CommandType.StoredProcedure);
             total = parameters.Get<int>("@Total");
             return products;
         }

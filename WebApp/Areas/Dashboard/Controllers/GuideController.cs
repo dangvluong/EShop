@@ -22,21 +22,21 @@ namespace WebApp.Areas.Dashboard.Controllers
         public IActionResult Edit(Guide obj)
         {
             int result = provider.Guide.Edit(obj);
-            string[] message = { "Lỗi", "Cập nhật thành công" };
+            string[] message = { "Có lỗi xảy ra", "Chỉnh sửa hướng dẫn sử dụng thành công" };
             TempData["msg"] = message[result];
             return Redirect("/dashboard/guide");
         }
         public IActionResult Delete(short id)
         {
             int result = provider.Guide.Delete(id);
-            string[] message = { "Lỗi", "Xóa thành công" };
+            string[] message = { "Có lỗi xảy ra", "Xóa hướng dẫn sử dụng thành công" };
             TempData["msg"] = message[result];
             return Redirect("/dashboard/guide");
         }
         public IActionResult Add(Guide obj)
         {
             int result = provider.Guide.Add(obj);
-            string[] message = { "Lỗi", "Thêm thành công" };
+            string[] message = { "Có lỗi xảy ra", "Thêm hướng dẫn sử dụng thành công" };
             TempData["msg"] = message[result];
             return Redirect("/dashboard/guide");
         }

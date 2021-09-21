@@ -57,13 +57,13 @@ namespace WebApp.Controllers
     
         public IActionResult Search( string query, int id = 1)
         {
-            IEnumerable<Product> searchProducts = provider.Product.SearchProduct(query, id, size, out int total);
+            ICollection<Product> searchProducts = provider.Product.SearchProduct(query, id, size, out int total);
             foreach (var item in searchProducts)
             {
                 item.Images = provider.ImageOfProduct.GetImagesByProduct(item.ProductId);
-            }
+            }            
             ViewBag.categories = provider.Category.GetCategories();
-            ViewBag.totalPage = (int)Math.Ceiling(total / (float)size);
+            ViewBag.totalPage = (int)Math.Ceiling(total / (float)size);            
             return View(searchProducts);
         }
 

@@ -1,15 +1,23 @@
-﻿@model IEnumerable<Product>
+﻿@model ICollection<Product>
 @{
-    ViewBag.Title = "Tìm kiếm sản phẩm";
+    ViewBag.Title = $"Kết quả tìm kiếm sản phẩm theo từ khóa:{@Context.Request.Query["query"]} ";
 }
 <div class="row products-page mt-5">
     <div class="col-3">
         <partial name="_Category" model="@ViewBag.categories" />
     </div>
     <div class="col-9">
-        <partial name="_Product" model="@Model" />
-        <div class="d-flex">
-            <pagination total-page="@ViewBag.totalPage" current-page="@ViewContext.RouteData.Values["id"]" url="/product/search/{0}?query=@Context.Request.Query["query"]"></pagination>
-        </div>
+        <div class="mb-3">Kết quả tìm kiếm cho từ khóa: <b><i>@Context.Request.Query["query"]</i></b></div>
+        @if (Model.Count == 0)
+        {
+            <div class="text-center my-4">Không tìm thấy sản phẩm nào phù hợp. Vui lòng thử từ khóa khác</div>
+        }
+        else
+        {
+            <partial name="_Product" model="@Model" />
+            <div class="d-flex">
+                <pagination total-page="@ViewBag.totalPage" current-page="@ViewContext.RouteData.Values["id"]" url="/product/search/{0}?query=@Context.Request.Query["query"]"></pagination>
+            </div>
+        }
     </div>
 </div>

@@ -10,9 +10,8 @@ namespace WebApp.Models
     public class SizeOfProductRepository :BaseRepository
     {
         public SizeOfProductRepository(IDbConnection connection) : base(connection) { }
-        public int Edit(List<SizeOfProduct> list)
-        {
-            var productId = list[0].ProductId;
+        public int Edit(List<SizeOfProduct> list, short productId)
+        {            
             connection.Execute($"DELETE FROM SizeOfProduct WHERE ProductId = {productId}");
             return connection.Execute("AddSizeOfProduct", list, commandType: CommandType.StoredProcedure);
         }

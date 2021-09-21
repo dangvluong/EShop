@@ -35,12 +35,13 @@ namespace WebApp.Areas.Manage.Controllers
         }
         [HttpPost]
         public IActionResult AddRole(MemberInRole obj)
-        {
+        {            
             return Json(provider.MemberInRole.Add(obj));
         }
         [HttpPost]
         public IActionResult BanAccount(Guid memberId)
         {
+            TempData["msg"] = "Đã cập nhật trạng thái hoạt động của tài khoản này";
             return Json(provider.Member.UpdateAccountStatus(memberId));
         }
         public IActionResult Search(string query)
