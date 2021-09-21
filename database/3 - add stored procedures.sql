@@ -1,3 +1,5 @@
+USE EShop;
+GO
 -------------------------STORED PROCEDURE-------------------------
 --DROP PROC AddProduct
 GO
@@ -209,7 +211,7 @@ BEGIN
 		ON Product.ProductId = ProductInCategory.ProductId
 		JOIN (SELECT CategoryId FROM Product JOIN ProductInCategory ON Product.ProductId = ProductInCategory.ProductId WHERE Product.ProductId = @ProductId) AS Temp
 		ON ProductInCategory.CategoryId = Temp.CategoryId
-		WHERE Product.ProductId <> @ProductId;
+		WHERE Product.ProductId <> @ProductId AND Product.IsDeleted = 0;
 END
 
 --DROP PROC SearchProduct
@@ -273,7 +275,7 @@ GO
 
 CREATE PROC GetRandom12Products
 AS
-	SELECT TOP(12) * FROM Product ORDER BY NEWID();
+	SELECT TOP(12) * FROM Product WHERE IsDeleted = 0 ORDER BY NEWID();
 GO
 ----------------------------------------------------
 CREATE PROC GetProvinces
@@ -612,6 +614,7 @@ GO
 CREATE PROC GetHighestInventoryProducts
 AS
 BEGIN
-		SELECT TOP 5 Product.ProductId AS Id, ProductName AS Name, SUM(Quantity) AS Total FROM Product JOIN InventoryQuantity ON Product.ProductId  = InventoryQuantity.ProductId GROUP BY Product.ProductId, ProductName;
+		SELECT TOP 5 Product.ProductId AS Id, ProductName AS Name, SUM(Quantity) AS Total FROM Product JOIN InventoryQuantity ON Product.ProductId  = InventoryQuantity.ProductId
+		GROUP BY Product.ProductId, ProductName;
 END
 GO

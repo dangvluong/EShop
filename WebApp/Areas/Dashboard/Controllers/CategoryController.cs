@@ -31,6 +31,7 @@ namespace WebApp.Areas.Dashboard.Controllers
         {
             int result = provider.Category.Delete(id);
             string[] msg = { "Có lỗi xảy ra", "Xóa danh mục thành công" };
+            result = result > 1 ? 1 : result;
             TempData["msg"] = msg[result];
             return Json(result);
         }

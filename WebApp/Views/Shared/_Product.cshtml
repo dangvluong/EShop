@@ -4,7 +4,7 @@
     {
         <div class="col-3 d-flex flex-column my-2">
             <a href="/product/detail/@item.ProductId" class="product_link">
-                <img src="@(item.Images.Count == 0 ? "#" : $"/images/{item.Images[0].ImageUrl}")" alt="@item.ProductName" class="lastest-product-images">
+                <img src="@(item.Images.Count == 0 ? "#" : $"/images/product/{item.Images[0].ImageUrl}")" alt="@item.ProductName" class="lastest-product-images">
                 <p class="product_name">@item.ProductName</p>
             </a>
             <div class="text-center mt-auto">

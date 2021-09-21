@@ -120,7 +120,7 @@
                 @foreach (var item in Model.Images)
                 {
                     <div class="col-md-3 my-3 ">
-                        <img src="/images/@item.ImageUrl" alt="@Model.ProductName" class="img-fluid" />
+                        <img src="/images/product/@item.ImageUrl" alt="@Model.ProductName" class="img-fluid" />
                         <form action="/dashboard/product/deleteImage" method="post" class="formDeleteImage">
                             <input type="hidden" name="colorId" value="@item.ColorId" />
                             <input type="hidden" name="imageUrl" value="@item.ImageUrl" />

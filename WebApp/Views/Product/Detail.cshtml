@@ -17,17 +17,7 @@
             <div class="col-6">
                 <h3>@Model.ProductName</h3>
                 <p>Mã: @Model.Sku</p>
-                <partial name="_Price" model="@Model" />
-                @*@{
-                        if (Model.PriceSaleOff is null)
-                        {
-                            <p>Giá: <b class="text-danger">@Helper.FormatCurrencyString(Model.Price)</b></p>
-                        }
-                        else
-                        {
-                            <p>Giá: <del class="text-secondary">@Helper.FormatCurrencyString(Model.Price)</del> <b class="text-danger">@Helper.FormatCurrencyString(Model.PriceSaleOff.Value)</b> </p>
-                        }
-                    }*@
+                <partial name="_Price" model="@Model" />               
                 <p>Chất liệu: @Model.Material</p>
                 <p>Mô tả: @Model.Description</p>
                 <form method="post" name="frm" action="/cart/addcart" class="form-group">
@@ -45,7 +35,15 @@
                                 {
                                     <input type="radio" name="ColorId" class="ColorId" value="@Model.Colors[i].ColorId" />
                                 }
-                                <img src="/images/icon/@Model.Colors[i].IconUrl" alt="@Model.Colors[i].ColorCode" class="img-fluid img-thumbnail color-images" />
+                                @if (Model.Colors[i].IconUrl is null)
+                                {
+                                    <span class="img-fluid img-thumbnail color-images">@Model.Colors[i].ColorCode</span>
+                                }
+                                else
+                                {
+                                    <img src="/images/icon/@Model.Colors[i].IconUrl" alt="@Model.Colors[i].ColorCode" class="img-fluid img-thumbnail color-images" width="31"/>
+                                }
+
                             </span>
                         }
                     </div>
@@ -99,49 +97,13 @@
             <div class="carousel-item active row">
                 @for (int i = 0; i < 6; i++)
                 {
-                    <partial name="_ProductsRelation" model="@Model.ProductsRelation[i]" />
-                    @*<div class="col-2 float-left lastest-products">
-                            <a href="/product/detail/@Model.ProductsRelation[i].ProductId" class="product_link">
-                                <img src="@(Model.ProductsRelation[i].Images.Count == 0 ? "#" : $"/images/{Model.ProductsRelation[i].Images[0].ImageUrl}")" alt="@Model.ProductsRelation[i].ProductName" class="img-fluid">
-                                <p class="product_name">@Model.ProductsRelation[i].ProductName</p>
-                            </a>
-                            @{
-                                if (Model.ProductsRelation[i].PriceSaleOff is null)
-                                {
-                                    <span class="text-danger">
-                                        @Helper.FormatCurrencyString(Model.ProductsRelation[i].Price)
-                                    </span>
-                                }
-                                else
-                                {
-                                    <del class="text-secondary">@Helper.FormatCurrencyString(Model.ProductsRelation[i].Price)</del> <span class="text-danger">@Helper.FormatCurrencyString(Model.ProductsRelation[i].PriceSaleOff.Value)</span>
-                                }
-                            }
-                        </div>*@
+                    <partial name="_ProductsRelation" model="@Model.ProductsRelation[i]" />                  
                 }
             </div>
             <div class="carousel-item row">
                 @for (int i = 6; i < 12; i++)
                 {
-                    <partial name="_ProductsRelation" model="@Model.ProductsRelation[i]" />
-                    @*<div class="col-2 float-left lastest-products">
-                            <a href="/product/detail/@Model.ProductsRelation[i].ProductId">
-                                <img src="@(Model.ProductsRelation[i].Images.Count == 0 ? "#" : $"/images/{Model.ProductsRelation[i].Images[0].ImageUrl}")" alt="@Model.ProductsRelation[i].ProductName" class="img-fluid">
-                                <p>@Model.ProductsRelation[i].ProductName</p>
-                            </a>
-                            @{
-                                if (Model.ProductsRelation[i].PriceSaleOff is null)
-                                {
-                                    <span class="text-danger">
-                                        @Model.ProductsRelation[i].Price
-                                    </span>
-                                }
-                                else
-                                {
-                                    <del class="text-secondary">@Model.ProductsRelation[i].Price</del> <span class="text-danger">@Model.ProductsRelation[i].PriceSaleOff</span>
-                                }
-                            }
-                        </div>*@
+                    <partial name="_ProductsRelation" model="@Model.ProductsRelation[i]" />                    
                 }
             </div>
         </div>
@@ -162,13 +124,14 @@
             /*interval: false*/
         });
         $('#productsRelationArea').carousel();
-        $(".image-radio img").click(function () {
+
+        $(".image-radio .color-images").click(function () {
             $('input[name="ColorId"]:checked').removeAttr('checked')
             $(this).prev().click();
             $(this).prev().attr('checked', true);
             var colorCode = $(this).attr('alt');
-            var listImages = document.getElementsByClassName('scroll-images');
-            $('.carousel-item.active').removeClass('active');
+            var listImages = $('#main-images .scroll-images');
+            $('#main-images .carousel-item.active').removeClass('active');
             for (var i = 0; i < listImages.length; i++) {
                 if ($(listImages[i]).attr('src').includes(colorCode.toLowerCase().trim())) {
                     $(listImages[i].parentNode).addClass('active');

@@ -553,7 +553,8 @@ input[type="radio"][name="ColorId"] {
     display: none;
 }
 
-span.image-radio input[type="radio"]:checked + img {
+span.image-radio input[type="radio"]:checked + img,
+span.image-radio input[type="radio"]:checked + span {
     border: 1px solid red;
 }
 
