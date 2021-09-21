@@ -10,6 +10,7 @@
     <thead>
         <tr>
             <th>Mã đơn hàng</th>
+            <th>Ngày đặt hàng</th>
             <th>Tên người nhận hàng</th>
             <th>Số điện thoại nhận hàng</th>
             <th>Địa chỉ giao hàng</th>
@@ -22,6 +23,7 @@
         {
             <tr>
                 <td>@item.InvoiceId</td>
+                <td>@item.DateCreated.ToLongDateString()</td>
                 <td>@item.Contact.FullName</td>
                 <td>@item.Contact.PhoneNumber</td>
                 <td>@(item.Contact.AddressHome + ", " + item.Contact.WardName + ", " + item.Contact.DistrictName + ", " + item.Contact.ProvinceName)</td>

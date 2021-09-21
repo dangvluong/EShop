@@ -12,6 +12,10 @@
                 <td>@Model.Member.Username</td>
             </tr>
             <tr>
+                <th>Ngày đặt hàng: </th>
+                <td>@Model.DateCreated.ToLongDateString()</td>
+            </tr>
+            <tr>
                 <th>Người nhận hàng: </th>
                 <td>@Model.Contact.FullName</td>
             </tr>
@@ -45,7 +49,7 @@
                 <form name="updateInvoiceStatus">
                     <!-- Modal body -->
                     <div class="modal-body">
-                        <select id="statusOptions">
+                        <select id="statusOptions" class="form-control w-50 mx-auto">
                             @foreach (var item in Enum.GetValues(typeof(InvoiceStatus)))
                             {
                                 if ((int)item == Model.StatusId)

@@ -10,6 +10,10 @@
     <table class="table table-bordered my-4">
         <thead>
             <tr>
+                <th>Ngày đặt hàng</th>
+                <td>@Model.DateCreated.ToLongDateString()</td>
+            </tr>
+            <tr>
                 <th>Người nhận hàng: </th>
                 <td>@Model.Contact.FullName</td>
             </tr>

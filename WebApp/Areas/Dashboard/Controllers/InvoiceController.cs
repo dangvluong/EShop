@@ -26,19 +26,6 @@ namespace WebApp.Areas.Manage.Controllers
             }
             return View(invoices);
         }
-        //public IActionResult InvoiceOfMember()
-        //{
-        //    Guid memberId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        //    IEnumerable<Invoice> invoices = provider.Invoice.GetInvoicesByMember(memberId);
-        //    foreach (Invoice invoice in invoices)
-        //    {
-        //        invoice.Contact = provider.Contact.GetContactsById(invoice.ContactId);
-        //        invoice.Member = provider.Member.GetMemberById(memberId);
-        //    }
-        //    return View(invoices);
-        //}
-
-
         public IActionResult Detail(Guid id)
         {
             Invoice obj = provider.Invoice.GetInvoiceById(id);
