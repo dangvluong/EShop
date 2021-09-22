@@ -32,7 +32,7 @@ namespace WebApp.Models
         }
         public IEnumerable<Product> GetAllProduct()
         {
-            return connection.Query<Product>("SELECT * FROM Product");
+            return connection.Query<Product>("SELECT * FROM Product WHERE IsDeleted = 0");
         }
         public Product GetProductById(short id)
         {
