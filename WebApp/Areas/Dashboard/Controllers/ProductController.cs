@@ -43,7 +43,7 @@ namespace WebApp.Areas.Dashboard.Controllers
         public IActionResult ImageUpload(IFormFile image, string data)
         {
             ImageOfProductUpload obj = JsonConvert.DeserializeObject<ImageOfProductUpload>(data);
-            string root = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
+            string root = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images","product");
             int numberImageExists = provider.ImageOfProduct.GetNumberImageExists(obj);
             if (image != null && !string.IsNullOrEmpty(image.FileName))
             {

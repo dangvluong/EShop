@@ -62,9 +62,9 @@ $(document).on('click', '.DeleteCart', function () {
 });
 
 /*Choose contact when checkout*/
-$(document).on('click', 'input[name="Contact"]', function () {  
+$(document).on('click', '#selectContactToCheckout input[name="Contact"]', function () {
     var contactId = $(this).val();
-    $('input[name="ContactId"]').val(contactId);
+    $('form[name="formCheckout"] input[name="ContactId"]').val(contactId);
 });
 /*Add contact modal*/
 $(document).on('show.bs.modal', '.addModal > .modal', function () {
