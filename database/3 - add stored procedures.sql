@@ -561,6 +561,15 @@ CREATE PROC UpdateAccountStatus(@MemberId UNIQUEIDENTIFIER)
 AS
 	UPDATE Member SET IsBanned = ~IsBanned WHERE MemberId =@MemberId;
 GO
+
+CREATE PROC ResetPassword(
+	@Token VARCHAR(32),
+	@NewPassword VARBINARY(64)
+)
+AS
+BEGIN	
+	UPDATE Member SET Password = @NewPassword, Token = NULL WHERE Token = @Token;	
+END
 -------------------------------------------------------
 --DROP PROC GetBestSellingProducts;
 GO

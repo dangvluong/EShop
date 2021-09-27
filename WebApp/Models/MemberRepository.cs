@@ -26,9 +26,13 @@ namespace WebApp.Models
             }
             catch
             {
-                result = -1;
+                //result = -1;
             }
             return result;
+        }
+        public Member GetMemberByEmail(string email)
+        {
+            return connection.QuerySingleOrDefault<Member>($"SELECT MemberId, Username, Email, Gender, JoinDate, IsBanned FROM Member WHERE Email = '{email}'");
         }
         public IEnumerable<Member> Search(string query)
         {
@@ -52,6 +56,21 @@ namespace WebApp.Models
         public int UpdateAccountStatus(Guid memberId)
         {
             return connection.Execute("UpdateAccountStatus", new { MemberId = memberId }, commandType: CommandType.StoredProcedure);
+        }
+        public int SaveTokenOfMember(Member obj)
+        {
+            return connection.Execute($"UPDATE Member SET Token = '{obj.Token}' WHERE MemberId = '{obj.MemberId}'");
+        }
+        public Member GetMemberByToken(string token)
+        {
+            return connection.QuerySingleOrDefault<Member>($"SELECT MemberId FROM Member WHERE Token ='{token}'");
+        }
+        public int ResetPassword(ResetPasswordViewModel obj)
+        {
+            return connection.Execute("ResetPassword", new { 
+            Token = obj.Token,
+            NewPassword = SiteHelper.HashPassword(obj.NewPassword)
+            }, commandType: CommandType.StoredProcedure);
         }
     }
 }

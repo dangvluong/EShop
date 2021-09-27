@@ -18,5 +18,6 @@ namespace WebApp.Models
         public bool IsBanned { get; set; }
         public IEnumerable<Role> Roles { get; set; }
         public IEnumerable<Contact> Contacts { get; set; }
+        public string Token { get; set; }
     }
 }
