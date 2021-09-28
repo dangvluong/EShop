@@ -127,7 +127,9 @@ namespace WebApp.Controllers
                     message.IsBodyHtml = true;
                     message.Body = $"Vui lòng click vào <a href=\"https://localhost:44389/auth/resetpassword/{member.Token}\">ĐÂY</a> để thiết lập lại mật khẩu của bạn. ";
                     message.Subject = "CẬP NHẬT MẬT KHẨU";
-                    client.Send(message);
+                    client.SendAsync(message, null);
+                    message.Dispose();
+                    client.Dispose();
                     TempData["msg"] = $"Email chứa liên kết thiết lập lại mật khẩu đã được gửi tới {email}. Vui lòng kiểm tra Inbox/Spam của email. Liên kết có hiệu lực trong vòng 10 phút.";
                     return Redirect("/auth/login");
                 }
