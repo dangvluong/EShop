@@ -10,10 +10,10 @@ namespace WebApp.Controllers
     [Authorize]
     public class MemberController : BaseController
     {
-        
-        public MemberController(SiteProvider provider) :base(provider)
+
+        public MemberController(SiteProvider provider) : base(provider)
         {
-          
+
         }
         public IActionResult Index()
         {

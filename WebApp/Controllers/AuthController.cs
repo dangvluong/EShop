@@ -127,10 +127,14 @@ namespace WebApp.Controllers
                     message.IsBodyHtml = true;
                     message.Body = $"Vui lòng click vào <a href=\"https://localhost:44389/auth/resetpassword/{member.Token}\">ĐÂY</a> để thiết lập lại mật khẩu của bạn. ";
                     message.Subject = "CẬP NHẬT MẬT KHẨU";
-                    client.SendAsync(message, null);
-                    message.Dispose();
-                    client.Dispose();
-                    TempData["msg"] = $"Email chứa liên kết thiết lập lại mật khẩu đã được gửi tới {email}. Vui lòng kiểm tra Inbox/Spam của email. Liên kết có hiệu lực trong vòng 10 phút.";
+                    client.SendCompleted += (s, e) =>
+                    {                        
+                        message.Dispose();
+                        client.Dispose();
+                    };
+                    client.SendMailAsync(message);
+                    
+                    TempData["msg"] = $"Email chứa liên kết thiết lập lại mật khẩu đã được gửi tới {email}. Vui lòng kiểm tra Inbox/Spam của email.";
                     return Redirect("/auth/login");
                 }
                 else
@@ -164,6 +168,38 @@ namespace WebApp.Controllers
             }
             ModelState.AddModelError(string.Empty, "Các mật khẩu đã nhập không khớp. Hãy thử lại");
             return View();
+        }
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult ChangePassword(ChangePasswordViewModel obj)
+        {
+            Guid memberId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            Member member = provider.Member.GetMemberById(memberId);
+            if (member != null)
+            {
+                member.Password = obj.OldPassword;
+                bool paswordValid = provider.Member.CheckCurrentPassword(member);
+                if (paswordValid && obj.NewPassword == obj.RePassword)
+                {
+                    member.Password = obj.NewPassword;
+                    provider.Member.UpdatePassword(member);
+                    TempData["msg"] = "Đã cập nhật mật khẩu mới";
+                }
+                else if (paswordValid)
+                {
+                    TempData["msg"] = "Các mật khẩu mới đã nhập không khớp. Hãy thử lại";
+                }
+                else
+                {
+                    TempData["msg"] = "Mật khẩu hiện tại không chính xác. Hãy thử lại";
+                }
+                return Redirect("/member");
+            }
+            return Redirect("/auth/login");
+
         }
     }
 }

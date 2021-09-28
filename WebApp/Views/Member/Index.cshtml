@@ -25,13 +25,16 @@
             <td>@Model.JoinDate.ToLongDateString()</td>
         </tr>
     </table>
-
+    <a href="/auth/changepassword" class="btn btn-info">Đổi mật khẩu</a>   
+    <div class="mt-4">
+        @TempData["msg"]
+    </div>
     <div class="mt-5">
         <h4 class="text-center mb-4">Thông tin liên hệ</h4>
 
         @if (Model.Contacts.Count<Contact>() == 0)
         {
-            <p>Bạn chưa có thông tin liên hệ nào</p>
+            <p class="text-center">Bạn chưa có thông tin liên hệ nào</p>
         }
         else
         {
@@ -68,9 +71,8 @@
             </div>
         }
     </div>
-    <div>
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addContactModal">Thêm thông tin liên hệ</button>
-        @TempData["msg"]
+    <div class="d-flex">
+        <button type="button" class="btn btn-info mx-auto" data-toggle="modal" data-target="#addContactModal">Thêm thông tin liên hệ</button>
         <div class="addModal">
             <div class="modal" id="addContactModal">
                 <partial name="_ModelAddContact" />
@@ -140,8 +142,8 @@
                 $('div.modal.show input[name="PhoneNumber"]').val(result['phoneNumber']);
                 $('div.modal.show textarea[name="AddressHome"]').val(result['addressHome']);
                 $.post('/contact/GetProvinces', provinces => {
-                    for (var i in provinces) {                      
-                        $('div.modal.show #ProvinceId').append(`<option value="${provinces[i].provinceId}">${provinces[i].provinceName}</option>`);                      
+                    for (var i in provinces) {
+                        $('div.modal.show #ProvinceId').append(`<option value="${provinces[i].provinceId}">${provinces[i].provinceName}</option>`);
                     }
                     addDistricts(result['provinceId']);
                 });
@@ -150,7 +152,7 @@
                 $('div.modal.show #WardId').val(result['wardId']);
             });
         });
-        $(document).on('submit', 'form[name="editContact"]', function (e) {            
+        $(document).on('submit', 'form[name="editContact"]', function (e) {
             e.preventDefault();
             var contactId = $('div.modal.show input[name="ContactId"]').val();
             var fullName = $('div.modal.show input[name="FullName"]').val();

@@ -543,6 +543,11 @@ AS
 	SELECT MemberId, Username, Email, Gender, JoinDate, IsBanned FROM Member WHERE Username = @Username AND Password = @Password;
 GO
 
+CREATE PROC UpdatePassword(@MemberId UNIQUEIDENTIFIER, @Password VARBINARY(64))
+AS
+	UPDATE Member SET Password = @Password WHERE MemberId = @MemberId;
+GO
+
 CREATE PROC GetRolesByMember(@MemberId UNIQUEIDENTIFIER)
 AS
 	SELECT Role.*, IIF(MemberInRole.MemberId IS NULL,0,1) AS Checked 

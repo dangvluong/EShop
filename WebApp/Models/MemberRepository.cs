@@ -6,7 +6,7 @@ using WebApp.Helper;
 
 namespace WebApp.Models
 {
-    public class MemberRepository:BaseRepository
+    public class MemberRepository : BaseRepository
     {
         public MemberRepository(IDbConnection connection) : base(connection) { }
         public int Add(Member obj)
@@ -36,14 +36,17 @@ namespace WebApp.Models
         }
         public IEnumerable<Member> Search(string query)
         {
-            return connection.Query<Member>("SearchMember", new { Query = "%" + query +"%"}, commandType: CommandType.StoredProcedure); 
+            return connection.Query<Member>("SearchMember", new { Query = "%" + query + "%" }, commandType: CommandType.StoredProcedure);
         }
-        public  Member Login(Member obj)
+        public Member Login(Member obj)
         {
             return connection.QuerySingleOrDefault<Member>("Login",
-                new { Username = obj.Username,
-                    Password = SiteHelper.HashPassword(obj.Password) },
-                commandType: CommandType.StoredProcedure); 
+                new
+                {
+                    Username = obj.Username,
+                    Password = SiteHelper.HashPassword(obj.Password)
+                },
+                commandType: CommandType.StoredProcedure);
         }
         public Member GetMemberById(Guid memberId)
         {
@@ -67,10 +70,26 @@ namespace WebApp.Models
         }
         public int ResetPassword(ResetPasswordViewModel obj)
         {
-            return connection.Execute("ResetPassword", new { 
-            Token = obj.Token,
-            NewPassword = SiteHelper.HashPassword(obj.NewPassword)
+            return connection.Execute("ResetPassword", new
+            {
+                Token = obj.Token,
+                NewPassword = SiteHelper.HashPassword(obj.NewPassword)
             }, commandType: CommandType.StoredProcedure);
+        }
+        public bool CheckCurrentPassword(Member obj)
+        {
+            Member result = connection.QuerySingleOrDefault<Member>("Login",
+               new
+               {
+                   Username = obj.Username,
+                   Password = SiteHelper.HashPassword(obj.Password)
+               },
+               commandType: CommandType.StoredProcedure);
+            return result != null ? true : false;
+        }
+        public int UpdatePassword(Member obj)
+        {
+            return connection.Execute("UpdatePassword", new { MemberId = obj.MemberId, Password = SiteHelper.HashPassword(obj.Password) }, commandType: CommandType.StoredProcedure);
         }
     }
 }
