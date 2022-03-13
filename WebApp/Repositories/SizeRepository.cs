@@ -1,11 +1,10 @@
 ﻿using Dapper;
-using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
+using WebApp.Models;
 
-namespace WebApp.Models
+namespace WebApp.Repositories
 {
     public class SizeRepository : BaseRepository
     {

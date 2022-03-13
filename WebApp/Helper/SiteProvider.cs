@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using WebApp.Models;
+using WebApp.Repositories;
 
 namespace WebApp.Helper
 {

@@ -3,8 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using WebApp.Helper;
+using WebApp.Models;
 
-namespace WebApp.Models
+namespace WebApp.Repositories
 {
     public class MemberRepository : BaseRepository
     {
