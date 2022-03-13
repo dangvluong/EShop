@@ -105,7 +105,7 @@ namespace WebApp.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult ForgotPassword(string email)
+        public async Task<IActionResult> ForgotPassword(string email)
         {
             Member member = provider.Member.GetMemberByEmail(email.Trim());
             if (member != null) {
@@ -118,7 +118,7 @@ namespace WebApp.Controllers
                     IConfigurationSection section = configuration.GetSection("Email:Outlook");
                     SmtpClient client = new SmtpClient(section["host"], Convert.ToInt32(section["port"]))
                     {
-                        Credentials = new NetworkCredential(section["address"], section["password"]),
+                        Credentials = new NetworkCredential(section["address"], SiteHelper.DecryptString(section["password"])),
                         EnableSsl = true
                     };
                     MailAddress addressFrom = new MailAddress(section["address"]);
@@ -132,7 +132,7 @@ namespace WebApp.Controllers
                         message.Dispose();
                         client.Dispose();
                     };
-                    client.SendMailAsync(message);
+                    await client.SendMailAsync(message);
                     
                     TempData["msg"] = $"Email chứa liên kết thiết lập lại mật khẩu đã được gửi tới {email}. Vui lòng kiểm tra Inbox/Spam của email.";
                     return Redirect("/auth/login");
