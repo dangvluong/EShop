@@ -95,16 +95,20 @@
     <div id="productsRelationArea" class="carousel slide w-100" data-ride="carousel">
         <div class="carousel-inner w-100" role="listbox">
             <div class="carousel-item active row">
-                @for (int i = 0; i < 6; i++)
+                @for (int i = 0; i < (Model.ProductsRelation.Count >= 6 ? 6 : Model.ProductsRelation.Count); i++)
                 {
                     <partial name="_ProductsRelation" model="@Model.ProductsRelation[i]" />                  
                 }
             </div>
             <div class="carousel-item row">
-                @for (int i = 6; i < 12; i++)
+                @if (Model.ProductsRelation.Count > 6)
                 {
-                    <partial name="_ProductsRelation" model="@Model.ProductsRelation[i]" />                    
+                    @for (int i = 6; i < Model.ProductsRelation.Count; i++)
+                    {
+                        <partial name="_ProductsRelation" model="@Model.ProductsRelation[i]" />
+                    }
                 }
+
             </div>
         </div>
         <a class="carousel-control-prev2" href="#productsRelationArea" role="button" data-slide="prev">
