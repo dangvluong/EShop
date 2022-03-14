@@ -1,4 +1,4 @@
-﻿@model Member
+﻿@model RegisterModel
 @{
     ViewBag.Title = "Đăng kí thành viên";
 }
@@ -10,17 +10,18 @@
     <div class="col-4">
         <h4 class="text-center  my-4">ĐĂNG KÍ THÀNH VIÊN</h4>
         <form method="post" class="form-group">
+            <div asp-validation-summary="All"></div>
             <div class="form-group">
-                <label asp-for="Username">Tên đăng nhập: </label>
-                <input type="text" asp-for="Username" class="form-control" required/>
+                <label asp-for="Username"></label>
+                <input asp-for="Username" class="form-control" required/>
             </div>
             <div class="form-group">
-                <label asp-for="Password">Mật khẩu: </label>
-                <input type="password" asp-for="Password" class="form-control" required/>
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" required/>
             </div>
             <div class="form-group">
-                <label asp-for="Email">Email: </label>
-                <input type="email" asp-for="Email" class="form-control" required/>
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" required/>
             </div>
             <div class="form-group">
                 <label asp-for="Gender">Giới tính: </label>
@@ -30,8 +31,7 @@
                 </select>
             </div>
             <div class="d-flex mb-3">
-                <button class="btn btn-primary mx-auto">Đăng kí</button>
-
+                <input type="submit"  class="btn btn-primary mx-auto" value="Đăng kí" />
             </div>
             <div class="text-center">
                 <p>Đã có tài khoản?  <a href="/auth/login">Đăng nhập </a>ngay</p>

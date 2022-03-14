@@ -76,6 +76,8 @@ namespace WebApp.Areas.Dashboard.Controllers
         [HttpPost]
         public IActionResult Edit(Product obj, short[] listColor, short[] listSize, short[] listGuide, short[] listCategory)
         {
+            if (!ModelState.IsValid)
+                return View();
             provider.Product.Edit(obj);
             List<ColorOfProduct> productColors = new List<ColorOfProduct>();
             foreach (var item in listColor)
@@ -135,6 +137,8 @@ namespace WebApp.Areas.Dashboard.Controllers
         [HttpPost]
         public IActionResult Add(Product obj, short[] listColor, short[] listSize, short[] listGuide, short[] listCategory)
         {
+            if (!ModelState.IsValid)
+                return View();
             obj.ProductId = provider.Product.Add(obj);
             List<ColorOfProduct> productColors = new List<ColorOfProduct>();
             foreach (var item in listColor)

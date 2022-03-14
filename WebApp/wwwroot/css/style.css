@@ -673,3 +673,9 @@ a i {
 .fa-fast-backward, .fa-fast-forward {
     color: #007bff;
 }
+
+/*Validation*/
+.validation-summary-errors ul li {
+    color: red;
+    list-style: none;
+}

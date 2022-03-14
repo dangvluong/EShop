@@ -93,5 +93,10 @@ namespace WebApp.Repositories
         {
             return connection.Execute("UpdatePassword", new { MemberId = obj.MemberId, Password = SiteHelper.HashPassword(obj.Password) }, commandType: CommandType.StoredProcedure);
         }
+
+        public Member GetMemberByUsername(string username)
+        {
+            return connection.QuerySingleOrDefault<Member>($"SELECT MemberId, Username, Email, Gender, JoinDate, IsBanned FROM Member WHERE Username = '{username}'");
+        }
     }
 }

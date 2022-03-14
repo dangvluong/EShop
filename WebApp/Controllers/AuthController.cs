@@ -31,12 +31,30 @@ namespace WebApp.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Register(Member obj)
+        public IActionResult Register(RegisterModel obj)
         {
-            var result = provider.Member.Add(obj);
-            //string[] message = { "Email hoặc tên đăng nhập đã có người sử dụng.", "Có lỗi xảy ra, vui lòng thử lại", "Đăng kí thành công" };
-            string[] message = { "Email hoặc tên đăng nhập đã có người sử dụng.", "Đăng kí thành công" };
-            //TempData["msg"] = message[result + 1];
+            if (!ModelState.IsValid)
+                return View();
+            Member emailExist = provider.Member.GetMemberByEmail(obj.Email);
+            if (emailExist != null)
+            {
+                ModelState.AddModelError(nameof(obj.Email), "Email này đã được sử dụng");
+                return View();
+            }
+            Member usernameExist = provider.Member.GetMemberByUsername(obj.Username);
+            if (usernameExist != null)
+            {
+                ModelState.AddModelError(nameof(obj.Username), "Tên đăng nhập này đã được sử dụng");
+                return View();
+            }
+            var result = provider.Member.Add(new Member
+            {
+                Username = obj.Username,
+                Email = obj.Email,
+                Password = obj.Password,
+                Gender = obj.Gender
+            });
+            string[] message = { "Có lỗi xảy ra!", "Đăng kí thành công" };
             TempData["msg"] = message[result];
             return Redirect("/auth/login");
         }
@@ -52,6 +70,8 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel obj, string returnUrl)
         {
+            if (!ModelState.IsValid)
+                return View();
             Member member = provider.Member.Login(new Member { Username = obj.Username, Password = obj.Password });
             if (member != null)
             {
@@ -108,9 +128,11 @@ namespace WebApp.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> ForgotPassword(string email)
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordModel obj)
         {
-            Member member = provider.Member.GetMemberByEmail(email.Trim());
+            if (!ModelState.IsValid)
+                return View();
+            Member member = provider.Member.GetMemberByEmail(obj.Email.Trim());
             if (member != null)
             {
                 if (member.IsBanned == false)
@@ -118,20 +140,20 @@ namespace WebApp.Controllers
                     member.Token = SiteHelper.CreateToken(32);
                     provider.Member.SaveTokenOfMember(member);
                     //Send email to reset password
-                    bool result = await mailService.SendMailResetPassword(email, member.Token);
-                    if(result)
-                        TempData["msg"] = $"Email chứa liên kết thiết lập lại mật khẩu đã được gửi tới {email}. Vui lòng kiểm tra Inbox/Spam của email.";
+                    bool result = await mailService.SendMailResetPassword(obj.Email, member.Token);
+                    if (result)
+                        TempData["msg"] = $"Email chứa liên kết thiết lập lại mật khẩu đã được gửi tới {obj.Email}. Vui lòng kiểm tra Inbox/Spam của email.";
                     else
                         TempData["msg"] = $"Có lỗi xảy ra. Vui lòng thử lại sau.";
                     return Redirect("/auth/login");
                 }
                 else
                 {
-                    TempData["msg"] = "Tài khoản này đã bị khóa";
+                    ModelState.AddModelError(string.Empty, "Tài khoản này đã bị khóa.");
                     return View();
                 }
             }
-            TempData["msg"] = "Email không tồn tại";
+            ModelState.AddModelError(nameof(obj.Email), "Email không tồn tại");
             return View();
         }
         public IActionResult ResetPassword(string id)
@@ -147,15 +169,12 @@ namespace WebApp.Controllers
         [HttpPost]
         public IActionResult ResetPassword(string id, ResetPasswordModel obj)
         {
-            if (obj.NewPassword == obj.RePassword)
-            {
-                obj.Token = id;
-                provider.Member.ResetPassword(obj);
-                TempData["msg"] = "Đã thiết lập mật khẩu mới";
-                return Redirect("/auth/login");
-            }
-            ModelState.AddModelError(string.Empty, "Các mật khẩu đã nhập không khớp. Hãy thử lại");
-            return View();
+            if (!ModelState.IsValid)
+                return View();
+            obj.Token = id;
+            provider.Member.ResetPassword(obj);
+            TempData["msg"] = "Đã thiết lập mật khẩu mới";
+            return Redirect("/auth/login");
         }
         public IActionResult ChangePassword()
         {
@@ -164,26 +183,22 @@ namespace WebApp.Controllers
         [HttpPost]
         public IActionResult ChangePassword(ChangePasswordModel obj)
         {
+            if (!ModelState.IsValid)
+                return View();
             Guid memberId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             Member member = provider.Member.GetMemberById(memberId);
             if (member != null)
             {
                 member.Password = obj.OldPassword;
                 bool paswordValid = provider.Member.CheckCurrentPassword(member);
-                if (paswordValid && obj.NewPassword == obj.RePassword)
+                if (!paswordValid)
                 {
-                    member.Password = obj.NewPassword;
-                    provider.Member.UpdatePassword(member);
-                    TempData["msg"] = "Đã cập nhật mật khẩu mới";
+                    ModelState.AddModelError(obj.OldPassword, "Mật khẩu cũ không đúng.");
+                    return View();
                 }
-                else if (paswordValid)
-                {
-                    TempData["msg"] = "Các mật khẩu mới đã nhập không khớp. Hãy thử lại";
-                }
-                else
-                {
-                    TempData["msg"] = "Mật khẩu hiện tại không chính xác. Hãy thử lại";
-                }
+                member.Password = obj.NewPassword;
+                provider.Member.UpdatePassword(member);
+                TempData["msg"] = "Đã cập nhật mật khẩu mới";
                 return Redirect("/member");
             }
             return Redirect("/auth/login");

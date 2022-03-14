@@ -8,6 +8,7 @@ namespace WebApp.Interfaces
     {
         int Add(Member obj);
         Member GetMemberByEmail(string email);
+        Member GetMemberByUsername(string username);
         IEnumerable<Member> Search(string query);
         Member Login(Member obj);
         Member GetMemberById(Guid memberId);
