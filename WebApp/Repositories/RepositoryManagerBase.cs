@@ -3,13 +3,13 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace WebApp.Helper
+namespace WebApp.Repositories
 {
-    public class BaseProvider : IDisposable
+    public class RepositoryManagerBase : IDisposable
     {
-        IDbConnection connection;
-        IConfiguration configuration;
-        public BaseProvider(IConfiguration configuration)
+        private IDbConnection connection;
+        private IConfiguration configuration;
+        public RepositoryManagerBase(IConfiguration configuration)
         {
             this.configuration = configuration;
         }
@@ -19,7 +19,7 @@ namespace WebApp.Helper
             {
                 if(connection is null)
                 {
-                    connection = new SqlConnection(configuration.GetConnectionString("EzShop"));
+                    connection = new SqlConnection(configuration.GetConnectionString("EShop"));
                 }
                 return connection;
             }

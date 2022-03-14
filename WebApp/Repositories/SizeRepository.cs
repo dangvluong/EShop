@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using WebApp.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Repositories
 {
-    public class SizeRepository : BaseRepository
+    public class SizeRepository : BaseRepository,ISizeRepository
     {
         //IConfiguration configuration;
         public SizeRepository(IDbConnection connection) : base(connection)

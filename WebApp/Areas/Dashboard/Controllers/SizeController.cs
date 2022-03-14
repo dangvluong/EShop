@@ -1,17 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Controllers;
-using WebApp.Helper;
+using WebApp.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Areas.Dashboard.Controllers
 {
     [Area("dashboard")]
-    [Authorize(Roles = "Manager, Staff")]
+    [Authorize(Roles = "Manager,Staff")]
     public class SizeController : BaseController
     {        
         
-        public SizeController(SiteProvider provider) : base(provider)
+        public SizeController(IRepositoryManager provider) : base(provider)
         {            
         }
         public IActionResult Index()

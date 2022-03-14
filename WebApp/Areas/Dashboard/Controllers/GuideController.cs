@@ -1,23 +1,22 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Controllers;
-using WebApp.Helper;
+using WebApp.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Areas.Dashboard.Controllers
 {
     [Area("dashboard")]
-    [Authorize(Roles = "Manager, Staff")]
+    [Authorize(Roles = "Manager,Staff")]
     public class GuideController : BaseController
-    {        
-        int size = 50;
-        public GuideController(SiteProvider provider) :base(provider)
+    {
+        public GuideController(IRepositoryManager provider) : base(provider)
         {
-            
+
         }
         public IActionResult Index()
         {
-            return View(provider.Guide.GetGuids());
+            return View(provider.Guide.GetGuides());
         }
         public IActionResult Edit(Guide obj)
         {

@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using WebApp.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Repositories
 {
-    public class ColorRepository : BaseRepository
+    public class ColorRepository : BaseRepository,IColorRepository
     {
         //IConfiguration configuration;
         public ColorRepository(IDbConnection connection) : base(connection)

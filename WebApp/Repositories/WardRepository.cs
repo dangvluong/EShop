@@ -1,11 +1,12 @@
 ﻿using Dapper;
 using System.Collections.Generic;
 using System.Data;
+using WebApp.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Repositories
 {
-    public class WardRepository : BaseRepository
+    public class WardRepository : BaseRepository,IWardRepository
     {
         public WardRepository(IDbConnection connection) : base(connection) { }
         public IEnumerable<Ward> GetWardsByDistrict(short districtId)

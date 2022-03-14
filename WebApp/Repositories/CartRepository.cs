@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using WebApp.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Repositories
 {
-    public class CartRepository : BaseRepository
+    public class CartRepository : BaseRepository, ICartRepository
     {
         public CartRepository(IDbConnection connection) : base(connection) { }
 

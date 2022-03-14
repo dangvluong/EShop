@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using WebApp.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Repositories
 {
-    public class ContactRepository : BaseRepository
+    public class ContactRepository : BaseRepository,IContactRepository
     {
         public ContactRepository(IDbConnection connection) : base(connection) { }
         public int Add(Contact obj, Guid memberId)
@@ -26,7 +27,7 @@ namespace WebApp.Repositories
         {
             return connection.Query<Contact>("GetContactsByMember", new { MemberId = memberId }, commandType: CommandType.StoredProcedure);
         }
-        public Contact GetContactsById(short contactId)
+        public Contact GetContactById(short contactId)
         {
             return connection.QuerySingleOrDefault<Contact>("GetContactById", new { ContactId = contactId }, commandType: CommandType.StoredProcedure);
         }

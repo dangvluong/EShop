@@ -4,17 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.IO;
 using WebApp.Controllers;
-using WebApp.Helper;
+using WebApp.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Areas.Dashboard.Controllers
 {
     [Area("dashboard")]
-    [Authorize(Roles = "Manager, Staff")]
+    [Authorize(Roles = "Manager,Staff")]
     public class ColorController : BaseController
     {         
         string root = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "icon");
-        public ColorController(SiteProvider provider) :base(provider)
+        public ColorController(IRepositoryManager provider) :base(provider)
         {
             
         }

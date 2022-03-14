@@ -3,11 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using WebApp.Helper;
+using WebApp.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Repositories
 {
-    public class MemberRepository : BaseRepository
+    public class MemberRepository : BaseRepository,IMemberRepository
     {
         public MemberRepository(IDbConnection connection) : base(connection) { }
         public int Add(Member obj)

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Security.Claims;
-using WebApp.Helper;
+using WebApp.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Controllers
@@ -11,7 +11,7 @@ namespace WebApp.Controllers
     public class MemberController : BaseController
     {
 
-        public MemberController(SiteProvider provider) : base(provider)
+        public MemberController(IRepositoryManager provider) : base(provider)
         {
 
         }

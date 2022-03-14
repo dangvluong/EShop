@@ -1,11 +1,12 @@
 ﻿using Dapper;
 using System.Collections.Generic;
 using System.Data;
+using WebApp.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Repositories
 {
-    public class ProductInCategoryRepository : BaseRepository
+    public class ProductInCategoryRepository : BaseRepository,IProductInCategoryRepository
     {
         public ProductInCategoryRepository(IDbConnection connection) : base(connection) { }
         public int Edit(List<ProductInCategory> list, short productId)

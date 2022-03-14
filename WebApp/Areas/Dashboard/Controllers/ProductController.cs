@@ -5,16 +5,16 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using WebApp.Controllers;
-using WebApp.Helper;
+using WebApp.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Areas.Dashboard.Controllers
 {
     [Area("dashboard")]
-    [Authorize(Roles = "Manager, Staff")]
+    [Authorize(Roles = "Manager,Staff")]
     public class ProductController : BaseController
     {
-        public ProductController(SiteProvider provider) : base(provider)
+        public ProductController(IRepositoryManager provider) : base(provider)
         {
 
         }
@@ -69,7 +69,7 @@ namespace WebApp.Areas.Dashboard.Controllers
             product.Categories = provider.Category.GetCategoriesByProduct(id);
             ViewBag.sizes = provider.Size.GetSizes();
             ViewBag.colors = provider.Color.GetColors();
-            ViewBag.guides = provider.Guide.GetGuids();
+            ViewBag.guides = provider.Guide.GetGuides();
             ViewBag.categories = provider.Category.GetCategories();
             return View(product);
         }
@@ -128,7 +128,7 @@ namespace WebApp.Areas.Dashboard.Controllers
         {
             ViewBag.sizes = provider.Size.GetSizes();
             ViewBag.colors = provider.Color.GetColors();
-            ViewBag.guides = provider.Guide.GetGuids();
+            ViewBag.guides = provider.Guide.GetGuides();
             ViewBag.categories = provider.Category.GetCategories();
             return View();
         }

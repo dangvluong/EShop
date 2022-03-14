@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using WebApp.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Repositories
 {
-    public class InvoiceRepository : BaseRepository
+    public class InvoiceRepository : BaseRepository,IInvoiceRepository
     {
         public InvoiceRepository(IDbConnection connection) : base(connection) { }
         public int Add(Invoice obj)

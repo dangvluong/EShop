@@ -1,11 +1,12 @@
 ﻿using Dapper;
 using System.Collections.Generic;
 using System.Data;
+using WebApp.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Repositories
 {
-    public class GuideRepository : BaseRepository
+    public class GuideRepository : BaseRepository, IGuideRepository
     {
         //IConfiguration configuration;
         public GuideRepository(IDbConnection connection) : base(connection)
@@ -13,7 +14,7 @@ namespace WebApp.Repositories
             //this.configuration = configuration;
         }
 
-        public IEnumerable<Guide> GetGuids()
+        public IEnumerable<Guide> GetGuides()
         {
             return connection.Query<Guide>("GetGuides", commandType: CommandType.StoredProcedure);
         }

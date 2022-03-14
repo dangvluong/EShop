@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using WebApp.Controllers;
-using WebApp.Helper;
+using WebApp.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Areas.Manage.Controllers
@@ -12,7 +12,7 @@ namespace WebApp.Areas.Manage.Controllers
     [Authorize(Roles = "Manager")]
     public class MemberController : BaseController
     {        
-        public MemberController(SiteProvider provider) : base(provider)
+        public MemberController(IRepositoryManager provider) : base(provider)
         {
             
         }        

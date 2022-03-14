@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using WebApp.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Repositories
 {
-    public class InvoiceDetailRepository : BaseRepository
+    public class InvoiceDetailRepository : BaseRepository,IInvoiceDetailRepository
     {
         public InvoiceDetailRepository(IDbConnection connection) : base(connection) { }
         public IEnumerable<InvoiceDetail> GetInvoiceDetails(Guid invoiceId)

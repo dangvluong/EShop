@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Security.Claims;
-using WebApp.Helper;
+using WebApp.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Controllers
@@ -11,7 +10,7 @@ namespace WebApp.Controllers
     [Authorize]
     public class ContactController : BaseController
     {
-        public ContactController(SiteProvider provider) : base(provider)
+        public ContactController(IRepositoryManager provider) : base(provider)
         {          
         }
         [HttpPost]
@@ -23,7 +22,7 @@ namespace WebApp.Controllers
         [HttpPost]
         public IActionResult GetDistrictsByProvince(short provinceId)
         {
-            return Json(provider.District.GetDistrictByProvince(provinceId));
+            return Json(provider.District.GetDistrictsByProvince(provinceId));
         }
         [HttpPost]
         public IActionResult GetWardsByDistrict(short districtId)
@@ -75,7 +74,7 @@ namespace WebApp.Controllers
         [HttpPost]
         public IActionResult GetContactById(short id)
         {
-            return Json(provider.Contact.GetContactsById(id));
+            return Json(provider.Contact.GetContactById(id));
         }
     }
 }

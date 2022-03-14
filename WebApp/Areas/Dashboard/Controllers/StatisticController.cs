@@ -3,16 +3,16 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using WebApp.Controllers;
-using WebApp.Helper;
+using WebApp.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Areas.Dashboard.Controllers
 {
     [Area("dashboard")]
-    [Authorize(Roles = "Manager, Staff")]
+    [Authorize(Roles = "Manager,Staff")]
     public class StatisticController : BaseController
     {      
-        public StatisticController(SiteProvider provider) : base(provider)
+        public StatisticController(IRepositoryManager provider) : base(provider)
         {            
         }
         public IActionResult Index()

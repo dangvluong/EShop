@@ -10,7 +10,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApp.Helper;
+using WebApp.Interfaces;
 using WebApp.Models;
+using WebApp.Repositories;
 
 namespace WebApp
 {
@@ -18,11 +20,11 @@ namespace WebApp
     {
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940\
-        IConfiguration configuration;
-        public Startup(IConfiguration configuration)
-        {
-            this.configuration = configuration;
-        }
+        //IConfiguration configuration;
+        //public Startup(IConfiguration configuration)
+        //{
+        //    this.configuration = configuration;
+        //}
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
@@ -30,7 +32,7 @@ namespace WebApp
             {
                 options.LoginPath = "/auth/login";
             });
-            services.AddTransient<SiteProvider>(p=> new SiteProvider(configuration));
+            services.AddScoped<IRepositoryManager,RepositoryManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

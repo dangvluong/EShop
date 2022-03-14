@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using WebApp.Helper;
+using WebApp.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Controllers
 {
     public class HomeController : BaseController
     {       
-        public HomeController(SiteProvider provider) :base(provider)
+        public HomeController(IRepositoryManager provider) :base(provider)
         {            
         }
         public IActionResult Index()

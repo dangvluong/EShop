@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using WebApp.Helper;
+using WebApp.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Controllers
@@ -9,7 +9,7 @@ namespace WebApp.Controllers
     public class ProductController : BaseController
     {       
         int size = 20;
-        public ProductController(SiteProvider provider) :base(provider)
+        public ProductController(IRepositoryManager provider) :base(provider)
         {
             
         }
@@ -70,7 +70,7 @@ namespace WebApp.Controllers
         [HttpPost]
         public int GetInventoryQuantity(short productId, short colorId, short sizeId)
         {
-            return provider.InventoryQuantity.GetInventoryQuantitiesByProductColorAndSize(productId, colorId, sizeId);
+            return provider.InventoryQuantity.GetInventoryQuantityByProductColorAndSize(productId, colorId, sizeId);
         }
     }
 }

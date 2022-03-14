@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using WebApp.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Repositories
 {
-    public class RoleRepository : BaseRepository
+    public class RoleRepository : BaseRepository,IRoleRepository
     {
         public RoleRepository(IDbConnection connection) : base(connection) { }
         public IEnumerable<Role> GetRoles()

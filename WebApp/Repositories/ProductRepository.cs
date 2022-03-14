@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using WebApp.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Repositories
 {
-    public class ProductRepository : BaseRepository
+    public class ProductRepository : BaseRepository,IProductRepository
     {
         //IConfiguration configuration;
         public ProductRepository(IDbConnection connection) : base(connection)

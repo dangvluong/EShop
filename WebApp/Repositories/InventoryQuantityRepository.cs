@@ -1,11 +1,12 @@
 ﻿using Dapper;
 using System.Collections.Generic;
 using System.Data;
+using WebApp.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Repositories
 {
-    public class InventoryQuantityRepository : BaseRepository
+    public class InventoryQuantityRepository : BaseRepository,IInventoryQuantityRepository
     {
         //IConfiguration configuration;
         public InventoryQuantityRepository(IDbConnection connection) : base(connection)
@@ -18,7 +19,7 @@ namespace WebApp.Repositories
             return connection.Query<InventoryQuantity>("GetInventoryQuantitiesByProduct", new { ProductId = productId }, commandType: CommandType.StoredProcedure);
         }
 
-        public int GetInventoryQuantitiesByProductColorAndSize(short productId, short colorId, short sizeId)
+        public int GetInventoryQuantityByProductColorAndSize(short productId, short colorId, short sizeId)
         {
             string sql = $"SELECT Quantity FROM InventoryQuantity WHERE ProductId = {productId} AND ColorId = {colorId} AND SizeId = {sizeId}";
             return connection.QuerySingleOrDefault<int>(sql);

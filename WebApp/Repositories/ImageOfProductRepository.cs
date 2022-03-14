@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using WebApp.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Repositories
 {
-    public class ImageOfProductRepository : BaseRepository
+    public class ImageOfProductRepository : BaseRepository,IImageOfProductRepository
     {
         //IConfiguration configuration;
         public ImageOfProductRepository(IDbConnection connection) : base(connection)

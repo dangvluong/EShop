@@ -10,13 +10,14 @@ using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using WebApp.Helper;
+using WebApp.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Controllers
 {
     public class AuthController : BaseController
     {        
-        public AuthController(SiteProvider provider, IConfiguration configuration) : base(provider, configuration)
+        public AuthController(IRepositoryManager provider, IConfiguration configuration) : base(provider, configuration)
         {
         }
         public IActionResult Register()

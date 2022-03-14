@@ -4,13 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Security.Claims;
 using WebApp.Helper;
+using WebApp.Interfaces;
 using WebApp.Models;
 
 namespace WebApp.Controllers
 {
     public class CartController : BaseController
     {        
-        public CartController(SiteProvider provider) : base(provider)
+        public CartController(IRepositoryManager provider) : base(provider)
         {            
         }
         public IActionResult Index()
@@ -24,7 +25,7 @@ namespace WebApp.Controllers
                 };                
                 foreach (var item in cart.CartDetail)
                 {
-                    item.AvailableQuantity = provider.InventoryQuantity.GetInventoryQuantitiesByProductColorAndSize(item.ProductId, item.ColorId, item.SizeId);
+                    item.AvailableQuantity = provider.InventoryQuantity.GetInventoryQuantityByProductColorAndSize(item.ProductId, item.ColorId, item.SizeId);
                 }
                 return View(cart);
             }
@@ -97,7 +98,7 @@ namespace WebApp.Controllers
                 };
                 foreach (var item in cart.CartDetail)
                 {
-                    item.AvailableQuantity = provider.InventoryQuantity.GetInventoryQuantitiesByProductColorAndSize(item.ProductId, item.ColorId, item.SizeId);
+                    item.AvailableQuantity = provider.InventoryQuantity.GetInventoryQuantityByProductColorAndSize(item.ProductId, item.ColorId, item.SizeId);
                 }
                 ViewBag.cart = cart;
                 return View(member);

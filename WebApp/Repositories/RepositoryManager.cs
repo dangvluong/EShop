@@ -1,33 +1,34 @@
 ﻿using Microsoft.Extensions.Configuration;
+using WebApp.Interfaces;
 using WebApp.Repositories;
 
-namespace WebApp.Helper
+namespace WebApp.Repositories
 {
-    public class SiteProvider:BaseProvider
+    public class RepositoryManager:RepositoryManagerBase,IRepositoryManager
     {
-        public SiteProvider(IConfiguration configuration) : base(configuration) { }
-        ProductRepository product;
-        ImageOfProductRepository imageOfProduct;
-        ColorRepository color;
-        CategoryRepository category;
-        SizeRepository size;
-        InventoryQuantityRepository inventoryQuantity;
-        GuideRepository guide;
-        MemberRepository member;
-        RoleRepository role;
-        ProvinceRepository province;
-        DistrictRepository district;
-        WardRepository ward;
-        ContactRepository contact;
-        CartRepository cart;
-        InvoiceRepository invoice;
-        InvoiceDetailRepository invoiceDetail;
-        MemberInRoleRepository memberInRole;
-        ProductInCategoryRepository productInCategory;
-        ColorOfProductRepository colorOfProduct;
-        GuideOfProductRepository guideOfProduct;
-        SizeOfProductRepository sizeOfProduct;
-        public SizeOfProductRepository SizeOfProduct
+        public RepositoryManager(IConfiguration configuration) : base(configuration) { }
+        IProductRepository product;
+        IImageOfProductRepository imageOfProduct;
+        IColorRepository color;
+        ICategoryRepository category;
+        ISizeRepository size;
+        IInventoryQuantityRepository inventoryQuantity;
+        IGuideRepository guide;
+        IMemberRepository member;
+        IRoleRepository role;
+        IProvinceRepository province;
+        IDistrictRepository district;
+        IWardRepository ward;
+        IContactRepository contact;
+        ICartRepository cart;
+        IInvoiceRepository invoice;
+        IInvoiceDetailRepository invoiceDetail;
+        IMemberInRoleRepository memberInRole;
+        IProductInCategoryRepository productInCategory;
+        IColorOfProductRepository colorOfProduct;
+        IGuideOfProductRepository guideOfProduct;
+        ISizeOfProductRepository sizeOfProduct;
+        public ISizeOfProductRepository SizeOfProduct
         {
             get
             {
@@ -38,7 +39,7 @@ namespace WebApp.Helper
                 return sizeOfProduct;
             }
         }
-        public GuideOfProductRepository GuideOfProduct
+        public IGuideOfProductRepository GuideOfProduct
         {
             get
             {
@@ -49,7 +50,7 @@ namespace WebApp.Helper
                 return guideOfProduct;
             }
         }
-        public ColorOfProductRepository ColorOfProduct
+        public IColorOfProductRepository ColorOfProduct
         {
             get
             {
@@ -60,7 +61,7 @@ namespace WebApp.Helper
                 return colorOfProduct;
             }
         }
-        public ProductInCategoryRepository ProductInCategory
+        public IProductInCategoryRepository ProductInCategory
         {
             get
             {
@@ -71,7 +72,7 @@ namespace WebApp.Helper
                 return productInCategory;
             }
         }
-        public MemberInRoleRepository MemberInRole
+        public IMemberInRoleRepository MemberInRole
         {
             get
             {
@@ -82,7 +83,7 @@ namespace WebApp.Helper
                 return memberInRole;
             }
         }
-        public InvoiceDetailRepository InvoiceDetail
+        public IInvoiceDetailRepository InvoiceDetail
         {
             get
             {
@@ -93,7 +94,7 @@ namespace WebApp.Helper
                 return invoiceDetail;
             }
         }
-        public InvoiceRepository Invoice
+        public IInvoiceRepository Invoice
         {
             get
             {
@@ -104,7 +105,7 @@ namespace WebApp.Helper
                 return invoice;
             }
         }
-        public CartRepository Cart
+        public ICartRepository Cart
         {
             get
             {
@@ -115,7 +116,7 @@ namespace WebApp.Helper
                 return cart;
             }
         }
-        public ContactRepository Contact
+        public IContactRepository Contact
         {
             get
             {
@@ -126,7 +127,7 @@ namespace WebApp.Helper
                 return contact;
             }
         }
-        public WardRepository Ward
+        public IWardRepository Ward
         {
             get
             {
@@ -138,7 +139,7 @@ namespace WebApp.Helper
             }
         }
 
-        public DistrictRepository District
+        public IDistrictRepository District
         {
             get
             {
@@ -149,7 +150,7 @@ namespace WebApp.Helper
                 return district;
             }
         }
-        public ProvinceRepository Province
+        public IProvinceRepository Province
         {
             get
             {
@@ -162,7 +163,7 @@ namespace WebApp.Helper
         }
 
 
-        public RoleRepository Role
+        public IRoleRepository Role
         {
             get
             {
@@ -173,7 +174,7 @@ namespace WebApp.Helper
                 return role;
             }
         }
-        public MemberRepository Member
+        public IMemberRepository Member
         {
             get
             {
@@ -184,7 +185,7 @@ namespace WebApp.Helper
                 return member;
             }
         }
-        public ProductRepository Product
+        public IProductRepository Product
         {
             get
             {
@@ -196,7 +197,7 @@ namespace WebApp.Helper
             }
         }
 
-        public ImageOfProductRepository ImageOfProduct
+        public IImageOfProductRepository ImageOfProduct
         {
             get
             {
@@ -208,7 +209,7 @@ namespace WebApp.Helper
             }
         }
 
-        public ColorRepository Color
+        public IColorRepository Color
         {
             get
             {
@@ -219,7 +220,7 @@ namespace WebApp.Helper
                 return color;
             }
         }
-        public CategoryRepository Category
+        public ICategoryRepository Category
         {
             get
             {
@@ -230,7 +231,7 @@ namespace WebApp.Helper
                 return category;
             }
         }
-        public SizeRepository Size
+        public ISizeRepository Size
         {
             get
             {
@@ -241,7 +242,7 @@ namespace WebApp.Helper
                 return size;
             }
         }
-        public InventoryQuantityRepository InventoryQuantity
+        public IInventoryQuantityRepository InventoryQuantity
         {
             get
             {
@@ -252,7 +253,7 @@ namespace WebApp.Helper
                 return inventoryQuantity;
             }
         }
-        public GuideRepository Guide
+        public IGuideRepository Guide
         {
             get
             {
