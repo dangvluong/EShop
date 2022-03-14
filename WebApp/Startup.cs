@@ -35,6 +35,7 @@ namespace WebApp
             });
             services.AddScoped<IRepositoryManager,RepositoryManager>();
             services.AddScoped<IMailService, MailService>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
