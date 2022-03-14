@@ -19,18 +19,21 @@
             window.location.href = "/product";
         </script>
     }
-    <div class="mt-5">
-        <h5 class="float-left">Chọn thông tin giao hàng: </h5>
-        <div class="float-right">
-            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addContactModal">Thêm thông tin liên hệ</button>
-            <div class="addModal">
-                <div class="modal" id="addContactModal">
-                    <partial name="_ModelAddContact" />
-                </div>
+<div class="mt-5">
+    <h5 class="float-left">Chọn thông tin giao hàng: </h5>
+    <div class="float-right">
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addContactModal">Thêm thông tin liên hệ</button>
+        <div class="addModal">
+            <div class="modal" id="addContactModal">
+                <partial name="_ModelAddContact" />
             </div>
         </div>
-        <div class="clearfix"></div>
     </div>
+    <div class="clearfix"></div>
+    <div class="mt-4">
+        @TempData["msg"]
+    </div>
+</div>
     @if (Model.DefaultContact is null)
     {
         <script>
