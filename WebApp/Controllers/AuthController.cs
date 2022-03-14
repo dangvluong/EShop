@@ -16,9 +16,11 @@ using WebApp.Models;
 namespace WebApp.Controllers
 {
     public class AuthController : BaseController
-    {        
-        public AuthController(IRepositoryManager provider, IConfiguration configuration) : base(provider, configuration)
+    {
+        private readonly IMailService mailService;
+        public AuthController(IRepositoryManager provider, IConfiguration configuration, IMailService mailService) : base(provider, configuration)
         {
+            this.mailService = mailService;
         }
         public IActionResult Register()
         {
@@ -109,40 +111,25 @@ namespace WebApp.Controllers
         public async Task<IActionResult> ForgotPassword(string email)
         {
             Member member = provider.Member.GetMemberByEmail(email.Trim());
-            if (member != null) {
-                if(member.IsBanned == false)
+            if (member != null)
+            {
+                if (member.IsBanned == false)
                 {
                     member.Token = SiteHelper.CreateToken(32);
                     provider.Member.SaveTokenOfMember(member);
-
                     //Send email to reset password
-                    IConfigurationSection section = configuration.GetSection("Email:Outlook");
-                    SmtpClient client = new SmtpClient(section["host"], Convert.ToInt32(section["port"]))
-                    {
-                        Credentials = new NetworkCredential(section["address"], SiteHelper.DecryptString(section["password"])),
-                        EnableSsl = true
-                    };
-                    MailAddress addressFrom = new MailAddress(section["address"]);
-                    MailAddress addressTo = new MailAddress(email.Trim());
-                    MailMessage message = new MailMessage(addressFrom, addressTo);
-                    message.IsBodyHtml = true;
-                    message.Body = $"Vui lòng click vào <a href=\"https://localhost:44389/auth/resetpassword/{member.Token}\">ĐÂY</a> để thiết lập lại mật khẩu của bạn. ";
-                    message.Subject = "CẬP NHẬT MẬT KHẨU";
-                    client.SendCompleted += (s, e) =>
-                    {                        
-                        message.Dispose();
-                        client.Dispose();
-                    };
-                    await client.SendMailAsync(message);
-                    
-                    TempData["msg"] = $"Email chứa liên kết thiết lập lại mật khẩu đã được gửi tới {email}. Vui lòng kiểm tra Inbox/Spam của email.";
+                    bool result = await mailService.SendMailResetPassword(email, member.Token);
+                    if(result)
+                        TempData["msg"] = $"Email chứa liên kết thiết lập lại mật khẩu đã được gửi tới {email}. Vui lòng kiểm tra Inbox/Spam của email.";
+                    else
+                        TempData["msg"] = $"Có lỗi xảy ra. Vui lòng thử lại sau.";
                     return Redirect("/auth/login");
                 }
                 else
                 {
                     TempData["msg"] = "Tài khoản này đã bị khóa";
                     return View();
-                }                
+                }
             }
             TempData["msg"] = "Email không tồn tại";
             return View();
@@ -150,7 +137,7 @@ namespace WebApp.Controllers
         public IActionResult ResetPassword(string id)
         {
             Member member = provider.Member.GetMemberByToken(id);
-            if(member != null)
+            if (member != null)
             {
                 return View();
             }
@@ -160,10 +147,10 @@ namespace WebApp.Controllers
         [HttpPost]
         public IActionResult ResetPassword(string id, ResetPasswordViewModel obj)
         {
-            if(obj.NewPassword == obj.RePassword)
+            if (obj.NewPassword == obj.RePassword)
             {
                 obj.Token = id;
-                provider.Member.ResetPassword(obj);                
+                provider.Member.ResetPassword(obj);
                 TempData["msg"] = "Đã thiết lập mật khẩu mới";
                 return Redirect("/auth/login");
             }

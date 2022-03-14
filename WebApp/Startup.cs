@@ -13,6 +13,7 @@ using WebApp.Helper;
 using WebApp.Interfaces;
 using WebApp.Models;
 using WebApp.Repositories;
+using WebApp.Services;
 
 namespace WebApp
 {
@@ -33,6 +34,7 @@ namespace WebApp
                 options.LoginPath = "/auth/login";
             });
             services.AddScoped<IRepositoryManager,RepositoryManager>();
+            services.AddScoped<IMailService, MailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
