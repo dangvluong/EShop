@@ -15,7 +15,7 @@ namespace WebApp.Interfaces
         int UpdateAccountStatus(Guid memberId);
         int SaveTokenOfMember(Member obj);
         Member GetMemberByToken(string token);
-        int ResetPassword(ResetPasswordViewModel obj);
+        int ResetPassword(ResetPasswordModel obj);
         bool CheckCurrentPassword(Member obj);
         int UpdatePassword(Member obj);
     }

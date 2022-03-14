@@ -70,7 +70,7 @@ namespace WebApp.Repositories
         {
             return connection.QuerySingleOrDefault<Member>($"SELECT MemberId FROM Member WHERE Token ='{token}'");
         }
-        public int ResetPassword(ResetPasswordViewModel obj)
+        public int ResetPassword(ResetPasswordModel obj)
         {
             return connection.Execute("ResetPassword", new
             {

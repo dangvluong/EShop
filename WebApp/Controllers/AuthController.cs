@@ -50,7 +50,7 @@ namespace WebApp.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Login(Member obj, string returnUrl)
+        public async Task<IActionResult> Login(LoginModel obj, string returnUrl)
         {
             Member member = provider.Member.Login(new Member { Username = obj.Username, Password = obj.Password });
             if (member != null)
@@ -145,7 +145,7 @@ namespace WebApp.Controllers
             return Redirect("/auth/login");
         }
         [HttpPost]
-        public IActionResult ResetPassword(string id, ResetPasswordViewModel obj)
+        public IActionResult ResetPassword(string id, ResetPasswordModel obj)
         {
             if (obj.NewPassword == obj.RePassword)
             {
@@ -162,7 +162,7 @@ namespace WebApp.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult ChangePassword(ChangePasswordViewModel obj)
+        public IActionResult ChangePassword(ChangePasswordModel obj)
         {
             Guid memberId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             Member member = provider.Member.GetMemberById(memberId);

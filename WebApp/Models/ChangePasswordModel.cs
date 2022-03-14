@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebApp.Models
 {
-    public class ChangePasswordViewModel
+    public class ChangePasswordModel
     {
         public string OldPassword { get; set; }
         public string NewPassword { get; set; }
