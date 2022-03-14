@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using WebApp.Helper;
 using WebApp.Interfaces;
 using WebApp.Models;
 
@@ -43,6 +44,19 @@ namespace WebApp.Controllers
                 invoice.Member = provider.Member.GetMemberById(memberId);
             }
             return View(invoices);
+        }
+        public IActionResult CancelInvoice(Guid id)
+        {
+            Invoice invoice = provider.Invoice.GetInvoiceById(id);
+            if (invoice == null)
+                return BadRequest();
+            Guid memberId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            if(invoice.MemberId != memberId)
+                return Unauthorized();
+            invoice.StatusId = (byte)InvoiceStatus.Cancel;
+            int result = provider.Invoice.UpdateStatus(invoice);
+            TempData["msg"] = $"Đã hủy đơn đặt hàng {id}";
+            return RedirectToAction(nameof(Index));
         }
     }
 }

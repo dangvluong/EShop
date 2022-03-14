@@ -34,4 +34,10 @@
         </thead>
     </table>
     <partial name="_InvoiceDetail" model="@Model" />
+    @if ((InvoiceStatus)Model.StatusId == InvoiceStatus.Processing)
+    {
+        <div class="d-flex">
+            <a asp-action="CancelInvoice" asp-controller="Invoice" asp-route-id="@Model.InvoiceId" class="btn btn-danger mx-auto">Hủy đơn hàng</a>
+        </div>
+    }
 </div>
