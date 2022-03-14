@@ -42,7 +42,7 @@ namespace WebApp.Areas.Manage.Controllers
                 obj.InvoiceDetails = provider.InvoiceDetail.GetInvoiceDetails(obj.InvoiceId);
                 foreach (InvoiceDetail item in obj.InvoiceDetails)
                 {
-                    provider.InventoryQuantity.UpdateInventoryQuantity(item);
+                    provider.InventoryQuantity.UpdateInventoryQuantityFromInvoice(item);
                 }
             }
             TempData["msg"] = "Đã cập nhật trạng thái đơn đặt hàng";

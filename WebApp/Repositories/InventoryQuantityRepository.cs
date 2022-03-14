@@ -24,7 +24,7 @@ namespace WebApp.Repositories
             string sql = $"SELECT Quantity FROM InventoryQuantity WHERE ProductId = {productId} AND ColorId = {colorId} AND SizeId = {sizeId}";
             return connection.QuerySingleOrDefault<int>(sql);
         }
-        public int UpdateInventoryQuantity(InvoiceDetail obj)
+        public int UpdateInventoryQuantityFromInvoice(InvoiceDetail obj)
         {
             return connection.Execute("UpdateInventoryQuantityFromInvoice", new { ProductId = obj.ProductId, ColorId = obj.ColorId, SizeId = obj.SizeId, Quantity = obj.Quantity }, commandType: CommandType.StoredProcedure);
         }

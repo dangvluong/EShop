@@ -7,7 +7,7 @@ namespace WebApp.Interfaces
     {
         IEnumerable<InventoryQuantity> GetInventoryQuantitiesByProduct(short productId);
         int GetInventoryQuantityByProductColorAndSize(short productId, short colorId, short sizeId);
-        int UpdateInventoryQuantity(InvoiceDetail obj);
+        int UpdateInventoryQuantityFromInvoice(InvoiceDetail obj);
         int UpdateInventoryQuantity(List<InventoryQuantity> list);
     }
 }
