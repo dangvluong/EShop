@@ -7,8 +7,7 @@ using System.Text;
 namespace WebApp.Helper
 {
     public class SiteHelper
-    {
-        private const string key = "sjfpqisjf9813j23";        
+    {           
         public static byte[] HashPassword(string plaintext)
         {
             HashAlgorithm algorithm = HashAlgorithm.Create("SHA-512");
