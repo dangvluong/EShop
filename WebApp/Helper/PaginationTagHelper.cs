@@ -28,8 +28,8 @@ namespace WebApp.Helper
                 {
                     int currentPage = Convert.ToInt32(CurrentPage);
                     AddNavigation(sb, currentPage, true);
-                    AddPageItem(sb);
-                    AddMultiPageItem(sb, currentPage, 2, 5);
+                    AddPageItem(sb);                    
+                    AddMultiPageItem(sb, currentPage, 2, TotalPage);
                     if (currentPage < TotalPage)                    
                         AddNavigation(sb, currentPage);
                     
