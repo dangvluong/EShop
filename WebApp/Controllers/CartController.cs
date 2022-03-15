@@ -17,9 +17,10 @@ namespace WebApp.Controllers
         public IActionResult Index()
         {
             string cartId = Request.Cookies["cart"];
+            CartViewModel cart = new CartViewModel();
             if (!string.IsNullOrEmpty(cartId))
             {
-                CartViewModel cart = new CartViewModel
+                cart = new CartViewModel
                 {
                     CartDetail = provider.Cart.GetCarts(Guid.Parse(cartId))
                 };                
@@ -27,9 +28,10 @@ namespace WebApp.Controllers
                 {
                     item.AvailableQuantity = provider.InventoryQuantity.GetInventoryQuantityByProductColorAndSize(item.ProductId, item.ColorId, item.SizeId);
                 }
-                return View(cart);
+                //return View(cart);
             }
-            return Redirect("/");
+            return View(cart);
+            //return Redirect("/");
         }
 
         public IActionResult AddCart(Cart obj)

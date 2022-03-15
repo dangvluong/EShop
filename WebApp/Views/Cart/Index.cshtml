@@ -9,7 +9,7 @@
     <h4 class="text-center">Giỏ hàng</h4>
 </div>
 <div class="container">
-    @if (Model.CartDetail.Count > 0)
+    @if (Model?.CartDetail?.Count > 0)
     {
         <partial name="_CartDetail" model="@Model" />
         <div class="text-center">
