@@ -18,6 +18,8 @@ namespace WebApp.Controllers
         public IActionResult Detail(Guid id)
         {
             Invoice obj = provider.Invoice.GetInvoiceById(id);
+            if(obj == null)
+                return NotFound();
             obj.Contact = provider.Contact.GetContactById(obj.ContactId);
             obj.InvoiceDetails = provider.InvoiceDetail.GetInvoiceDetails(id);
             return View(obj);
@@ -53,6 +55,8 @@ namespace WebApp.Controllers
             Guid memberId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             if(invoice.MemberId != memberId)
                 return Unauthorized();
+            if(invoice.StatusId != (byte)InvoiceStatus.Processing)
+                return BadRequest();
             invoice.StatusId = (byte)InvoiceStatus.Cancel;
             int result = provider.Invoice.UpdateStatus(invoice);
             TempData["msg"] = $"Đã hủy đơn đặt hàng {id}";

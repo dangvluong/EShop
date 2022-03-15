@@ -16,6 +16,8 @@ namespace WebApp.Controllers
         public IActionResult Index(int id = 1)
         {
             IEnumerable<Product> products = provider.Product.GetProducts(id, size, out int total);
+            if(products == null)
+                return NotFound();
             foreach (var item in products)
             {
                 item.Images = provider.ImageOfProduct.GetImagesByProduct(item.ProductId);
@@ -28,6 +30,8 @@ namespace WebApp.Controllers
         public IActionResult Detail(short id)
         {
             Product product = provider.Product.GetProductById(id);
+            if(product == null)
+                return NotFound();
             product.Images = provider.ImageOfProduct.GetImagesByProduct(id);
             product.Colors = provider.Color.GetColorsByProduct(id);
             product.Categories = provider.Category.GetCategoriesByProduct(id);
@@ -45,6 +49,8 @@ namespace WebApp.Controllers
         public IActionResult Category(short id, int p = 1)
         {
             IEnumerable<Product> productsByCategory = provider.Product.GetProductsByCategory(id, p, size, out int total);
+            if (productsByCategory == null)
+                return NotFound();
             foreach (var item in productsByCategory)
             {
                 item.Images = provider.ImageOfProduct.GetImagesByProduct(item.ProductId);

@@ -1,0 +1,17 @@
+﻿@model int
+@{ 
+    ViewBag.Title = $"{Model} - {(HttpStatusCode)Model}";
+}
+<div class="d-flex my-5">
+    <div class="mx-auto my-auto">
+        <div class="row">
+            <div class="col-5">
+                <img src="~/images/error.png" alt="Error" class="img-fluid" />
+            </div>
+            <div class="col-7 my-auto">                
+                <h4>@(Model + " - " + (HttpStatusCode)Model)</h4>
+            </div>
+        </div>
+
+    </div>
+</div>

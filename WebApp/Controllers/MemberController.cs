@@ -19,6 +19,8 @@ namespace WebApp.Controllers
         {
             Guid memberId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             Member member = provider.Member.GetMemberById(memberId);
+            if(member == null)
+                return Unauthorized();
             member.MemberId = memberId;
             member.Contacts = provider.Contact.GetContactsByMember(memberId);
             return View(member);
