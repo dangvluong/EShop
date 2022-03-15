@@ -11,11 +11,11 @@ namespace WebApp.Controllers
     public class ContactController : BaseController
     {
         public ContactController(IRepositoryManager provider) : base(provider)
-        {          
+        {
         }
         [HttpPost]
         public IActionResult GetProvinces()
-        {            
+        {
             return Json(provider.Province.GetProvinces());
         }
 
@@ -34,9 +34,18 @@ namespace WebApp.Controllers
         {
             Guid memberId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             int result = provider.Contact.Add(obj, memberId);
-            string[] msg = { "Có lỗi xảy ra", "Đã cập nhật thông tin liên hệ" };
-            result = result > 1 ? 1 : result;
-            TempData["msg"] = msg[result];
+            if (result > 0)
+                PushNotification(new NotificationOption
+                {
+                    Type = "success",
+                    Message = "Đã thêm thông tin liên hệ."
+                });
+            else
+                PushNotification(new NotificationOption
+                {
+                    Type = "error",
+                    Message = "Có lỗi xảy ra. Vui lòng thử lại sau."
+                });
             return Json(result);
         }
 
@@ -50,23 +59,41 @@ namespace WebApp.Controllers
         public IActionResult UpdateContact(Contact obj)
         {
             int result = provider.Contact.Update(obj);
-            string[] msg = { "Có lỗi xảy ra", "Đã cập nhật thông tin liên hệ" };
-            result = result > 1 ? 1 : result;
-            TempData["msg"] = msg[result];
+            if (result > 0)
+                PushNotification(new NotificationOption
+                {
+                    Type = "success",
+                    Message = "Đã cập nhật thông tin liên hệ."
+                });
+            else
+                PushNotification(new NotificationOption
+                {
+                    Type = "error",
+                    Message = "Có lỗi xảy ra. Vui lòng thử lại sau."
+                });
             return Redirect("/member");
         }
 
         public IActionResult DeleteContact(short id)
-        {           
+        {
             int result = provider.Contact.Delete(id);
-            string[] msg = { "Có lỗi xảy ra", "Đã xóa thông tin liên hệ" };
-            result = result > 1 ? 1 : result;
-            TempData["msg"] = msg[result];
+            if (result > 0)
+                PushNotification(new NotificationOption
+                {
+                    Type = "success",
+                    Message = "Đã xóa thông tin liên hệ."
+                });
+            else
+                PushNotification(new NotificationOption
+                {
+                    Type = "error",
+                    Message = "Có lỗi xảy ra. Vui lòng thử lại sau."
+                });
             return Redirect("/member");
         }
         [HttpPost]
         public IActionResult UpdateDefaultContact(short contactId)
-        {            
+        {
             Guid memberId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             Console.WriteLine(memberId);
             return Json(provider.Contact.UpdateDefaultContact(memberId, contactId));

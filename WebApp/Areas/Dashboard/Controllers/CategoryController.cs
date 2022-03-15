@@ -22,25 +22,54 @@ namespace WebApp.Areas.Dashboard.Controllers
         public IActionResult Edit(Category obj)
         {
             int result = provider.Category.Edit(obj);
-            string[] msg = { "Có lỗi xảy ra", "Chỉnh sửa danh mục thành công" };
-            TempData["msg"] = msg[result];
+            if (result > 0)
+                PushNotification(new NotificationOption
+                {
+                    Type = "success",
+                    Message = "Chỉnh sửa danh mục thành công."
+                });
+            else
+                PushNotification(new NotificationOption
+                {
+                    Type = "error",
+                    Message = "Có lỗi xảy ra. Vui lòng thử lại sau."
+                });           
             return Json(result);
         }
         [HttpPost]
         public IActionResult Delete(short id)
         {
             int result = provider.Category.Delete(id);
-            string[] msg = { "Có lỗi xảy ra", "Xóa danh mục thành công" };
-            result = result > 1 ? 1 : result;
-            TempData["msg"] = msg[result];
+            if (result > 0)
+                PushNotification(new NotificationOption
+                {
+                    Type = "success",
+                    Message = "Xóa danh mục thành công."
+                });
+            else
+                PushNotification(new NotificationOption
+                {
+                    Type = "error",
+                    Message = "Có lỗi xảy ra. Vui lòng thử lại sau."
+                });            
             return Json(result);
         }
         [HttpPost]
         public IActionResult Add(string categoryName)
         {
             int result = provider.Category.Add(categoryName);
-            string[] msg = { "Có lỗi xảy ra", "Tạo danh mục thành công" };
-            TempData["msg"] = msg[result];
+            if (result > 0)
+                PushNotification(new NotificationOption
+                {
+                    Type = "success",
+                    Message = "Tạo danh mục thành công."
+                });
+            else
+                PushNotification(new NotificationOption
+                {
+                    Type = "error",
+                    Message = "Có lỗi xảy ra. Vui lòng thử lại sau."
+                });            
             return Redirect("/dashboard/category");
         }
     }

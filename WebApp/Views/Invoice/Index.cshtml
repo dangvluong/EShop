@@ -6,9 +6,6 @@
     <hr class="w-25 my-4 mx-auto" />
 </div>
 <h4 class="text-center mb-4">Danh sách đơn đặt hàng của tài khoản @ViewBag.member.Username</h4>
-<div class="text-center my-4">
-    @TempData["msg"]
-</div>
 @if (Model.ToList().Count > 0)
 {
     <table class="table table-bordered">

@@ -12,15 +12,15 @@ namespace WebApp.Areas.Dashboard.Controllers
     [Area("dashboard")]
     [Authorize(Roles = "Manager,Staff")]
     public class ColorController : BaseController
-    {         
+    {
         string root = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "icon");
-        public ColorController(IRepositoryManager provider) :base(provider)
+        public ColorController(IRepositoryManager provider) : base(provider)
         {
-            
+
         }
         public IActionResult Index()
         {
-            IEnumerable<Color> colors = provider.Color.GetColors();          
+            IEnumerable<Color> colors = provider.Color.GetColors();
             return View(colors);
         }
         public IActionResult Edit(IFormFile iconUpload, Color obj)
@@ -35,25 +35,47 @@ namespace WebApp.Areas.Dashboard.Controllers
                 }
             }
             int result = provider.Color.Edit(obj);
-            string[] msg = {"Có lỗi xảy ra", "Chỉnh sửa màu sắc thành công" };
-            TempData["msg"] = msg[result];
+            if (result > 0)
+                PushNotification(new NotificationOption
+                {
+                    Type = "success",
+                    Message = "Chỉnh sửa màu sắc thành công."
+                });
+            else
+                PushNotification(new NotificationOption
+                {
+                    Type = "error",
+                    Message = "Có lỗi xảy ra. Vui lòng thử lại sau."
+                });
             return Redirect("/dashboard/color");
         }
         public IActionResult Delete(short id)
         {
             int result = provider.Color.Delete(id);
-            string[] msg = { "Có lỗi xảy ra", "Xóa màu sắc thành công" };
-            result = result > 1 ? 1 : result;
-            TempData["msg"] = msg[result];
+            if (result > 0)
+                PushNotification(new NotificationOption
+                {
+                    Type = "success",
+                    Message = "Xóa màu sắc thành công."
+                });
+            else
+                PushNotification(new NotificationOption
+                {
+                    Type = "error",
+                    Message = "Có lỗi xảy ra. Vui lòng thử lại sau."
+                });
             return Redirect("/dashboard/color");
         }
         public IActionResult Add(IFormFile iconUpload, Color obj)
-        {            
-            bool colorExist = provider.Color.CheckColorExist(obj);
-            int indexMessage = 0;
+        {
+            bool colorExist = provider.Color.CheckColorExist(obj);            
             if (colorExist)
             {
-                indexMessage = -1;
+                PushNotification(new NotificationOption
+                {
+                    Type = "error",
+                    Message = "Đã tồn tại màu sắc này."
+                });
             }
             else
             {
@@ -66,10 +88,20 @@ namespace WebApp.Areas.Dashboard.Controllers
                         iconUpload.CopyTo(stream);
                     }
                 }
-                indexMessage = provider.Color.AddColor(obj);                
-            }
-            string[] message = { "Đã tồn tại màu sắc này", "Có lỗi xảy ra", "Thêm màu sắc thành công" };
-            TempData["msg"] = message[indexMessage + 1];
+                int result = provider.Color.AddColor(obj);
+                if (result > 0)
+                    PushNotification(new NotificationOption
+                    {
+                        Type = "success",
+                        Message = "Thêm màu sắc thành công."
+                    });
+                else
+                    PushNotification(new NotificationOption
+                    {
+                        Type = "error",
+                        Message = "Có lỗi xảy ra. Vui lòng thử lại sau."
+                    });
+            }            
             return Redirect("/dashboard/color");
         }
     }

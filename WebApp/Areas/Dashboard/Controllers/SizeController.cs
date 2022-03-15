@@ -9,10 +9,10 @@ namespace WebApp.Areas.Dashboard.Controllers
     [Area("dashboard")]
     [Authorize(Roles = "Manager,Staff")]
     public class SizeController : BaseController
-    {        
-        
+    {
+
         public SizeController(IRepositoryManager provider) : base(provider)
-        {            
+        {
         }
         public IActionResult Index()
         {
@@ -21,24 +21,53 @@ namespace WebApp.Areas.Dashboard.Controllers
         public IActionResult Edit(Size obj)
         {
             int result = provider.Size.Edit(obj);
-            string[] message = {"Có lỗi xảy ra", "Cập nhật kích thước thành công" };
-            TempData["msg"] = message[result];
+            if (result > 0)
+                PushNotification(new NotificationOption
+                {
+                    Type = "success",
+                    Message = "Cập nhật kích thước thành công."
+                });
+            else
+                PushNotification(new NotificationOption
+                {
+                    Type = "error",
+                    Message = "Có lỗi xảy ra. Vui lòng thử lại sau."
+                });
             return Redirect("/dashboard/size");
         }
         public IActionResult Delete(short id)
         {
             int result = provider.Size.Delete(id);
-            string[] message = { "Có lỗi xảy ra", "Xóa kích thước thành công" };
-            result = result > 1 ? 1 : result;
-            TempData["msg"] = message[result ];
+            if (result > 0)
+                PushNotification(new NotificationOption
+                {
+                    Type = "success",
+                    Message = "Xóa kích thước thành công."
+                });
+            else
+                PushNotification(new NotificationOption
+                {
+                    Type = "error",
+                    Message = "Có lỗi xảy ra. Vui lòng thử lại sau."
+                });
             return Redirect("/dashboard/size");
         }
         [HttpPost]
         public IActionResult Add(Size obj)
         {
-            int result = provider.Size.Add(obj);
-            string[] message = { "Có lỗi xảy ra", "Tạo mới kích thước thành công" };
-            TempData["msg"] = message[result];
+            int result = provider.Size.Add(obj); 
+            if (result > 0)
+                PushNotification(new NotificationOption
+                {
+                    Type = "success",
+                    Message = "Tạo mới kích thước thành công."
+                });
+            else
+                PushNotification(new NotificationOption
+                {
+                    Type = "error",
+                    Message = "Có lỗi xảy ra. Vui lòng thử lại sau."
+                });            
             return Redirect("/dashboard/size");
         }
     }

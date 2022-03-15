@@ -12,9 +12,9 @@ namespace WebApp.Areas.Manage.Controllers
     [Authorize(Roles = "Manager,Staff")]
     public class InvoiceController : BaseController
     {
-        public InvoiceController(IRepositoryManager provider) :base(provider)
+        public InvoiceController(IRepositoryManager provider) : base(provider)
         {
-            
+
         }
         public IActionResult Index()
         {
@@ -37,7 +37,7 @@ namespace WebApp.Areas.Manage.Controllers
         [HttpPost]
         public IActionResult UpdateStatus(Invoice obj)
         {
-            if(obj.StatusId == 2)
+            if (obj.StatusId == 2)
             {
                 obj.InvoiceDetails = provider.InvoiceDetail.GetInvoiceDetails(obj.InvoiceId);
                 foreach (InvoiceDetail item in obj.InvoiceDetails)
@@ -45,7 +45,11 @@ namespace WebApp.Areas.Manage.Controllers
                     provider.InventoryQuantity.UpdateInventoryQuantityFromInvoice(item);
                 }
             }
-            TempData["msg"] = "Đã cập nhật trạng thái đơn đặt hàng";
+            PushNotification(new NotificationOption
+            {
+                Type = "success",
+                Message = "Đã cập nhật trạng thái đơn đặt hàng."
+            });
             return Json(provider.Invoice.UpdateStatus(obj));
         }
     }

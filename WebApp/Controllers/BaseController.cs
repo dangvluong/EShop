@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using WebApp.Interfaces;
+using WebApp.Models;
 
 namespace WebApp.Controllers
 {
@@ -17,6 +19,10 @@ namespace WebApp.Controllers
         {
             this.provider = provider;
             this.configuration = configuration;
+        }
+        protected void PushNotification(NotificationOption option)
+        {
+            TempData["notification"] = JsonConvert.SerializeObject(option);
         }
     }
 }

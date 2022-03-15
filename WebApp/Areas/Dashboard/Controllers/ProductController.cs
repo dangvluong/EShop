@@ -54,10 +54,18 @@ namespace WebApp.Areas.Dashboard.Controllers
                     image.CopyTo(stream);
                 }
                 provider.ImageOfProduct.AddImageOfProduct(obj, fileName);
-                TempData["msg"] = "Đã thêm mới hình ảnh sản phẩm thành công";
+                PushNotification(new NotificationOption
+                {
+                    Type = "success",
+                    Message = "Đã thêm mới hình ảnh sản phẩm thành công."
+                });                
                 return Json(fileName);
             }
-            TempData["msg"] = "Có lỗi xảy ra";
+            PushNotification(new NotificationOption
+            {
+                Type = "error",
+                Message = "Có lỗi xảy ra. Vui lòng thử lại sau."
+            });
             return null;
         }
         public IActionResult Edit(short id)
@@ -123,7 +131,11 @@ namespace WebApp.Areas.Dashboard.Controllers
             provider.GuideOfProduct.Edit(productGuides, obj.ProductId);
 
             provider.SizeOfProduct.Edit(productSizes, obj.ProductId);
-            TempData["msg"] = "Chỉnh sửa thông tin sản phẩm thành công";
+            PushNotification(new NotificationOption
+            {
+                Type = "success",
+                Message = "Chỉnh sửa thông tin sản phẩm thành công."
+            });           
             return Redirect($"/dashboard/product/detail/{obj.ProductId}");
         }
         public IActionResult Add()
@@ -181,21 +193,38 @@ namespace WebApp.Areas.Dashboard.Controllers
             provider.ColorOfProduct.Add(productColors);
             provider.GuideOfProduct.Add(productGuides);
             provider.SizeOfProduct.Add(productSizes);
-            TempData["msg"] = "Đã thêm mới sản phẩm thành công";
+            PushNotification(new NotificationOption
+            {
+                Type = "success",
+                Message = "Thêm mới sản phẩm thành công."
+            });           
             return Redirect($"/dashboard/product/detail/{obj.ProductId}");
         }
         public IActionResult Delete(short id)
         {
             int result = provider.Product.Delete(id);
-            string[] msg = { "Có lỗi xảy ra", "Xóa thông tin sản phẩm thành công" };
-            result = result > 1 ? 1 : result;
-            TempData["msg"] = msg[result];
+            if (result > 0)
+                PushNotification(new NotificationOption
+                {
+                    Type = "success",
+                    Message = "Xóa thông tin sản phẩm thành công."
+                });
+            else
+                PushNotification(new NotificationOption
+                {
+                    Type = "error",
+                    Message = "Có lỗi xảy ra. Vui lòng thử lại sau."
+                });            
             return Redirect("/dashboard/product");
 
         }
         public IActionResult DeleteImage(ImageOfProduct obj)
         {
-            TempData["msg"] = "Xóa hình ảnh sản phẩm thành công";
+            PushNotification(new NotificationOption
+            {
+                Type = "success",
+                Message = "Xóa hình ảnh sản phẩm thành công."
+            });          
             return Json(provider.ImageOfProduct.Delete(obj));
         }
         public IActionResult UpdateQuantity(short id)
@@ -210,9 +239,18 @@ namespace WebApp.Areas.Dashboard.Controllers
         {
             short productId = list[0].ProductId;
             int result = provider.InventoryQuantity.UpdateInventoryQuantity(list);
-            string[] msg = { "Có lỗi xảy ra", "Cập nhật số lượng tồn kho của sản phẩm thành công" };
-            result = result > 1 ? 1 : result;
-            TempData["msg"] = msg[result];
+            if (result > 0)
+                PushNotification(new NotificationOption
+                {
+                    Type = "success",
+                    Message = "Cập nhật số lượng tồn kho của sản phẩm thành công."
+                });
+            else
+                PushNotification(new NotificationOption
+                {
+                    Type = "error",
+                    Message = "Có lỗi xảy ra. Vui lòng thử lại sau."
+                });           
             return Redirect($"/dashboard/product/detail/{productId}#quantityInInventory");
         }
     }

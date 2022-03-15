@@ -59,7 +59,18 @@ namespace WebApp.Controllers
                 return BadRequest();
             invoice.StatusId = (byte)InvoiceStatus.Cancel;
             int result = provider.Invoice.UpdateStatus(invoice);
-            TempData["msg"] = $"Đã hủy đơn đặt hàng {id}";
+            if (result > 0)
+                PushNotification(new NotificationOption
+                {
+                    Type = "success",
+                    Message = $"Đã hủy đơn đặt hàng {id}"
+                });
+            else
+                PushNotification(new NotificationOption
+                {
+                    Type = "error",
+                    Message = "Có lỗi xảy ra. Vui lòng thử lại sau."
+                });            
             return RedirectToAction(nameof(Index));
         }
     }

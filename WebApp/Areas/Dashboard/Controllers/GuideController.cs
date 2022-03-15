@@ -21,22 +21,52 @@ namespace WebApp.Areas.Dashboard.Controllers
         public IActionResult Edit(Guide obj)
         {
             int result = provider.Guide.Edit(obj);
-            string[] message = { "Có lỗi xảy ra", "Chỉnh sửa hướng dẫn sử dụng thành công" };
-            TempData["msg"] = message[result];
+            if (result > 0)
+                PushNotification(new NotificationOption
+                {
+                    Type = "success",
+                    Message = "Chỉnh sửa hướng dẫn sử dụng thành công."
+                });
+            else
+                PushNotification(new NotificationOption
+                {
+                    Type = "error",
+                    Message = "Có lỗi xảy ra. Vui lòng thử lại sau."
+                });           
             return Redirect("/dashboard/guide");
         }
         public IActionResult Delete(short id)
         {
             int result = provider.Guide.Delete(id);
-            string[] message = { "Có lỗi xảy ra", "Xóa hướng dẫn sử dụng thành công" };
-            TempData["msg"] = message[result];
+            if (result > 0)
+                PushNotification(new NotificationOption
+                {
+                    Type = "success",
+                    Message = "Xóa hướng dẫn sử dụng thành công."
+                });
+            else
+                PushNotification(new NotificationOption
+                {
+                    Type = "error",
+                    Message = "Có lỗi xảy ra. Vui lòng thử lại sau."
+                });          
             return Redirect("/dashboard/guide");
         }
         public IActionResult Add(Guide obj)
         {
             int result = provider.Guide.Add(obj);
-            string[] message = { "Có lỗi xảy ra", "Thêm hướng dẫn sử dụng thành công" };
-            TempData["msg"] = message[result];
+            if (result > 0)
+                PushNotification(new NotificationOption
+                {
+                    Type = "success",
+                    Message = "Thêm hướng dẫn sử dụng thành công."
+                });
+            else
+                PushNotification(new NotificationOption
+                {
+                    Type = "error",
+                    Message = "Có lỗi xảy ra. Vui lòng thử lại sau."
+                });           
             return Redirect("/dashboard/guide");
         }
     }

@@ -11,6 +11,7 @@
     <link href="~/css/bootstrap.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.2/css/jquery.dataTables.css">
     <link rel="stylesheet" href="/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
     <!-- jQuery library -->
     <script src="~/js/jquery-3.6.0.min.js"></script>
     <!-- Popper JS -->
@@ -23,7 +24,7 @@
     <script src="/js/responsiveslides.min.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.2/js/jquery.dataTables.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="/js/script.js" type="text/javascript"></script>
 </head>
 
@@ -165,5 +166,6 @@
     </footer>
     <!--footer end-->
     @RenderSection("script", required: false);
+    <partial name="_ToastNotification" />
 </body>
 </html>

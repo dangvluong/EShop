@@ -41,7 +41,11 @@ namespace WebApp.Areas.Manage.Controllers
         [HttpPost]
         public IActionResult BanAccount(Guid memberId)
         {
-            TempData["msg"] = "Đã cập nhật trạng thái hoạt động của tài khoản này";
+            PushNotification(new NotificationOption
+            {
+                Type = "success",
+                Message = "Đã cập nhật trạng thái hoạt động của tài khoản."
+            });            
             return Json(provider.Member.UpdateAccountStatus(memberId));
         }
         public IActionResult Search(string query)

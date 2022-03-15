@@ -1,0 +1,12 @@
+﻿@if (TempData["notification"] != null)
+{
+    var options = JsonConvert.DeserializeObject<NotificationOption>((string)TempData["notification"]);
+
+    <script>
+        toastr.options = {
+            "closeButton": true,
+            "timeOut": "3000"
+        };
+        toastr.@(options.Type)('@options.Message')
+    </script>
+}

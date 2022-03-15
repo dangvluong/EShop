@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -54,8 +55,23 @@ namespace WebApp.Controllers
                 Password = obj.Password,
                 Gender = obj.Gender
             });
-            string[] message = { "Có lỗi xảy ra!", "Đăng kí thành công" };
-            TempData["msg"] = message[result];
+            if (result > 0)
+            {
+                PushNotification(new NotificationOption
+                {
+                    Type = "success",
+                    Message = "Đăng kí thành công"
+                });
+            }
+            else
+            {
+                PushNotification(new NotificationOption
+                {
+                    Type = "error",
+                    Message = "Có lỗi xảy ra. Vui lòng thử lại sau"
+                });
+
+            }
             return Redirect("/auth/login");
         }
 
@@ -107,6 +123,11 @@ namespace WebApp.Controllers
                         ExpiresUtc = DateTime.UtcNow.AddDays(30)
                     };
                     await HttpContext.SignInAsync(principal, properties);
+                    PushNotification(new NotificationOption
+                    {
+                        Type = "success",
+                        Message = "Đăng nhập thành công"
+                    });
                     return Redirect(string.IsNullOrEmpty(returnUrl) ? "/member" : returnUrl);
                 }
             }
@@ -117,6 +138,11 @@ namespace WebApp.Controllers
         public async Task<IActionResult> Logout(string returnUrl)
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            PushNotification(new NotificationOption
+            {
+                Type = "success",
+                Message = "Đăng xuất thành công"
+            });
             return Redirect(string.IsNullOrEmpty(returnUrl) ? "/auth/login" : returnUrl);
         }
         public IActionResult ForgotPassword()
@@ -142,9 +168,17 @@ namespace WebApp.Controllers
                     //Send email to reset password
                     bool result = await mailService.SendMailResetPassword(obj.Email, member.Token);
                     if (result)
-                        TempData["msg"] = $"Email chứa liên kết thiết lập lại mật khẩu đã được gửi tới {obj.Email}. Vui lòng kiểm tra Inbox/Spam của email.";
+                        PushNotification(new NotificationOption
+                        {
+                            Type = "success",
+                            Message = $"Email chứa liên kết thiết lập lại mật khẩu đã được gửi tới {obj.Email}."
+                        });
                     else
-                        TempData["msg"] = $"Có lỗi xảy ra. Vui lòng thử lại sau.";
+                        PushNotification(new NotificationOption
+                        {
+                            Type = "error",
+                            Message = "Có lỗi xảy ra. Vui lòng thử lại sau."
+                        });
                     return Redirect("/auth/login");
                 }
                 else
@@ -163,7 +197,11 @@ namespace WebApp.Controllers
             {
                 return View();
             }
-            TempData["msg"] = "Liên kết đã hết hạn hoặc không tồn tại";
+            PushNotification(new NotificationOption
+            {
+                Type = "error",
+                Message = "Liên kết đã hết hạn hoặc không tồn tại."
+            });            
             return Redirect("/auth/login");
         }
         [HttpPost]
@@ -173,7 +211,12 @@ namespace WebApp.Controllers
                 return View();
             obj.Token = id;
             provider.Member.ResetPassword(obj);
-            TempData["msg"] = "Đã thiết lập mật khẩu mới";
+            PushNotification(new NotificationOption
+            {
+                Type = "success",
+                Message = "Đã cập nhật mật khẩu mới."
+            });
+
             return Redirect("/auth/login");
         }
         public IActionResult ChangePassword()
@@ -198,7 +241,11 @@ namespace WebApp.Controllers
                 }
                 member.Password = obj.NewPassword;
                 provider.Member.UpdatePassword(member);
-                TempData["msg"] = "Đã cập nhật mật khẩu mới";
+                PushNotification(new NotificationOption
+                {
+                    Type = "success",
+                    Message = "Đã cập nhật mật khẩu mới."
+                });
                 return Redirect("/member");
             }
             return Redirect("/auth/login");
